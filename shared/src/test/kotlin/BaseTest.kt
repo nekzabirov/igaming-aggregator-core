@@ -1,9 +1,7 @@
-import CatalogPlugin
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.cio.CIO
 import io.ktor.server.engine.embeddedServer
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
@@ -22,7 +20,7 @@ abstract class BaseTest {
                 slf4jLogger()
             }
 
-            install(CatalogPlugin) {
+            install(SharedPlugin) {
                 databaseUrl = "jdbc:postgresql://localhost:5432/mydb?TimeZone=UTC"
                 databaseDriver = "org.postgresql.Driver"
                 databaseUser = "user"

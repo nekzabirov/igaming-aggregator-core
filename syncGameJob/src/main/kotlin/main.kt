@@ -23,7 +23,7 @@ fun main() = runBlocking {
             slf4jLogger()
         }
 
-        install(CatalogPlugin) {
+        install(SharedPlugin) {
             databaseUrl = "jdbc:postgresql://localhost:5432/mydb?TimeZone=UTC"
             databaseDriver = "org.postgresql.Driver"
             databaseUser = "user"

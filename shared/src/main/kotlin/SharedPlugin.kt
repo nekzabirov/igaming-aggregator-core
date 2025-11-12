@@ -20,7 +20,7 @@ class PluginConfig {
     var showSql: Boolean = false
 }
 
-val CatalogPlugin = createApplicationPlugin(name = "CatalogPlugin", createConfiguration = ::PluginConfig) {
+val SharedPlugin = createApplicationPlugin(name = "SharedPlugin", createConfiguration = ::PluginConfig) {
     Database.connect(
         url = pluginConfig.databaseUrl,
         user = pluginConfig.databaseUser,

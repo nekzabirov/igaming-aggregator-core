@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package nekzabirov.igambling.v1;
+
+import "google/protobuf/empty.proto";
+
+option java_package = "com.nekzabirov.igambling.proto.dto";
+option java_multiple_files = true;
+
+message AggregatorDto {
+  string id = 1;
+
+  string identity = 2;
+
+  string type = 3;
+
+  map<string, string> config = 4;
+
+  bool active = 5;
+}
