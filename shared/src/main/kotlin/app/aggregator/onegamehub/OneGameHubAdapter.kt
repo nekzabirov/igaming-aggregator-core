@@ -12,6 +12,7 @@ import app.aggregator.base.command.CreateFreenspinCommand
 import app.aggregator.base.command.CreateLaunchUrlCommand
 import domain.model.AggregatorGame
 import domain.value.Aggregator
+import domain.value.Locale
 import domain.value.Platform
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -25,6 +26,23 @@ import kotlinx.serialization.json.Json
 import io.ktor.client.plugins.logging.*
 
 class OneGameHubAdapter(override val config: OneGameHubConfig) : IAggregatorAdapter {
+    companion object {
+        private val SUPPORTED_LANGUAGES = listOf(
+            "ab", "aa", "af", "ak", "sq", "am", "ar", "an", "hy", "as", "av", "ae", "ay", "az", "bm", "ba",
+            "eu", "be", "bn", "bh", "bi", "bs", "br", "bg", "my", "ca", "ch", "ce", "ny", "zh", "cv", "kw",
+            "co", "cr", "hr", "cs", "da", "dv", "nl", "dz", "en", "eo", "et", "ee", "fo", "fj", "fi", "fr",
+            "ff", "gl", "ka", "de", "el", "gn", "gu", "ht", "ha", "he", "hz", "hi", "ho", "hu", "ia", "id",
+            "ie", "ga", "ig", "ik", "io", "is", "it", "iu", "ja", "jv", "kl", "kn", "kr", "ks", "kk", "km",
+            "ki", "rw", "ky", "kv", "kg", "ko", "ku", "kj", "la", "lb", "lg", "li", "ln", "lo", "lt", "lu",
+            "lv", "gv", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mh", "mn", "na", "nv", "nd", "ne", "ng",
+            "nb", "nn", "no", "ii", "nr", "oc", "oj", "cu", "om", "or", "os", "pa", "pi", "fa", "pl", "ps",
+            "pt", "qu", "rm", "rn", "ro", "ru", "sa", "sc", "sd", "se", "sm", "sg", "sr", "gd", "sn", "si",
+            "sk", "sl", "so", "st", "es", "su", "sw", "ss", "sv", "ta", "te", "tg", "th", "ti", "bo", "tk",
+            "tl", "tn", "to", "tr", "ts", "tt", "tw", "ty", "ug", "uk", "ur", "uz", "ve", "vi", "vo", "wa",
+            "cy", "wo", "fy", "xh", "yi", "yo", "za", "zu"
+        )
+    }
+
     override val aggregator: Aggregator = Aggregator.ONEGAMEHUB
 
     private val addressUrl = "https://${config.gateway}/integrations/${config.partner}/rpc"
@@ -76,8 +94,8 @@ class OneGameHubAdapter(override val config: OneGameHubConfig) : IAggregatorAdap
                     jackpotEnable = false,
                     demoEnable = it.demoEnable,
                     bonusBuyEnable = true,
-                    locales = emptyList(),
-                    platforms = emptyList()
+                    locales = SUPPORTED_LANGUAGES.map { lang -> Locale(lang) },
+                    platforms = listOf(Platform.DESKTOP, Platform.MOBILE)
                 )
             }
             ?: emptyList()

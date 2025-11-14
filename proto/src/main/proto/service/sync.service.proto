@@ -49,7 +49,7 @@ message AssignProviderCommand {
 message ListVariantsCommand {
   string query = 1;
 
-  optional int32 partner_type = 2;
+  optional string aggregator_type = 2;
 
   optional string game_identity = 3;
 
@@ -59,17 +59,13 @@ message ListVariantsCommand {
 }
 
 message ListVariantResult {
-  message ItemDto {
-    GameVariantDto variant = 1;
+  repeated GameVariantDto items = 1;
 
-    GameDto game = 2;
+  repeated GameDto games = 2;
 
-    ProviderDto provider = 3;
-  }
+  repeated ProviderDto providers = 4;
 
-  repeated ItemDto items = 1;
-
-  int32 total_page = 2;
+  int32 total_page = 5;
 }
 
 message ListAggregatorCommand {

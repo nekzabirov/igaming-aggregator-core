@@ -15,13 +15,14 @@ fun main() {
     val application = embeddedServer(CIO, port = 0) {
         install(Koin) {
             slf4jLogger()
+            modules(sharedModule)
         }
 
         install(SharedPlugin) {
-            databaseUrl = "jdbc:postgresql://localhost:5432/catalog?TimeZone=UTC"
+            databaseUrl = System.getenv("DATABASE_URL")
             databaseDriver = "org.postgresql.Driver"
-            databaseUser = "app"
-            databasePassword = "app_password"
+            databaseUser = System.getenv("DATABASE_USER")
+            databasePassword = System.getenv("DATABASE_PASSWORD")
             autoCreateSchema = true
             showSql = false
         }

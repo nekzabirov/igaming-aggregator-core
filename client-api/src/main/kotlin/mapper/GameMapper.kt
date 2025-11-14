@@ -4,7 +4,7 @@ import com.nekzabirov.igambling.proto.dto.GameDto
 import domain.model.Game
 
 
-fun Game.toProto() = GameDto.newBuilder()
+fun Game.toGameProto() = GameDto.newBuilder()
     .setId(this.id.toString())
     .setIdentity(this.identity)
     .setName(this.name)

@@ -5,7 +5,7 @@ import domain.model.GameVariant
 import domain.table.GameVariantTable
 import org.jetbrains.exposed.sql.ResultRow
 
-fun ResultRow.toGameVariant() = _root_ide_package_.domain.model.GameVariant(
+fun ResultRow.toGameVariant() = GameVariant(
     id = this[GameVariantTable.id].value,
 
     gameId = this[GameVariantTable.gameId]?.value,
@@ -32,7 +32,7 @@ fun ResultRow.toGameVariant() = _root_ide_package_.domain.model.GameVariant(
     locales = this[GameVariantTable.locales].toList(),
 
     platforms = this[GameVariantTable.platforms].map {
-        _root_ide_package_.domain.value.Platform.valueOf(
+        Platform.valueOf(
             it
         )
     },
