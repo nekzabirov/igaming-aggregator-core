@@ -41,7 +41,7 @@ message AssignGameVariantCommand {
 message AssignProviderCommand {
   string provider_id = 1;
 
-  string partner_identity = 2;
+  string aggregator_identity = 2;
 
   int32 partner_type = 3;
 }

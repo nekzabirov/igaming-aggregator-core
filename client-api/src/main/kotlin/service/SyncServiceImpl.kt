@@ -4,6 +4,7 @@ import usecase.AddAggregatorUsecase
 import usecase.ListAggregatorUsecase
 import usecase.ListGameVariantsUsecase
 import com.nekzabirov.igambling.proto.service.AddAggregatorCommand
+import com.nekzabirov.igambling.proto.service.AssignProviderCommand
 import com.nekzabirov.igambling.proto.service.EmptyResult
 import com.nekzabirov.igambling.proto.service.ListAggregatorCommand
 import com.nekzabirov.igambling.proto.service.ListAggregatorResult
@@ -21,12 +22,15 @@ import mapper.toGameProto
 import mapper.toGameVariantProto
 import mapper.toProviderProto
 import org.koin.ktor.ext.get
+import usecase.AssignProviderToAggregatorUsecase
+import java.util.UUID
 import kotlin.collections.map
 
 class SyncServiceImpl(application: Application) : SyncGrpcKt.SyncCoroutineImplBase() {
     private val addAggregatorUsecase = application.get<AddAggregatorUsecase>()
     private val listAggregatorUsecase = application.get<ListAggregatorUsecase>()
     private val listGameVariantsUsecase = application.get<ListGameVariantsUsecase>()
+    private val assignProviderToAggregatorUsecase = application.get<AssignProviderToAggregatorUsecase>()
 
     override suspend fun addAggregator(request: AddAggregatorCommand): EmptyResult {
         val type = Aggregator.valueOf(request.type)
@@ -80,5 +84,14 @@ class SyncServiceImpl(application: Application) : SyncGrpcKt.SyncCoroutineImplBa
                     .addAllProviders(it.items.map { i -> i.game.provider }.toSet().map { p -> p.toProviderProto() })
                     .build()
             }
+    }
+
+    override suspend fun assignProvider(request: AssignProviderCommand): EmptyResult {
+        assignProviderToAggregatorUsecase(
+            providerId = UUID.fromString(request.providerId),
+            aggregatorId = UUID.fromString(request.providerId)
+        ).getOrElse { throw StatusException(Status.INVALID_ARGUMENT.withDescription(it.message)) }
+
+        return EmptyResult.getDefaultInstance()
     }
 }
