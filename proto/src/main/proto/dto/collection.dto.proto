@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package nekzabirov.igambling.v1;
+
+option java_package = "com.nekzabirov.igambling.proto.dto";
+option java_multiple_files = true;
+
+message CollectionDto {
+  string id = 1;
+
+  string identity = 2;
+
+  map<string, string> name = 3;
+
+  map<string, string> images = 4;
+
+  int32 order = 5;
+
+  bool active = 6;
+}

@@ -5,6 +5,7 @@ import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
+import service.CollectionServiceImpl
 import service.SyncServiceImpl
 
 fun main() {
@@ -29,11 +30,10 @@ fun main() {
     }
     application.start(wait = false)
 
-    val syncService = SyncServiceImpl(application.application)
-
     val server: Server = NettyServerBuilder
         .forPort(8080)
-        .addService(syncService)
+        .addService(SyncServiceImpl(application.application))
+        .addService(CollectionServiceImpl(application.application))
         .build()
         .start()
 

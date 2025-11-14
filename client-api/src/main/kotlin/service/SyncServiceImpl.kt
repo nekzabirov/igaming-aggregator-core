@@ -1,11 +1,11 @@
 package service
 
+import com.nekzabirov.igambling.proto.dto.EmptyResult
 import usecase.AddAggregatorUsecase
 import usecase.ListAggregatorUsecase
 import usecase.ListGameVariantsUsecase
 import com.nekzabirov.igambling.proto.service.AddAggregatorCommand
 import com.nekzabirov.igambling.proto.service.AssignProviderCommand
-import com.nekzabirov.igambling.proto.service.EmptyResult
 import com.nekzabirov.igambling.proto.service.ListAggregatorCommand
 import com.nekzabirov.igambling.proto.service.ListAggregatorResult
 import com.nekzabirov.igambling.proto.service.ListVariantResult

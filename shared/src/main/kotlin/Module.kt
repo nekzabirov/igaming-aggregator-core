@@ -6,6 +6,7 @@ import usecase.ListGameVariantsUsecase
 import usecase.SyncGameUsecase
 import io.ktor.server.application.Application
 import org.koin.dsl.module
+import usecase.AddCollectionUsecase
 import usecase.AssignProviderToAggregatorUsecase
 
 val Application.sharedModule
@@ -18,4 +19,5 @@ val Application.sharedModule
         factory { ListAggregatorUsecase() }
         factory { ListGameVariantsUsecase() }
         factory { AssignProviderToAggregatorUsecase() }
+        factory { AddCollectionUsecase() }
     }

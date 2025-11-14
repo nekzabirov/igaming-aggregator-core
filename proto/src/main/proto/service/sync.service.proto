@@ -9,6 +9,7 @@ import "dto/game_variant.dto.proto";
 import "dto/provider.dto.proto";
 import "dto/game.dto.proto";
 import "dto/aggregator.dto.proto";
+import "dto/empty.result.proto";
 
 service Sync {
   rpc AddAggregator(AddAggregatorCommand) returns (EmptyResult);
@@ -21,8 +22,6 @@ service Sync {
 
   rpc ListVariants(ListVariantsCommand) returns (ListVariantResult);
 }
-
-message EmptyResult {}
 
 message AddAggregatorCommand {
   string identity = 1;
