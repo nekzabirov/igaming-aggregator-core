@@ -1,7 +1,7 @@
 package mapper
 
 import com.nekzabirov.igambling.proto.dto.AggregatorDto
-import domain.model.AggregatorInfo
+import domain.aggregator.model.AggregatorInfo
 
 fun AggregatorInfo.toAggregatorProto() = AggregatorDto.newBuilder()
     .setId(this.id.toString())

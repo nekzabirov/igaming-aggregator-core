@@ -1,8 +1,8 @@
 package service
 
-import app.usecase.AddAggregatorUsecase
-import app.usecase.ListAggregatorUsecase
-import app.usecase.ListGameVariantsUsecase
+import usecase.AddAggregatorUsecase
+import usecase.ListAggregatorUsecase
+import usecase.ListGameVariantsUsecase
 import com.nekzabirov.igambling.proto.service.AddAggregatorCommand
 import com.nekzabirov.igambling.proto.service.EmptyResult
 import com.nekzabirov.igambling.proto.service.ListAggregatorCommand
@@ -10,9 +10,9 @@ import com.nekzabirov.igambling.proto.service.ListAggregatorResult
 import com.nekzabirov.igambling.proto.service.ListVariantResult
 import com.nekzabirov.igambling.proto.service.ListVariantsCommand
 import com.nekzabirov.igambling.proto.service.SyncGrpcKt
-import domain.model.AggregatorInfo
-import domain.value.Aggregator
-import domain.value.Pageable
+import domain.aggregator.model.AggregatorInfo
+import domain.aggregator.model.Aggregator
+import core.value.Pageable
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*

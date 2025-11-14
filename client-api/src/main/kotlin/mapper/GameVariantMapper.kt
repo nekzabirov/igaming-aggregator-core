@@ -1,7 +1,7 @@
 package mapper
 
 import com.nekzabirov.igambling.proto.dto.GameVariantDto
-import domain.model.GameVariant
+import domain.game.model.GameVariant
 
 fun GameVariant.toGameVariantProto(): GameVariantDto = GameVariantDto.newBuilder()
     .setId(this.id.toString())

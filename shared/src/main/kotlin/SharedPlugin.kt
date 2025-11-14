@@ -1,10 +1,10 @@
-import domain.table.AggregatorInfoTable
-import domain.table.CollectionGameTable
-import domain.table.CollectionTable
-import domain.table.GameFavouriteTable
-import domain.table.GameTable
-import domain.table.GameVariantTable
-import domain.table.ProviderTable
+import domain.aggregator.table.AggregatorInfoTable
+import domain.collection.table.CollectionGameTable
+import domain.collection.table.CollectionTable
+import domain.game.table.GameFavouriteTable
+import domain.game.table.GameTable
+import domain.game.table.GameVariantTable
+import domain.provider.table.ProviderTable
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils.create

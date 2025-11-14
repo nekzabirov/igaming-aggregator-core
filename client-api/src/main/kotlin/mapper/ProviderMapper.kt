@@ -1,7 +1,7 @@
 package mapper
 
 import com.nekzabirov.igambling.proto.dto.ProviderDto
-import domain.model.Provider
+import domain.provider.model.Provider
 
 
 fun Provider.toProviderProto(): ProviderDto = ProviderDto.newBuilder()

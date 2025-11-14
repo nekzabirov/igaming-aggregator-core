@@ -1,7 +1,7 @@
 package mapper
 
 import com.nekzabirov.igambling.proto.dto.GameDto
-import domain.model.Game
+import domain.game.model.Game
 
 
 fun Game.toGameProto() = GameDto.newBuilder()

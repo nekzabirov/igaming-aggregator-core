@@ -1,9 +1,9 @@
-import app.usecase.AddAggregatorUsecase
-import app.usecase.ListAggregatorUsecase
-import app.usecase.ListAllActiveAggregatorUsecase
-import app.usecase.ListCollectionUsecase
-import app.usecase.ListGameVariantsUsecase
-import app.usecase.SyncGameUsecase
+import usecase.AddAggregatorUsecase
+import usecase.ListAggregatorUsecase
+import usecase.ListAllActiveAggregatorUsecase
+import usecase.ListCollectionUsecase
+import usecase.ListGameVariantsUsecase
+import usecase.SyncGameUsecase
 import io.ktor.server.application.Application
 import org.koin.dsl.module
 
