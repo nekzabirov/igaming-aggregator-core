@@ -12,6 +12,8 @@ service Collection {
   rpc AddCollection(AddCollectionCommand) returns (EmptyResult);
 
   rpc UpdateCollection(UpdateCollectionCommand) returns (EmptyResult);
+
+  rpc AddGameCollection(AddGameCollectionCommand) returns (EmptyResult);
 }
 
 message AddCollectionCommand {
@@ -28,4 +30,10 @@ message UpdateCollectionCommand {
   int32 order = 3;
 
   bool active = 4;
+}
+
+message AddGameCollectionCommand {
+  string identity = 1;
+
+  string gameIdentity = 2;
 }
