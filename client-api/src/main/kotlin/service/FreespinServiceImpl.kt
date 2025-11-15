@@ -3,6 +3,7 @@ package service
 import com.google.protobuf.Struct
 import com.google.protobuf.Value
 import com.nekzabirov.igambling.proto.dto.EmptyResult
+import com.nekzabirov.igambling.proto.service.CancelFreespinCommand
 import com.nekzabirov.igambling.proto.service.CreateFreespinCommand
 import com.nekzabirov.igambling.proto.service.FreespinGrpcKt
 import com.nekzabirov.igambling.proto.service.GetPresetCommand
@@ -12,6 +13,7 @@ import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*
 import org.koin.ktor.ext.get
+import usecase.CancelFreespinUsecase
 import usecase.CreateFreespinUsecase
 import usecase.GetPresetUsecase
 import kotlinx.datetime.Instant
@@ -21,6 +23,7 @@ import kotlinx.datetime.toLocalDateTime
 class FreespinServiceImpl(application: Application) : FreespinGrpcKt.FreespinCoroutineImplBase() {
     private val getPresetUsecase = application.get<GetPresetUsecase>()
     private val createFreespinUsecase = application.get<CreateFreespinUsecase>()
+    private val cancelFreespinUsecase = application.get<CancelFreespinUsecase>()
 
     override suspend fun getPreset(request: GetPresetCommand): GetPresetResult =
         getPresetUsecase(gameIdentity = request.gameIdentity)
@@ -42,6 +45,14 @@ class FreespinServiceImpl(application: Application) : FreespinGrpcKt.FreespinCor
                 .toLocalDateTime(TimeZone.UTC),
             endAt = Instant.fromEpochSeconds(request.endAt.seconds, request.endAt.nanos)
                 .toLocalDateTime(TimeZone.UTC)
+        )
+            .map { EmptyResult.getDefaultInstance() }
+            .getOrElse { throw StatusException(Status.INVALID_ARGUMENT.withDescription(it.message)) }
+
+    override suspend fun cancelFreespin(request: CancelFreespinCommand): EmptyResult =
+        cancelFreespinUsecase(
+            referenceId = request.referenceId,
+            gameIdentity = request.gameIdentity
         )
             .map { EmptyResult.getDefaultInstance() }
             .getOrElse { throw StatusException(Status.INVALID_ARGUMENT.withDescription(it.message)) }

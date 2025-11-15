@@ -12,6 +12,7 @@ import "dto/empty.result.proto";
 service Freespin {
   rpc GetPreset (GetPresetCommand) returns (GetPresetResult);
   rpc CreateFreespin (CreateFreespinCommand) returns (EmptyResult);
+  rpc CancelFreespin (CancelFreespinCommand) returns (EmptyResult);
 }
 
 message GetPresetCommand {
@@ -30,4 +31,9 @@ message CreateFreespinCommand {
   string currency = 5;
   google.protobuf.Timestamp start_at = 6;
   google.protobuf.Timestamp end_at = 7;
+}
+
+message CancelFreespinCommand {
+  string reference_id = 1;
+  string game_identity = 2;
 }

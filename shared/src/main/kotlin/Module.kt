@@ -11,6 +11,7 @@ import usecase.AddGameCollectionUsecase
 import usecase.AddGameFavouriteUsecase
 import usecase.AddGameTagUsecase
 import usecase.AssignProviderToAggregatorUsecase
+import usecase.CancelFreespinUsecase
 import usecase.ChangeGameOrderUsecase
 import usecase.CreateFreespinUsecase
 import usecase.DemoGameUsecase
@@ -50,6 +51,7 @@ val Application.sharedModule
         factory { OpenSessionUsecase() }
         factory { GetPresetUsecase() }
         factory { CreateFreespinUsecase() }
+        factory { CancelFreespinUsecase() }
         factory { ListGameUsecase() }
         factory { DemoGameUsecase() }
     }
