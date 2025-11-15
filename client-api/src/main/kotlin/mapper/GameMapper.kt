@@ -3,7 +3,6 @@ package mapper
 import com.nekzabirov.igambling.proto.dto.GameDto
 import domain.game.model.Game
 
-
 fun Game.toGameProto() = GameDto.newBuilder()
     .setId(this.id.toString())
     .setIdentity(this.identity)

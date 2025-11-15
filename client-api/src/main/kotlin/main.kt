@@ -6,6 +6,7 @@ import io.ktor.server.engine.*
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
 import service.CollectionServiceImpl
+import service.GameServiceImpl
 import service.ProviderServiceImpl
 import service.SyncServiceImpl
 
@@ -36,6 +37,7 @@ fun main() {
         .addService(SyncServiceImpl(application.application))
         .addService(CollectionServiceImpl(application.application))
         .addService(ProviderServiceImpl(application.application))
+        .addService(GameServiceImpl(application.application))
         .build()
         .start()
 

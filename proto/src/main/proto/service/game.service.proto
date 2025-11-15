@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package nekzabirov.igambling.v1;
+
+option java_package = "com.nekzabirov.igambling.proto.service";
+option java_multiple_files = true;
+
+import "dto/provider.dto.proto";
+import "dto/empty.result.proto";
+import "dto/game.dto.proto";
+import "dto/collection.dto.proto";
+import "dto/game_variant.dto.proto";
+
+service Game {
+  rpc List (ListGameCommand) returns (ListGameResult);
+}
+
+message ListGameCommand {
+  string query = 1;
+
+  optional bool active = 2;
+
+  int32 page_number = 3;
+
+  int32 page_size = 4;
+}
+
+message ListGameResult {
+  message Item {
+    GameDto game = 1;
+
+    GameVariantDto variant = 2;
+
+    repeated string collectionIds = 3;
+  }
+
+  repeated Item items = 1;
+
+  repeated ProviderDto providers = 2;
+
+  repeated CollectionDto collections = 3;
+
+  int32 total_page = 4;
+}
