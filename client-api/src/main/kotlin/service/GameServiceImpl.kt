@@ -1,9 +1,13 @@
 package service
 
+import com.nekzabirov.igambling.proto.dto.EmptyResult
 import com.nekzabirov.igambling.proto.service.GameGrpcKt
 import com.nekzabirov.igambling.proto.service.ListGameCommand
 import com.nekzabirov.igambling.proto.service.ListGameResult
+import com.nekzabirov.igambling.proto.service.UpdateGameConfig
 import core.value.Pageable
+import io.grpc.Status
+import io.grpc.StatusException
 import io.ktor.server.application.*
 import mapper.toCollectionProto
 import mapper.toGameProto
@@ -12,9 +16,11 @@ import mapper.toPlatform
 import mapper.toProviderProto
 import org.koin.ktor.ext.get
 import usecase.ListGameUsecase
+import usecase.UpdateGameUsecase
 
 class GameServiceImpl(application: Application) : GameGrpcKt.GameCoroutineImplBase() {
     private val listGameUsecase = application.get<ListGameUsecase>()
+    private val updateGameUsecase = application.get<UpdateGameUsecase>()
 
     override suspend fun list(request: ListGameCommand): ListGameResult =
         listGameUsecase(pageable = Pageable(page = request.pageNumber, size = request.pageSize)) {
@@ -90,4 +96,14 @@ class GameServiceImpl(application: Application) : GameGrpcKt.GameCoroutineImplBa
                     .addAllItems(games)
                     .build()
             }
+
+    override suspend fun update(request: UpdateGameConfig): EmptyResult =
+        updateGameUsecase(
+            identity = request.identity,
+            active = request.active,
+            bonusBet = request.bonusBet,
+            bonusWagering = request.bonusWagering
+        )
+            .map { EmptyResult.getDefaultInstance() }
+            .getOrElse { throw StatusException(Status.INVALID_ARGUMENT.withDescription(it.message)) }
 }

@@ -14,6 +14,8 @@ import "dto/platformType.dto.proto";
 
 service Game {
   rpc List (ListGameCommand) returns (ListGameResult);
+
+  rpc Update (UpdateGameConfig) returns (EmptyResult);
 }
 
 message ListGameCommand {
@@ -66,4 +68,14 @@ message ListGameResult {
   repeated CollectionDto collections = 3;
 
   int32 total_page = 4;
+}
+
+message UpdateGameConfig {
+  string identity = 1;
+
+  bool active = 2;
+
+  bool bonus_bet = 3;
+
+  bool bonus_wagering = 4;
 }

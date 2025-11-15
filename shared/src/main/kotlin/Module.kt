@@ -14,6 +14,7 @@ import usecase.ListGameUsecase
 import usecase.ProviderListUsecase
 import usecase.RemoveGameCollectionUsecase
 import usecase.UpdateCollectionUsecase
+import usecase.UpdateGameUsecase
 import usecase.UpdateProviderUsecase
 
 val Application.sharedModule
@@ -33,5 +34,6 @@ val Application.sharedModule
         factory { RemoveGameCollectionUsecase() }
         factory { ProviderListUsecase() }
         factory { UpdateProviderUsecase() }
+        factory { UpdateGameUsecase() }
         factory { ListGameUsecase() }
     }
