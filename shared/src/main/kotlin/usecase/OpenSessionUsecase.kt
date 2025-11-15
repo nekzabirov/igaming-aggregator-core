@@ -7,8 +7,7 @@ import domain.aggregator.adapter.command.CreateLaunchUrlCommand
 import domain.game.service.GameService
 import domain.session.service.SessionService
 import infrastructure.aggregator.AggregatorFabric
-import io.ktor.server.plugins.BadRequestException
-import io.ktor.server.plugins.NotFoundException
+import io.ktor.server.plugins.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class OpenSessionUsecase {

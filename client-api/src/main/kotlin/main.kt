@@ -8,6 +8,7 @@ import org.koin.logger.slf4jLogger
 import service.CollectionServiceImpl
 import service.GameServiceImpl
 import service.ProviderServiceImpl
+import service.SessionServiceImpl
 import service.SyncServiceImpl
 
 fun main() {
@@ -38,6 +39,7 @@ fun main() {
         .addService(CollectionServiceImpl(application.application))
         .addService(ProviderServiceImpl(application.application))
         .addService(GameServiceImpl(application.application))
+        .addService(SessionServiceImpl(application.application))
         .build()
         .start()
 
