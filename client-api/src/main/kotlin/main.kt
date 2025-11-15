@@ -6,6 +6,7 @@ import io.ktor.server.engine.*
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
 import service.CollectionServiceImpl
+import service.ProviderServiceImpl
 import service.SyncServiceImpl
 
 fun main() {
@@ -34,6 +35,7 @@ fun main() {
         .forPort(8080)
         .addService(SyncServiceImpl(application.application))
         .addService(CollectionServiceImpl(application.application))
+        .addService(ProviderServiceImpl(application.application))
         .build()
         .start()
 

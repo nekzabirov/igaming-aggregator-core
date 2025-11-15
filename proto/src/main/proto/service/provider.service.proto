@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package nekzabirov.igambling.v1;
+
+option java_package = "com.nekzabirov.igambling.proto.service";
+option java_multiple_files = true;
+
+import "dto/provider.dto.proto";
+import "dto/empty.result.proto";
+import "dto/aggregator.dto.proto";
+
+service Provider {
+  rpc List(ListProviderCommand) returns (ListProviderResult);
+}
+
+message ListProviderCommand {
+  string query = 1;
+
+  optional bool active = 2;
+
+  int32 page_number = 3;
+
+  int32 page_size = 4;
+}
+
+message ListProviderResult {
+  message Item {
+    ProviderDto provider = 1;
+
+    int32 active_games = 2;
+
+    int32 total_games = 3;
+  }
+
+  repeated Item items = 1;
+
+  repeated AggregatorDto aggregators = 2;
+
+  int32 total_page = 3;
+}

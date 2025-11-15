@@ -10,6 +10,7 @@ import usecase.AddCollectionUsecase
 import usecase.AddGameCollectionUsecase
 import usecase.AssignProviderToAggregatorUsecase
 import usecase.ChangeGameOrderUsecase
+import usecase.ProviderListUsecase
 import usecase.RemoveGameCollectionUsecase
 import usecase.UpdateCollectionUsecase
 
@@ -28,4 +29,5 @@ val Application.sharedModule
         factory { AddGameCollectionUsecase() }
         factory { ChangeGameOrderUsecase() }
         factory { RemoveGameCollectionUsecase() }
+        factory { ProviderListUsecase() }
     }
