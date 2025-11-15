@@ -8,9 +8,11 @@ class OneGameHubPreset : BaseFreespinPreset() {
     val lines = PresetParam()
 
     override fun toMap(): Map<String, PresetParam> {
-        return super.toMap().apply {
-            put("lines", lines)
-        }
+        val hashMap = HashMap<String, PresetParam>()
+        hashMap.putAll(super.toMap())
+        hashMap["lines"] = lines
+
+        return hashMap
     }
 
     override fun pushValue(map: Map<String, Int>) {

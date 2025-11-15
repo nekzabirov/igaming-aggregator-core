@@ -34,6 +34,8 @@ dependencies {
     implementation("io.insert-koin:koin-ktor:$koin_version")
     implementation("io.insert-koin:koin-logger-slf4j:$koin_version")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
     api("io.grpc:grpc-netty-shaded:1.76.0")

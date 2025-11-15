@@ -6,9 +6,12 @@ option java_package = "com.nekzabirov.igambling.proto.service";
 option java_multiple_files = true;
 
 import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "dto/empty.result.proto";
 
 service Freespin {
   rpc GetPreset (GetPresetCommand) returns (GetPresetResult);
+  rpc CreateFreespin (CreateFreespinCommand) returns (EmptyResult);
 }
 
 message GetPresetCommand {
@@ -17,4 +20,14 @@ message GetPresetCommand {
 
 message GetPresetResult {
   google.protobuf.Struct preset = 1;
+}
+
+message CreateFreespinCommand {
+  map<string, int32> preset_value = 1;
+  string reference_id = 2;
+  string player_id = 3;
+  string game_identity = 4;
+  string currency = 5;
+  google.protobuf.Timestamp start_at = 6;
+  google.protobuf.Timestamp end_at = 7;
 }

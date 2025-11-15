@@ -2,17 +2,25 @@ package service
 
 import com.google.protobuf.Struct
 import com.google.protobuf.Value
+import com.nekzabirov.igambling.proto.dto.EmptyResult
+import com.nekzabirov.igambling.proto.service.CreateFreespinCommand
 import com.nekzabirov.igambling.proto.service.FreespinGrpcKt
 import com.nekzabirov.igambling.proto.service.GetPresetCommand
 import com.nekzabirov.igambling.proto.service.GetPresetResult
+import core.value.Currency
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*
 import org.koin.ktor.ext.get
+import usecase.CreateFreespinUsecase
 import usecase.GetPresetUsecase
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 class FreespinServiceImpl(application: Application) : FreespinGrpcKt.FreespinCoroutineImplBase() {
     private val getPresetUsecase = application.get<GetPresetUsecase>()
+    private val createFreespinUsecase = application.get<CreateFreespinUsecase>()
 
     override suspend fun getPreset(request: GetPresetCommand): GetPresetResult =
         getPresetUsecase(gameIdentity = request.gameIdentity)
@@ -21,6 +29,21 @@ class FreespinServiceImpl(application: Application) : FreespinGrpcKt.FreespinCor
                     .setPreset(mapToStruct(it.preset))
                     .build()
             }
+            .getOrElse { throw StatusException(Status.INVALID_ARGUMENT.withDescription(it.message)) }
+
+    override suspend fun createFreespin(request: CreateFreespinCommand): EmptyResult =
+        createFreespinUsecase(
+            presetValue = request.presetValueMap,
+            referenceId = request.referenceId,
+            playerId = request.playerId,
+            gameIdentity = request.gameIdentity,
+            currency = Currency(request.currency),
+            startAt = Instant.fromEpochSeconds(request.startAt.seconds, request.startAt.nanos)
+                .toLocalDateTime(TimeZone.UTC),
+            endAt = Instant.fromEpochSeconds(request.endAt.seconds, request.endAt.nanos)
+                .toLocalDateTime(TimeZone.UTC)
+        )
+            .map { EmptyResult.getDefaultInstance() }
             .getOrElse { throw StatusException(Status.INVALID_ARGUMENT.withDescription(it.message)) }
 
     private fun mapToStruct(map: Map<String, Any?>): Struct {
