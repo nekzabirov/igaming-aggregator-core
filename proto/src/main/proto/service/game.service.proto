@@ -16,6 +16,10 @@ service Game {
   rpc List (ListGameCommand) returns (ListGameResult);
 
   rpc Update (UpdateGameConfig) returns (EmptyResult);
+
+  rpc AddTag (GameTagCommand) returns (EmptyResult);
+
+  rpc RemoveTag (GameTagCommand) returns (EmptyResult);
 }
 
 message ListGameCommand {
@@ -78,4 +82,10 @@ message UpdateGameConfig {
   bool bonus_bet = 3;
 
   bool bonus_wagering = 4;
+}
+
+message GameTagCommand {
+  string identity = 1;
+
+  string tag = 2;
 }
