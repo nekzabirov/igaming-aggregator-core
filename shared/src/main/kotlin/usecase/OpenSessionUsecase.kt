@@ -6,8 +6,10 @@ import core.value.Platform
 import domain.aggregator.adapter.command.CreateLaunchUrlCommand
 import domain.game.service.GameService
 import domain.session.service.SessionService
+import domain.session.table.SessionTable
 import infrastructure.aggregator.AggregatorFabric
 import io.ktor.server.plugins.*
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class OpenSessionUsecase {
@@ -16,7 +18,7 @@ class OpenSessionUsecase {
         playerId: String,
         currency: Currency,
         locale: Locale,
-        platform: Platform,
+        platformN: Platform,
         lobbyUrl: String,
     ): Result<Response> = newSuspendedTransaction {
         val game = GameService.findByIdentity(gameIdentity)
@@ -25,7 +27,7 @@ class OpenSessionUsecase {
         if (game.locales.contains(locale).not())
             return@newSuspendedTransaction Result.failure(BadRequestException("Locale not supported"))
 
-        if (game.platforms.contains(platform).not())
+        if (game.platforms.contains(platformN).not())
             return@newSuspendedTransaction Result.failure(BadRequestException("Platform not supported"))
 
         val adapter = AggregatorFabric.createAdapter(game.aggregator.config, game.aggregator.aggregator)
@@ -39,9 +41,18 @@ class OpenSessionUsecase {
             lobbyUrl = lobbyUrl,
             locale = locale,
             currency = currency,
-            platform = platform,
+            platform = platformN,
             isDemo = false
         )).getOrElse { return@newSuspendedTransaction Result.failure(it) }
+
+        SessionTable.insert {
+            it[SessionTable.gameId] = game.id
+            it[SessionTable.playerId] = playerId
+            it[SessionTable.token] = token
+            it[SessionTable.currency] = currency.value
+            it[SessionTable.locale] = locale.value
+            it[SessionTable.platform] = platformN
+        }
 
         Result.success(Response(result))
     }
