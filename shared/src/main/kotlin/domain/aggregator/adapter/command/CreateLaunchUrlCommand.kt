@@ -2,7 +2,7 @@ package domain.aggregator.adapter.command
 
 import core.value.Currency
 import core.value.Locale
-import core.value.Platform
+import core.model.Platform
 
 data class CreateLaunchUrlCommand(
     val gameSymbol: String,

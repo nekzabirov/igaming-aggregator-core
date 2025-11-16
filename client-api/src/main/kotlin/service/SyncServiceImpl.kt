@@ -13,7 +13,7 @@ import com.nekzabirov.igambling.proto.service.ListVariantsCommand
 import com.nekzabirov.igambling.proto.service.SyncGrpcKt
 import domain.aggregator.model.AggregatorInfo
 import domain.aggregator.model.Aggregator
-import core.value.Pageable
+import core.model.Pageable
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*

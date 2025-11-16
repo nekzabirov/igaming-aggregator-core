@@ -2,8 +2,7 @@ package domain.session.model
 
 import core.value.Currency
 import core.value.Locale
-import core.value.Platform
-import domain.game.table.GameTable
+import core.model.Platform
 import java.util.UUID
 
 data class Session(

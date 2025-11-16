@@ -11,8 +11,8 @@ import domain.game.table.GameVariantTable
 import domain.provider.table.ProviderTable
 import core.db.paging
 import domain.aggregator.model.Aggregator
-import core.value.Page
-import core.value.Pageable
+import core.model.Page
+import core.model.Pageable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.leftJoin

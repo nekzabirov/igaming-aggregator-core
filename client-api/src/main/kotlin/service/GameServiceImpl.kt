@@ -11,7 +11,7 @@ import com.nekzabirov.igambling.proto.service.ListGameResult
 import com.nekzabirov.igambling.proto.service.UpdateGameConfig
 import core.value.Currency
 import core.value.Locale
-import core.value.Pageable
+import core.model.Pageable
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*

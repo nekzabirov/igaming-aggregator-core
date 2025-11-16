@@ -5,8 +5,8 @@ import domain.aggregator.model.AggregatorInfo
 import domain.aggregator.table.AggregatorInfoTable
 import core.db.paging
 import domain.aggregator.model.Aggregator
-import core.value.Page
-import core.value.Pageable
+import core.model.Page
+import core.model.Pageable
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction

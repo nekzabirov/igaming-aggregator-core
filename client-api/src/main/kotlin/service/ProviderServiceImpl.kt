@@ -5,7 +5,7 @@ import com.nekzabirov.igambling.proto.service.ListProviderCommand
 import com.nekzabirov.igambling.proto.service.ListProviderResult
 import com.nekzabirov.igambling.proto.service.ProviderGrpcKt
 import com.nekzabirov.igambling.proto.service.UpdateProviderConfig
-import core.value.Pageable
+import core.model.Pageable
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*

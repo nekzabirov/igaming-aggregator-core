@@ -1,4 +1,4 @@
-package core.value
+package core.model
 
 data class Page<T>(
     val items: List<T>,

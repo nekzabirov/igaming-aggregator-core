@@ -5,7 +5,7 @@ import domain.aggregator.adapter.command.CreateFreenspinCommand
 import domain.aggregator.adapter.command.CreateLaunchUrlCommand
 import core.value.Currency
 import core.value.Locale
-import core.value.Platform
+import core.model.Platform
 import kotlinx.datetime.toKotlinLocalDateTime
 import java.time.LocalDateTime
 import java.util.UUID

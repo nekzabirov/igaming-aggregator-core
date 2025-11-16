@@ -1,7 +1,7 @@
 package mapper
 
 import com.nekzabirov.igambling.proto.dto.PlatformType
-import core.value.Platform
+import core.model.Platform
 
 fun Platform.toPlatformProto() = when(this) {
     Platform.DESKTOP -> PlatformType.PLATFORM_TYPE_DESKTOP

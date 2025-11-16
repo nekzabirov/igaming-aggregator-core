@@ -1,7 +1,7 @@
 package domain.game.model
 
 import core.value.Locale
-import core.value.Platform
+import core.model.Platform
 import domain.aggregator.model.AggregatorInfo
 import domain.provider.model.Provider
 import java.util.*

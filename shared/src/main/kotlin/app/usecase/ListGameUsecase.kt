@@ -1,8 +1,8 @@
 package app.usecase
 
-import core.value.Page
-import core.value.Pageable
-import core.value.Platform
+import core.model.Page
+import core.model.Pageable
+import core.model.Platform
 import domain.aggregator.table.AggregatorInfoTable
 import domain.collection.mapper.toCollection
 import domain.collection.model.Collection

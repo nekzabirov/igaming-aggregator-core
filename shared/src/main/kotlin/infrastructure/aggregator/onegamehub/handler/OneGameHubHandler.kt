@@ -1,7 +1,6 @@
 package infrastructure.aggregator.onegamehub.handler
 
-import app.service.BetService
-import app.service.GameService
+import app.service.SpinService
 import app.service.SessionService
 import core.model.Balance
 import core.value.Currency
@@ -40,7 +39,7 @@ object OneGameHubHandler : IAggregatorHttpHandler, KoinComponent {
     }
 
     private suspend fun RoutingContext.balance(session: Session) {
-        val balance = BetService.findBalance(session).getOrElse {
+        val balance = SpinService.findBalance(session).getOrElse {
             throw OneGameHubTokenExpired()
         }
 
@@ -52,7 +51,7 @@ object OneGameHubHandler : IAggregatorHttpHandler, KoinComponent {
 
         val systemBetAmount = OneGameHubCurrencyAdapter.convertFromAggregator(session.currency, betAmount)
 
-        val balance = BetService.placeBet(session, systemBetAmount).getOrElse {
+        val balance = SpinService.placeBet(session, systemBetAmount).getOrElse {
             throw OneGameHubError.transform(it)
         }
 

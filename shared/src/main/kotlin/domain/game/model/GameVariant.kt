@@ -1,7 +1,7 @@
 package domain.game.model
 
 import domain.aggregator.model.Aggregator
-import core.value.Platform
+import core.model.Platform
 import java.util.UUID
 
 data class GameVariant(

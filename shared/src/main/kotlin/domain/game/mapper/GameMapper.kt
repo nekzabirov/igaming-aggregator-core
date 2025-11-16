@@ -1,7 +1,7 @@
 package domain.game.mapper
 
 import core.value.Locale
-import core.value.Platform
+import core.model.Platform
 import domain.aggregator.mapper.toAggregatorModel
 import domain.game.model.Game
 import domain.game.model.GameFull

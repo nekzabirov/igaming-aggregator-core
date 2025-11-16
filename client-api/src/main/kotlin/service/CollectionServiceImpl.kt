@@ -9,7 +9,7 @@ import com.nekzabirov.igambling.proto.service.ListCollectionCommand
 import com.nekzabirov.igambling.proto.service.ListCollectionResult
 import com.nekzabirov.igambling.proto.service.UpdateCollectionCommand
 import core.value.LocaleName
-import core.value.Pageable
+import core.model.Pageable
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.Application

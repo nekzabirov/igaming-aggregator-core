@@ -1,7 +1,7 @@
 package domain.aggregator.model
 
 import core.value.Locale
-import core.value.Platform
+import core.model.Platform
 
 data class AggregatorGame(
     val symbol: String,

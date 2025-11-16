@@ -8,12 +8,11 @@ import domain.game.table.GameTable
 import core.db.paging
 import core.ext.ilike
 import core.ext.toJsonText
-import core.value.Page
-import core.value.Pageable
+import core.model.Page
+import core.model.Pageable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.case
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.json.contains
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import kotlin.collections.plus
 

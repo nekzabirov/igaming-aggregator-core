@@ -13,7 +13,7 @@ import domain.aggregator.adapter.command.CreateLaunchUrlCommand
 import domain.aggregator.model.AggregatorGame
 import domain.aggregator.model.Aggregator
 import core.value.Locale
-import core.value.Platform
+import core.model.Platform
 import infrastructure.aggregator.onegamehub.dto.CancelFreespinDto
 import infrastructure.aggregator.onegamehub.dto.GameDto
 import infrastructure.aggregator.onegamehub.dto.ResponseDto

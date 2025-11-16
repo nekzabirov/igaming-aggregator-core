@@ -2,8 +2,8 @@ package app.usecase
 
 import core.db.paging
 import core.ext.ilike
-import core.value.Page
-import core.value.Pageable
+import core.model.Page
+import core.model.Pageable
 import domain.aggregator.mapper.toAggregatorModel
 import domain.aggregator.model.AggregatorInfo
 import domain.aggregator.table.AggregatorInfoTable

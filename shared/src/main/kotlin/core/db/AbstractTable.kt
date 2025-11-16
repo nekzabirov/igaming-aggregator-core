@@ -1,8 +1,8 @@
 package core.db
 
 
-import core.value.Page
-import core.value.Pageable
+import core.model.Page
+import core.model.Pageable
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.Query

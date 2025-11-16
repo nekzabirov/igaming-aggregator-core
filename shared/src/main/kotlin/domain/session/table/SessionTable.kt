@@ -1,7 +1,7 @@
 package domain.session.table
 
 import core.db.AbstractTable
-import core.value.Platform
+import core.model.Platform
 import domain.game.table.GameTable
 
 object SessionTable : AbstractTable("sessions") {

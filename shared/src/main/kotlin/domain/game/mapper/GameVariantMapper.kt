@@ -1,6 +1,6 @@
 package domain.game.mapper
 
-import core.value.Platform
+import core.model.Platform
 import domain.game.model.GameVariant
 import domain.game.table.GameVariantTable
 import org.jetbrains.exposed.sql.ResultRow

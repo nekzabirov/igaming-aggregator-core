@@ -1,4 +1,4 @@
-package core.value
+package core.model
 
 enum class Platform {
     DESKTOP,
