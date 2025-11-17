@@ -1,4 +1,4 @@
-package infrastructure.aggregator.onegamehub.handler.error
+package infrastructure.aggregator.onegamehub.hook.error
 
 import core.error.IError
 import core.error.InsufficientBalanceError
@@ -20,11 +20,11 @@ data class OneGameHubErrorBody(
     val error: OneGameHubErrorDetails,
 )
 
-sealed class OneGameHubError : Exception() {
+sealed class OneGameHubError {
     protected abstract val code: String
     protected abstract val display: Boolean
     protected abstract val action: String
-    abstract override val message: String
+    protected abstract val message: String
     protected abstract val description: String
 
     val status = HttpStatusCode.OK

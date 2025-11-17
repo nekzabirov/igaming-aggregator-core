@@ -1,4 +1,4 @@
-package infrastructure.aggregator.onegamehub.handler.error
+package infrastructure.aggregator.onegamehub.hook.error
 
 class OneGameHubInsufficientBalance : OneGameHubError() {
     override val code: String = "ERR003"
