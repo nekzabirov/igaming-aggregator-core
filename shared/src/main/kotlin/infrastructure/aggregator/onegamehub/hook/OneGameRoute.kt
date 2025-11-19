@@ -1,10 +1,13 @@
 package infrastructure.aggregator.onegamehub.hook
 
-import app.service.SpinService
+import app.usecase.CloseRoundUsecase
+import app.usecase.FindPlayerGameBalance
+import app.usecase.PlaceSpinUsecase
+import app.usecase.SettleSpinUsecase
 import core.model.Balance
-import core.value.Currency
 import core.value.SessionToken
 import infrastructure.aggregator.onegamehub.adapter.OneGameHubCurrencyAdapter
+import infrastructure.aggregator.onegamehub.adapter.OneGameHubCurrencyAdapter.getKoin
 import infrastructure.aggregator.onegamehub.hook.error.OneGameHubError
 import infrastructure.aggregator.onegamehub.hook.error.OneGameHubInvalidateRequest
 import infrastructure.aggregator.onegamehub.hook.error.OneGameHubTokenExpired
@@ -49,7 +52,9 @@ internal fun Route.oneGameHubRoute() = post("/onegamehub") {
 }
 
 private suspend fun RoutingContext.balance(token: SessionToken) {
-    val balance = SpinService.findBalance(token).getOrElse {
+    val findBalance = getKoin().get<FindPlayerGameBalance>()
+
+    val balance = findBalance(token).getOrElse {
         call.respondFail(OneGameHubTokenExpired())
         return
     }
@@ -58,20 +63,23 @@ private suspend fun RoutingContext.balance(token: SessionToken) {
 }
 
 private suspend fun RoutingContext.bet(token: SessionToken) {
-    SpinService.place(
+    val placeSpinUsecase = getKoin().get<PlaceSpinUsecase>()
+    val findBalance = getKoin().get<FindPlayerGameBalance>()
+
+    placeSpinUsecase(
         token = token,
         gameSymbol = call.queryParameters.gameSymbol,
         extRoundId = call.queryParameters.roundId,
-        transactionId = call.queryParameters.transactionId,
+        exTransactionId = call.queryParameters.transactionId,
+        freeSpinId = call.queryParameters.freespinId,
         amount = call.queryParameters.amount,
-        freespinId = call.queryParameters.freespinId,
     ).getOrElse {
         call.respond(OneGameHubError.transform(it))
         return
     }
 
-    val balance = SpinService.findBalance(token).getOrElse {
-        call.respond(OneGameHubError.transform(it))
+    val balance = findBalance(token).getOrElse {
+        call.respondFail(OneGameHubTokenExpired())
         return
     }
 
@@ -79,28 +87,34 @@ private suspend fun RoutingContext.bet(token: SessionToken) {
 }
 
 private suspend fun RoutingContext.win(token: SessionToken) {
+    val findBalance = getKoin().get<FindPlayerGameBalance>()
+    val settleSpinUsecase = getKoin().get<SettleSpinUsecase>()
+    val closeRound = getKoin().get<CloseRoundUsecase>()
+
     if (call.queryParameters.isRoundEnd && call.queryParameters.amount <= 0) {
-        SpinService.closeRound(token, call.queryParameters.roundId).getOrElse {
+        closeRound(
+            token,
+            extRoundId = call.queryParameters.roundId,
+            freeSpinId = call.queryParameters.freespinId
+        ).getOrElse {
             call.respond(OneGameHubError.transform(it))
             return
         }
-
-        val balance = SpinService.findBalance(token).getOrElse {
+    } else {
+        settleSpinUsecase(
+            token,
+            extRoundId = call.queryParameters.roundId,
+            exTransactionId = call.queryParameters.transactionId,
+            freeSpinId = call.queryParameters.freespinId,
+            amount = call.queryParameters.amount
+        ).getOrElse {
             call.respond(OneGameHubError.transform(it))
             return
         }
-
-        call.respondSuccess(balance)
-        return
     }
 
-    val balance = SpinService.settle(
-        token = token,
-        extRoundId = call.queryParameters.roundId,
-        transactionId = call.queryParameters.transactionId,
-        amount = call.queryParameters.amount
-    ).getOrElse {
-        call.respond(OneGameHubError.transform(it))
+    val balance = findBalance(token).getOrElse {
+        call.respondFail(OneGameHubTokenExpired())
         return
     }
 
