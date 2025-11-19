@@ -1,5 +1,6 @@
 package app.usecase
 
+import app.service.GameService
 import app.service.spin.ISpinCommand
 import app.service.spin.SpinServiceSpec
 import core.error.GameUnavailableError
@@ -28,9 +29,8 @@ class PlaceSpinUsecase : KoinComponent {
                 SessionUnavailingError()
             )
 
-            val game = GameTable.findBySymbol(gameSymbol) ?: return@newSuspendedTransaction Result.failure(
-                GameUnavailableError()
-            )
+            val game = GameService.findBySymbol(gameSymbol)
+                .getOrElse { return@newSuspendedTransaction Result.failure(it)}
 
             Result.success(session to game)
         }.getOrElse { return Result.failure(it) }

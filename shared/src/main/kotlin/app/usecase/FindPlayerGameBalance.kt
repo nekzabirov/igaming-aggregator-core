@@ -1,5 +1,6 @@
 package app.usecase
 
+import app.service.GameService
 import core.error.GameUnavailableError
 import core.error.SessionUnavailingError
 import core.model.Balance
@@ -12,6 +13,7 @@ import domain.session.table.SessionTable
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.koin.core.component.KoinComponent
+import kotlin.getOrElse
 
 class FindPlayerGameBalance : KoinComponent {
     val walletAdapter = getKoin().get<app.adapter.WalletAdapter>()
@@ -23,8 +25,8 @@ class FindPlayerGameBalance : KoinComponent {
             )
 
             val game = if (gameSymbol != null) {
-                GameTable.findBySymbol(gameSymbol)
-                    ?: return@newSuspendedTransaction Result.failure(GameUnavailableError())
+                GameService.findBySymbol(gameSymbol)
+                    .getOrElse { return@newSuspendedTransaction Result.failure(it)}
             } else {
                 GameTable.selectAll()
                     .where { GameTable.id eq session.gameId }
