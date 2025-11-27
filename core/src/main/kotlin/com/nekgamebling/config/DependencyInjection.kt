@@ -22,7 +22,7 @@ import com.nekgamebling.infrastructure.adapter.FakePlayerAdapter
 import com.nekgamebling.infrastructure.adapter.FakeWalletAdapter
 import com.nekgamebling.infrastructure.aggregator.AggregatorAdapterRegistryImpl
 import com.nekgamebling.infrastructure.aggregator.onegamehub.OneGameHubAdapterFactory
-import com.nekgamebling.infrastructure.cache.InMemoryCacheAdapter
+import com.nekgamebling.infrastructure.persistence.cache.InMemoryCacheAdapter
 import com.nekgamebling.infrastructure.messaging.RabbitMqEventPublisher
 import com.nekgamebling.infrastructure.persistence.exposed.repository.*
 import io.ktor.server.application.*

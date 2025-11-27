@@ -1,4 +1,4 @@
-package com.nekgamebling.infrastructure.cache
+package com.nekgamebling.infrastructure.persistence.cache
 
 import com.nekgamebling.application.port.outbound.CachePort
 import kotlinx.coroutines.sync.Mutex
