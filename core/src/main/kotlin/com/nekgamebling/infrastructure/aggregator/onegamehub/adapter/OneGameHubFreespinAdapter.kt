@@ -1,4 +1,4 @@
-package com.nekgamebling.infrastructure.aggregator.onegamehub
+package com.nekgamebling.infrastructure.aggregator.onegamehub.adapter
 
 import com.nekgamebling.application.port.outbound.AggregatorFreespinPort
 import com.nekgamebling.domain.aggregator.model.AggregatorInfo

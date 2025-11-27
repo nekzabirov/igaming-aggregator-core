@@ -5,6 +5,9 @@ import com.nekgamebling.application.port.outbound.AggregatorFreespinPort
 import com.nekgamebling.application.port.outbound.AggregatorGameSyncPort
 import com.nekgamebling.application.port.outbound.AggregatorLaunchUrlPort
 import com.nekgamebling.domain.aggregator.model.AggregatorInfo
+import com.nekgamebling.infrastructure.aggregator.onegamehub.adapter.OneGameHubFreespinAdapter
+import com.nekgamebling.infrastructure.aggregator.onegamehub.adapter.OneGameHubGameSyncAdapter
+import com.nekgamebling.infrastructure.aggregator.onegamehub.adapter.OneGameHubLaunchUrlAdapter
 import com.nekgamebling.shared.value.Aggregator
 
 /**

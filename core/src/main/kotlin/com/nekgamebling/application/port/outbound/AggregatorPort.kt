@@ -65,7 +65,7 @@ interface AggregatorGameSyncPort {
     /**
      * List all games available from an aggregator.
      */
-    suspend fun listGames(aggregator: AggregatorInfo): Result<List<AggregatorGame>>
+    suspend fun listGames(): Result<List<AggregatorGame>>
 }
 
 /**

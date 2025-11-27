@@ -1,4 +1,4 @@
-package com.nekgamebling.infrastructure.aggregator.onegamehub
+package com.nekgamebling.infrastructure.aggregator.onegamehub.adapter
 
 import com.nekgamebling.application.port.outbound.AggregatorGameSyncPort
 import com.nekgamebling.domain.aggregator.model.AggregatorGame
@@ -11,7 +11,7 @@ class OneGameHubGameSyncAdapter(
     private val aggregatorInfo: AggregatorInfo
 ) : AggregatorGameSyncPort {
 
-    override suspend fun listGames(aggregator: AggregatorInfo): Result<List<AggregatorGame>> {
+    override suspend fun listGames(): Result<List<AggregatorGame>> {
         // TODO: Implement actual API call to OneGameHub
         // GET /api/games/list
         // Headers: { "X-Operator-Id": "...", "X-Api-Key": "..." }
