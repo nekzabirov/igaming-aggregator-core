@@ -1,7 +1,7 @@
 import com.nekgamebling.application.usecase.aggregator.ListAllActiveAggregatorUsecase
 import com.nekgamebling.application.usecase.aggregator.SyncGameUsecase
-import com.nekgamebling.config.DatabaseConfig
 import com.nekgamebling.config.coreModule
+import com.nekgamebling.installCore
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
@@ -21,15 +21,9 @@ fun main() = runBlocking {
     System.setProperty("user.timezone", "UTC")
     java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("UTC"))
 
-    // Initialize database
-    DatabaseConfig.init(
-        url = System.getenv("DATABASE_URL") ?: "jdbc:postgresql://localhost:5432/mydb?TimeZone=UTC",
-        driver = "org.postgresql.Driver",
-        user = System.getenv("DATABASE_USER") ?: "user",
-        password = System.getenv("DATABASE_PASSWORD") ?: "password"
-    )
-
     val server = embeddedServer(CIO, port = 0) {
+        installCore()
+
         install(Koin) {
             slf4jLogger()
             modules(coreModule())
