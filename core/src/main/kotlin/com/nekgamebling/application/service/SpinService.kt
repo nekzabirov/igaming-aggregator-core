@@ -1,0 +1,220 @@
+package com.nekgamebling.application.service
+
+import com.nekgamebling.application.port.outbound.PlayerPort
+import com.nekgamebling.application.port.outbound.WalletPort
+import com.nekgamebling.domain.common.error.*
+import com.nekgamebling.domain.game.model.Game
+import com.nekgamebling.domain.session.model.BetAmount
+import com.nekgamebling.domain.session.model.Round
+import com.nekgamebling.domain.session.model.Session
+import com.nekgamebling.domain.session.model.Spin
+import com.nekgamebling.domain.session.repository.RoundRepository
+import com.nekgamebling.domain.session.repository.SpinRepository
+import com.nekgamebling.shared.value.SpinType
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import java.util.UUID
+
+/**
+ * Command object for placing/settling spins.
+ */
+data class SpinCommand(
+    val extRoundId: String,
+    val transactionId: String,
+    val amount: Int,
+    val freeSpinId: String? = null
+) {
+    class Builder {
+        private var extRoundId: String = ""
+        private var transactionId: String = ""
+        private var amount: Int = 0
+        private var freeSpinId: String? = null
+
+        fun extRoundId(value: String) = apply { extRoundId = value }
+        fun transactionId(value: String) = apply { transactionId = value }
+        fun amount(value: Int) = apply { amount = value }
+        fun freeSpinId(value: String?) = apply { freeSpinId = value }
+
+        fun build() = SpinCommand(extRoundId, transactionId, amount, freeSpinId)
+    }
+
+    companion object {
+        fun builder() = Builder()
+    }
+}
+
+/**
+ * Application service for spin-related operations.
+ * Uses constructor injection for all dependencies.
+ */
+class SpinService(
+    private val walletPort: WalletPort,
+    private val playerPort: PlayerPort,
+    private val roundRepository: RoundRepository,
+    private val spinRepository: SpinRepository
+) {
+    /**
+     * Place a spin (bet).
+     */
+    suspend fun place(session: Session, game: Game, command: SpinCommand): Result<Unit> {
+        // Fetch balance and bet limit in parallel
+        val (balance, betLimit) = coroutineScope {
+            val balanceDeferred = async { walletPort.findBalance(session.playerId) }
+            val betLimitDeferred = async { playerPort.findCurrentBetLimit(session.playerId) }
+
+            val balanceResult = balanceDeferred.await().getOrElse {
+                return@coroutineScope Result.failure(it)
+            }
+            val betLimitResult = betLimitDeferred.await().getOrElse {
+                return@coroutineScope Result.failure(it)
+            }
+
+            // Adjust balance if bonus bet is disabled
+            val adjustedBalance = if (!game.bonusBetEnable) {
+                balanceResult.copy(bonus = 0)
+            } else {
+                balanceResult
+            }
+
+            Result.success(adjustedBalance to betLimitResult)
+        }.getOrElse { return Result.failure(it) }
+
+        // Validate bet limit
+        if (betLimit != null && betLimit < command.amount) {
+            return Result.failure(
+                BetLimitExceededError(session.playerId, command.amount, betLimit)
+            )
+        }
+
+        // Validate sufficient balance
+        if (command.amount > balance.totalAmount) {
+            return Result.failure(
+                InsufficientBalanceError(session.playerId, command.amount, balance.totalAmount)
+            )
+        }
+
+        // Calculate real and bonus amounts
+        val betRealAmount = minOf(command.amount, balance.real)
+        val betBonusAmount = command.amount - betRealAmount
+
+        // Create or get round
+        val round = roundRepository.findOrCreate(session.id, game.id, command.extRoundId)
+
+        // Create spin record
+        val spin = Spin(
+            id = UUID.randomUUID(),
+            roundId = round.id,
+            type = SpinType.PLACE,
+            amount = command.amount,
+            realAmount = betRealAmount,
+            bonusAmount = betBonusAmount,
+            extId = command.transactionId
+        )
+
+        spinRepository.save(spin)
+
+        // Withdraw from wallet
+        walletPort.withdraw(
+            session.playerId,
+            spin.id.toString(),
+            session.currency,
+            betRealAmount,
+            betBonusAmount
+        ).getOrElse {
+            return Result.failure(it)
+        }
+
+        return Result.success(Unit)
+    }
+
+    /**
+     * Settle a spin (determine win/loss).
+     */
+    suspend fun settle(session: Session, extRoundId: String, command: SpinCommand): Result<Unit> {
+        // Find the round
+        val round = roundRepository.findByExtId(session.id, extRoundId)
+            ?: return Result.failure(RoundNotFoundError(extRoundId))
+
+        // Find the place spin
+        val placeSpin = spinRepository.findPlaceSpinByRoundId(round.id)
+            ?: return Result.failure(RoundFinishedError(extRoundId))
+
+        // Determine if bonus was used
+        val isBonusUsed = (placeSpin.bonusAmount) > 0
+
+        // Calculate win amounts
+        val realAmount = if (isBonusUsed) 0 else command.amount
+        val bonusAmount = if (isBonusUsed) command.amount else 0
+
+        // Create settle spin
+        val settleSpin = Spin(
+            id = UUID.randomUUID(),
+            roundId = round.id,
+            type = SpinType.SETTLE,
+            amount = command.amount,
+            realAmount = realAmount,
+            bonusAmount = bonusAmount,
+            extId = command.transactionId,
+            referenceId = placeSpin.id
+        )
+
+        spinRepository.save(settleSpin)
+
+        // Deposit winnings
+        walletPort.deposit(
+            session.playerId,
+            session.id.toString(),
+            session.currency,
+            realAmount,
+            bonusAmount
+        ).getOrElse {
+            return Result.failure(it)
+        }
+
+        return Result.success(Unit)
+    }
+
+    /**
+     * Rollback a spin.
+     */
+    suspend fun rollback(session: Session, command: SpinCommand): Result<Unit> {
+        // Find the round
+        val round = roundRepository.findByExtId(session.id, command.extRoundId)
+            ?: return Result.failure(RoundNotFoundError(command.extRoundId))
+
+        // Find the spin to rollback
+        val spin = spinRepository.findByRoundId(round.id).firstOrNull()
+            ?: return Result.failure(RoundNotFoundError(command.extRoundId))
+
+        // Rollback in wallet
+        walletPort.rollback(session.playerId, spin.id.toString())
+
+        // Create rollback spin
+        val rollbackSpin = Spin(
+            id = UUID.randomUUID(),
+            roundId = round.id,
+            type = SpinType.ROLLBACK,
+            amount = 0,
+            realAmount = 0,
+            bonusAmount = 0,
+            extId = command.transactionId,
+            referenceId = spin.id
+        )
+
+        spinRepository.save(rollbackSpin)
+
+        return Result.success(Unit)
+    }
+
+    /**
+     * Close a round.
+     */
+    suspend fun closeRound(session: Session, extRoundId: String): Result<Unit> {
+        val round = roundRepository.findByExtId(session.id, extRoundId)
+            ?: return Result.failure(RoundNotFoundError(extRoundId))
+
+        roundRepository.finish(round.id)
+
+        return Result.success(Unit)
+    }
+}

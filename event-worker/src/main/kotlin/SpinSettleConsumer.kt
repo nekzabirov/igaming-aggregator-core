@@ -1,5 +1,5 @@
-import app.event.SpinEvent
-import app.usecase.AddGameWonUsecase
+import com.nekgamebling.application.event.SpinSettledEvent
+import com.nekgamebling.application.usecase.game.AddGameWonUsecase
 import io.github.damir.denis.tudor.ktor.server.rabbitmq.dsl.*
 import io.ktor.server.application.*
 import org.koin.ktor.ext.getKoin
@@ -31,15 +31,15 @@ fun Application.consumeSpinSettle(exchange: String) = rabbitmq {
         queue = QUEUE_NAME
         autoAck = true
 
-        deliverCallback<SpinEvent> { msg ->
+        deliverCallback<SpinSettledEvent> { msg ->
             val body = msg.body
-            log.info("Spin event received: $body")
+            log.info("Spin settled event received: $body")
 
             if (body.freeSpinId == null) {
                 gameWonUsecase(
-                    gameIdentity = body.game.identity,
+                    gameIdentity = body.gameIdentity,
                     playerId = body.playerId,
-                    amount = body.amount,
+                    amount = body.winAmount.toInt(),
                     currency = body.currency
                 )
             }

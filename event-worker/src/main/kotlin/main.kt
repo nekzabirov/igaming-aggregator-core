@@ -1,3 +1,5 @@
+import com.nekgamebling.config.DatabaseConfig
+import com.nekgamebling.config.coreModule
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
@@ -6,7 +8,7 @@ import org.koin.logger.slf4jLogger
 import org.slf4j.LoggerFactory
 
 private val logger by lazy {
-    LoggerFactory.getLogger("SyncGamesJob")
+    LoggerFactory.getLogger("EventWorker")
 }
 
 fun main() {
@@ -18,18 +20,17 @@ fun main() {
 }
 
 fun Application.module() {
+    // Initialize database
+    DatabaseConfig.init(
+        url = System.getenv("DATABASE_URL"),
+        driver = "org.postgresql.Driver",
+        user = System.getenv("DATABASE_USER"),
+        password = System.getenv("DATABASE_PASSWORD")
+    )
+
     install(Koin) {
         slf4jLogger()
-        modules(sharedModule)
-    }
-
-    install(SharedPlugin) {
-        databaseUrl = System.getenv("DATABASE_URL")
-        databaseDriver = "org.postgresql.Driver"
-        databaseUser = System.getenv("DATABASE_USER")
-        databasePassword = System.getenv("DATABASE_PASSWORD")
-        autoCreateSchema = true
-        showSql = false
+        modules(coreModule())
     }
 
     consumeSpinSettle(System.getenv("RABBITMQ_EXCHANGE"))

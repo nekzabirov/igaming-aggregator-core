@@ -1,7 +1,7 @@
 package mapper
 
+import com.nekgamebling.domain.game.model.Game
 import com.nekzabirov.igambling.proto.dto.GameDto
-import domain.game.model.Game
 
 fun Game.toGameProto() = GameDto.newBuilder()
     .setId(this.id.toString())

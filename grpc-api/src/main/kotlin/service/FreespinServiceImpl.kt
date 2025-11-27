@@ -2,23 +2,23 @@ package service
 
 import com.google.protobuf.Struct
 import com.google.protobuf.Value
+import com.nekgamebling.application.usecase.spin.CancelFreespinUsecase
+import com.nekgamebling.application.usecase.spin.CreateFreespinUsecase
+import com.nekgamebling.application.usecase.spin.GetPresetUsecase
+import com.nekgamebling.shared.value.Currency
 import com.nekzabirov.igambling.proto.dto.EmptyResult
 import com.nekzabirov.igambling.proto.service.CancelFreespinCommand
 import com.nekzabirov.igambling.proto.service.CreateFreespinCommand
 import com.nekzabirov.igambling.proto.service.FreespinGrpcKt
 import com.nekzabirov.igambling.proto.service.GetPresetCommand
 import com.nekzabirov.igambling.proto.service.GetPresetResult
-import core.value.Currency
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*
-import org.koin.ktor.ext.get
-import app.usecase.CancelFreespinUsecase
-import app.usecase.CreateFreespinUsecase
-import app.usecase.GetPresetUsecase
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.koin.ktor.ext.get
 
 class FreespinServiceImpl(application: Application) : FreespinGrpcKt.FreespinCoroutineImplBase() {
     private val getPresetUsecase = application.get<GetPresetUsecase>()
@@ -36,7 +36,7 @@ class FreespinServiceImpl(application: Application) : FreespinGrpcKt.FreespinCor
 
     override suspend fun createFreespin(request: CreateFreespinCommand): EmptyResult =
         createFreespinUsecase(
-            presetValue = request.presetValueMap,
+            presetValue = request.presetValueMap.mapValues { it.value.toString() },
             referenceId = request.referenceId,
             playerId = request.playerId,
             gameIdentity = request.gameIdentity,

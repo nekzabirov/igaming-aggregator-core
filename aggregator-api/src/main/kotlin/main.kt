@@ -1,4 +1,6 @@
-import infrastructure.aggregator.aggregatorRoute
+import com.nekgamebling.config.DatabaseConfig
+import com.nekgamebling.config.coreModule
+import com.nekgamebling.infrastructure.http.aggregatorRoute
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
@@ -21,18 +23,17 @@ fun main() {
 }
 
 fun Application.module() {
+    // Initialize database
+    DatabaseConfig.init(
+        url = System.getenv("DATABASE_URL"),
+        driver = "org.postgresql.Driver",
+        user = System.getenv("DATABASE_USER"),
+        password = System.getenv("DATABASE_PASSWORD")
+    )
+
     install(Koin) {
         slf4jLogger()
-        modules(sharedModule)
-    }
-
-    install(SharedPlugin) {
-        databaseUrl = System.getenv("DATABASE_URL")
-        databaseDriver = "org.postgresql.Driver"
-        databaseUser = System.getenv("DATABASE_USER")
-        databasePassword = System.getenv("DATABASE_PASSWORD")
-        autoCreateSchema = true
-        showSql = false
+        modules(coreModule())
     }
 
     install(ContentNegotiation) {

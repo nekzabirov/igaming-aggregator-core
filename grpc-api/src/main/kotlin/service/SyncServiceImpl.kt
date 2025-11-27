@@ -1,9 +1,13 @@
 package service
 
+import com.nekgamebling.application.usecase.aggregator.AddAggregatorUsecase
+import com.nekgamebling.application.usecase.aggregator.ListAggregatorUsecase
+import com.nekgamebling.application.usecase.aggregator.ListGameVariantsUsecase
+import com.nekgamebling.application.usecase.provider.AssignProviderToAggregatorUsecase
+import com.nekgamebling.domain.aggregator.model.AggregatorInfo
+import com.nekgamebling.shared.value.Aggregator
+import com.nekgamebling.shared.value.Pageable
 import com.nekzabirov.igambling.proto.dto.EmptyResult
-import app.usecase.AddAggregatorUsecase
-import app.usecase.ListAggregatorUsecase
-import app.usecase.ListGameVariantsUsecase
 import com.nekzabirov.igambling.proto.service.AddAggregatorCommand
 import com.nekzabirov.igambling.proto.service.AssignProviderCommand
 import com.nekzabirov.igambling.proto.service.ListAggregatorCommand
@@ -11,9 +15,6 @@ import com.nekzabirov.igambling.proto.service.ListAggregatorResult
 import com.nekzabirov.igambling.proto.service.ListVariantResult
 import com.nekzabirov.igambling.proto.service.ListVariantsCommand
 import com.nekzabirov.igambling.proto.service.SyncGrpcKt
-import domain.aggregator.model.AggregatorInfo
-import domain.aggregator.model.Aggregator
-import core.model.Pageable
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*
@@ -22,9 +23,7 @@ import mapper.toGameProto
 import mapper.toGameVariantProto
 import mapper.toProviderProto
 import org.koin.ktor.ext.get
-import app.usecase.AssignProviderToAggregatorUsecase
 import java.util.UUID
-import kotlin.collections.map
 
 class SyncServiceImpl(application: Application) : SyncGrpcKt.SyncCoroutineImplBase() {
     private val addAggregatorUsecase = application.get<AddAggregatorUsecase>()

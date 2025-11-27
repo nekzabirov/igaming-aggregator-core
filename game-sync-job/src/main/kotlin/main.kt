@@ -1,9 +1,12 @@
-import app.usecase.ListAllActiveAggregatorUsecase
-import app.usecase.SyncGameUsecase
+import com.nekgamebling.application.usecase.aggregator.ListAllActiveAggregatorUsecase
+import com.nekgamebling.application.usecase.aggregator.SyncGameUsecase
+import com.nekgamebling.config.DatabaseConfig
+import com.nekgamebling.config.coreModule
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import kotlinx.coroutines.runBlocking
+import org.koin.ktor.ext.getKoin
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
 import org.slf4j.LoggerFactory
@@ -18,18 +21,18 @@ fun main() = runBlocking {
     System.setProperty("user.timezone", "UTC")
     java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("UTC"))
 
+    // Initialize database
+    DatabaseConfig.init(
+        url = System.getenv("DATABASE_URL") ?: "jdbc:postgresql://localhost:5432/mydb?TimeZone=UTC",
+        driver = "org.postgresql.Driver",
+        user = System.getenv("DATABASE_USER") ?: "user",
+        password = System.getenv("DATABASE_PASSWORD") ?: "password"
+    )
+
     val server = embeddedServer(CIO, port = 0) {
         install(Koin) {
             slf4jLogger()
-        }
-
-        install(SharedPlugin) {
-            databaseUrl = "jdbc:postgresql://localhost:5432/mydb?TimeZone=UTC"
-            databaseDriver = "org.postgresql.Driver"
-            databaseUser = "user"
-            databasePassword = "password"
-            autoCreateSchema = true
-            showSql = true
+            modules(coreModule())
         }
     }
 
@@ -37,8 +40,9 @@ fun main() = runBlocking {
 
     server.start(wait = false)
 
-    val syncGameUsecase = SyncGameUsecase()
-    val listAllActiveAggregatorUsecase = ListAllActiveAggregatorUsecase()
+    val koin = server.application.getKoin()
+    val syncGameUsecase = koin.get<SyncGameUsecase>()
+    val listAllActiveAggregatorUsecase = koin.get<ListAllActiveAggregatorUsecase>()
 
     val aggregators = listAllActiveAggregatorUsecase()
 

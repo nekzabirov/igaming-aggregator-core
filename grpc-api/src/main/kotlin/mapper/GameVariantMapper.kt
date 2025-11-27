@@ -1,16 +1,16 @@
 package mapper
 
+import com.nekgamebling.domain.game.model.GameVariant
 import com.nekzabirov.igambling.proto.dto.GameVariantDto
-import domain.game.model.GameVariant
 
 fun GameVariant.toGameVariantProto(): GameVariantDto = GameVariantDto.newBuilder()
     .setId(this.id.toString())
-    .setGameId(this.gameId.toString())
+    .setGameId(this.gameId?.toString() ?: "")
     .setSymbol(this.symbol)
     .setName(this.name)
     .setProviderName(this.providerName)
     .setFreeChipEnable(this.freeChipEnable)
-    .setFreeChipEnable(this.freeSpinEnable)
+    .setFreeSpinEnable(this.freeSpinEnable)
     .setJackpotEnable(this.jackpotEnable)
     .setDemoEnable(this.demoEnable)
     .setBonusBuyEnable(this.bonusBuyEnable)

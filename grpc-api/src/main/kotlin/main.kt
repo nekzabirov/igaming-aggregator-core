@@ -1,3 +1,5 @@
+import com.nekgamebling.config.DatabaseConfig
+import com.nekgamebling.config.coreModule
 import io.grpc.Server
 import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder
 import io.ktor.server.application.*
@@ -17,19 +19,18 @@ fun main() {
     System.setProperty("user.timezone", "UTC")
     java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("UTC"))
 
+    // Initialize database
+    DatabaseConfig.init(
+        url = System.getenv("DATABASE_URL"),
+        driver = "org.postgresql.Driver",
+        user = System.getenv("DATABASE_USER"),
+        password = System.getenv("DATABASE_PASSWORD")
+    )
+
     val application = embeddedServer(CIO, port = 0) {
         install(Koin) {
             slf4jLogger()
-            modules(sharedModule)
-        }
-
-        install(SharedPlugin) {
-            databaseUrl = System.getenv("DATABASE_URL")
-            databaseDriver = "org.postgresql.Driver"
-            databaseUser = System.getenv("DATABASE_USER")
-            databasePassword = System.getenv("DATABASE_PASSWORD")
-            autoCreateSchema = true
-            showSql = false
+            modules(coreModule())
         }
     }
     application.start(wait = false)

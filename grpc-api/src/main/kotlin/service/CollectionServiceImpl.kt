@@ -1,5 +1,8 @@
 package service
 
+import com.nekgamebling.application.usecase.collection.*
+import com.nekgamebling.shared.value.LocaleName
+import com.nekgamebling.shared.value.Pageable
 import com.nekzabirov.igambling.proto.dto.EmptyResult
 import com.nekzabirov.igambling.proto.service.AddCollectionCommand
 import com.nekzabirov.igambling.proto.service.AddGameCollectionCommand
@@ -8,19 +11,11 @@ import com.nekzabirov.igambling.proto.service.CollectionGrpcKt
 import com.nekzabirov.igambling.proto.service.ListCollectionCommand
 import com.nekzabirov.igambling.proto.service.ListCollectionResult
 import com.nekzabirov.igambling.proto.service.UpdateCollectionCommand
-import core.value.LocaleName
-import core.model.Pageable
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.Application
 import mapper.toCollectionProto
 import org.koin.ktor.ext.get
-import app.usecase.AddCollectionUsecase
-import app.usecase.AddGameCollectionUsecase
-import app.usecase.ChangeGameOrderUsecase
-import app.usecase.ListCollectionUsecase
-import app.usecase.RemoveGameCollectionUsecase
-import app.usecase.UpdateCollectionUsecase
 
 class CollectionServiceImpl(application: Application) : CollectionGrpcKt.CollectionCoroutineImplBase() {
     private val addCollectionUsecase = application.get<AddCollectionUsecase>()

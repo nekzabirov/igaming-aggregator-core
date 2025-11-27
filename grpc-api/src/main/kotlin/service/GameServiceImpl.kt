@@ -1,5 +1,15 @@
 package service
 
+import com.nekgamebling.application.usecase.game.AddGameFavouriteUsecase
+import com.nekgamebling.application.usecase.game.AddGameTagUsecase
+import com.nekgamebling.application.usecase.game.DemoGameUsecase
+import com.nekgamebling.application.usecase.game.ListGamesUsecase
+import com.nekgamebling.application.usecase.game.RemoveGameFavouriteUsecase
+import com.nekgamebling.application.usecase.game.RemoveGameTagUsecase
+import com.nekgamebling.application.usecase.game.UpdateGameUsecase
+import com.nekgamebling.shared.value.Currency
+import com.nekgamebling.shared.value.Locale
+import com.nekgamebling.shared.value.Pageable
 import com.nekzabirov.igambling.proto.dto.EmptyResult
 import com.nekzabirov.igambling.proto.service.DemoGameCommand
 import com.nekzabirov.igambling.proto.service.DemoGameResult
@@ -9,9 +19,6 @@ import com.nekzabirov.igambling.proto.service.GameTagCommand
 import com.nekzabirov.igambling.proto.service.ListGameCommand
 import com.nekzabirov.igambling.proto.service.ListGameResult
 import com.nekzabirov.igambling.proto.service.UpdateGameConfig
-import core.value.Currency
-import core.value.Locale
-import core.model.Pageable
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*
@@ -21,16 +28,9 @@ import mapper.toGameVariantProto
 import mapper.toPlatform
 import mapper.toProviderProto
 import org.koin.ktor.ext.get
-import app.usecase.AddGameFavouriteUsecase
-import app.usecase.AddGameTagUsecase
-import app.usecase.DemoGameUsecase
-import app.usecase.ListGameUsecase
-import app.usecase.RemoveGameFavouriteUsecase
-import app.usecase.RemoveGameTagUsecase
-import app.usecase.UpdateGameUsecase
 
 class GameServiceImpl(application: Application) : GameGrpcKt.GameCoroutineImplBase() {
-    private val listGameUsecase = application.get<ListGameUsecase>()
+    private val listGamesUsecase = application.get<ListGamesUsecase>()
     private val updateGameUsecase = application.get<UpdateGameUsecase>()
     private val addGameTagUsecase = application.get<AddGameTagUsecase>()
     private val removeGameTagUsecase = application.get<RemoveGameTagUsecase>()
@@ -38,80 +38,80 @@ class GameServiceImpl(application: Application) : GameGrpcKt.GameCoroutineImplBa
     private val removeGameFavouriteUsecase = application.get<RemoveGameFavouriteUsecase>()
     private val demoGameUsecase = application.get<DemoGameUsecase>()
 
-    override suspend fun list(request: ListGameCommand): ListGameResult =
-        listGameUsecase(pageable = Pageable(page = request.pageNumber, size = request.pageSize)) {
-            withQuery(request.query)
+    override suspend fun list(request: ListGameCommand): ListGameResult {
+        val page = listGamesUsecase(pageable = Pageable(page = request.pageNumber, size = request.pageSize)) {
+            query(request.query)
 
             if (request.hasActive()) {
-                withActive(request.active)
+                active(request.active)
             }
 
             if (request.hasBonusBet()) {
-                withBonusBet(request.bonusBet)
+                bonusBet(request.bonusBet)
             }
 
             if (request.hasBonusWagering()) {
-                withBonusWagering(request.bonusWagering)
+                bonusWagering(request.bonusWagering)
             }
 
             if (request.hasFreeSpinEnable()) {
-                withFreeSpinEnable(request.freeSpinEnable)
+                freeSpinEnable(request.freeSpinEnable)
             }
 
             if (request.hasFreeChipEnable()) {
-                withFreeChipEnable(request.freeChipEnable)
+                freeChipEnable(request.freeChipEnable)
             }
 
             if (request.hasJackpotEnable()) {
-                withJackpotEnable(request.jackpotEnable)
+                jackpotEnable(request.jackpotEnable)
             }
 
             if (request.hasDemoEnable()) {
-                withDemoEnable(request.demoEnable)
+                demoEnable(request.demoEnable)
             }
 
             if (request.hasBonusBuyEnable()) {
-                withBonusBuyEnable(request.bonusBuyEnable)
+                bonusBuyEnable(request.bonusBuyEnable)
             }
 
-            request.platformsList.forEach { platform ->
-                withPlatform(platform.toPlatform())
+            request.platformsList.forEach { p ->
+                platform(p.toPlatform())
             }
 
-            request.providerIdentityList.forEach { providerIdentity ->
-                withProviderIdentity(providerIdentity)
+            request.providerIdentityList.forEach { provId ->
+                providerIdentity(provId)
             }
 
-            request.categoryIdentityList.forEach { categoryIdentity ->
-                withCategoryIdentity(categoryIdentity)
+            request.categoryIdentityList.forEach { collId ->
+                collectionIdentity(collId)
             }
 
-            request.tagsList.forEach { tag ->
-                withTag(tag)
+            request.tagsList.forEach { t ->
+                tag(t)
             }
 
             if (request.hasPlayerId()) {
-                withPlayer(request.playerId)
+                playerId(request.playerId)
             }
         }
-            .let { page ->
-                val games = page.items.map {
-                    ListGameResult.Item.newBuilder()
-                        .setGame(it.game.toGameProto())
-                        .addAllCollectionIds(it.categories.map { c -> c.id.toString() })
-                        .setVariant(it.variant.toGameVariantProto())
-                        .build()
-                }
-                val providers = page.items.map { it.provider }.toSet().map { it.toProviderProto() }
-                val collections = page.items.flatMap { it.categories }.toSet().map { it.toCollectionProto() }
 
-                ListGameResult.newBuilder()
-                    .setTotalPage(page.totalPages.toInt())
-                    .addAllProviders(providers)
-                    .addAllCollections(collections)
-                    .addAllItems(games)
-                    .build()
-            }
+        val games = page.items.map { item ->
+            ListGameResult.Item.newBuilder()
+                .setGame(item.game.toGameProto())
+                .addAllCollectionIds(item.collections.map { c -> c.id.toString() })
+                .setVariant(item.variant.toGameVariantProto())
+                .build()
+        }
+        val providers = page.items.map { it.provider }.toSet().map { it.toProviderProto() }
+        val collections = page.items.flatMap { it.collections }.toSet().map { it.toCollectionProto() }
+
+        return ListGameResult.newBuilder()
+            .setTotalPage(page.totalPages.toInt())
+            .addAllProviders(providers)
+            .addAllCollections(collections)
+            .addAllItems(games)
+            .build()
+    }
 
     override suspend fun update(request: UpdateGameConfig): EmptyResult =
         updateGameUsecase(
