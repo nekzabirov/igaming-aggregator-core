@@ -103,7 +103,8 @@ fun ResultRow.toSpin(): Spin = Spin(
     realAmount = this[SpinTable.realAmount] ?: 0,
     bonusAmount = this[SpinTable.bonusAmount] ?: 0,
     extId = this[SpinTable.extId],
-    referenceId = this[SpinTable.referenceId]?.value
+    referenceId = this[SpinTable.referenceId]?.value,
+    freeSpinId = this[SpinTable.freeSpinId]
 )
 
 /**

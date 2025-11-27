@@ -49,7 +49,8 @@ data class Spin(
     val realAmount: Int,
     val bonusAmount: Int,
     val extId: String,
-    val referenceId: UUID? = null
+    val referenceId: UUID? = null,
+    val freeSpinId: String? = null
 )
 
 /**

@@ -55,8 +55,32 @@ class SpinService(
 ) {
     /**
      * Place a spin (bet).
+     * If freeSpinId is provided, skip wallet operations (freespin mode).
      */
     suspend fun place(session: Session, game: Game, command: SpinCommand): Result<Unit> {
+        val isFreeSpin = command.freeSpinId != null
+
+        // Create or get round
+        val round = roundRepository.findOrCreate(session.id, game.id, command.extRoundId)
+
+        if (isFreeSpin) {
+            // FreeSpin mode: just save to DB, no wallet operations
+            val spin = Spin(
+                id = UUID.randomUUID(),
+                roundId = round.id,
+                type = SpinType.PLACE,
+                amount = command.amount,
+                realAmount = 0,
+                bonusAmount = 0,
+                extId = command.transactionId,
+                freeSpinId = command.freeSpinId
+            )
+
+            spinRepository.save(spin)
+            return Result.success(Unit)
+        }
+
+        // Normal mode: use wallet
         // Fetch balance and bet limit in parallel
         val (balance, betLimit) = coroutineScope {
             val balanceDeferred = async { walletPort.findBalance(session.playerId) }
@@ -97,9 +121,6 @@ class SpinService(
         val betRealAmount = minOf(command.amount, balance.real)
         val betBonusAmount = command.amount - betRealAmount
 
-        // Create or get round
-        val round = roundRepository.findOrCreate(session.id, game.id, command.extRoundId)
-
         // Create spin record
         val spin = Spin(
             id = UUID.randomUUID(),
@@ -129,8 +150,11 @@ class SpinService(
 
     /**
      * Settle a spin (determine win/loss).
+     * If freeSpinId is provided, skip wallet operations (freespin mode).
      */
     suspend fun settle(session: Session, extRoundId: String, command: SpinCommand): Result<Unit> {
+        val isFreeSpin = command.freeSpinId != null
+
         // Find the round
         val round = roundRepository.findByExtId(session.id, extRoundId)
             ?: return Result.failure(RoundNotFoundError(extRoundId))
@@ -139,6 +163,25 @@ class SpinService(
         val placeSpin = spinRepository.findPlaceSpinByRoundId(round.id)
             ?: return Result.failure(RoundFinishedError(extRoundId))
 
+        if (isFreeSpin) {
+            // FreeSpin mode: just save to DB, no wallet operations
+            val settleSpin = Spin(
+                id = UUID.randomUUID(),
+                roundId = round.id,
+                type = SpinType.SETTLE,
+                amount = command.amount,
+                realAmount = 0,
+                bonusAmount = 0,
+                extId = command.transactionId,
+                referenceId = placeSpin.id,
+                freeSpinId = command.freeSpinId
+            )
+
+            spinRepository.save(settleSpin)
+            return Result.success(Unit)
+        }
+
+        // Normal mode: use wallet
         // Determine if bonus was used
         val isBonusUsed = (placeSpin.bonusAmount) > 0
 
@@ -176,8 +219,11 @@ class SpinService(
 
     /**
      * Rollback a spin.
+     * If freeSpinId is provided, skip wallet operations (freespin mode).
      */
     suspend fun rollback(session: Session, command: SpinCommand): Result<Unit> {
+        val isFreeSpin = command.freeSpinId != null
+
         // Find the round
         val round = roundRepository.findByExtId(session.id, command.extRoundId)
             ?: return Result.failure(RoundNotFoundError(command.extRoundId))
@@ -185,9 +231,6 @@ class SpinService(
         // Find the spin to rollback
         val spin = spinRepository.findByRoundId(round.id).firstOrNull()
             ?: return Result.failure(RoundNotFoundError(command.extRoundId))
-
-        // Rollback in wallet
-        walletPort.rollback(session.playerId, spin.id.toString())
 
         // Create rollback spin
         val rollbackSpin = Spin(
@@ -198,10 +241,16 @@ class SpinService(
             realAmount = 0,
             bonusAmount = 0,
             extId = command.transactionId,
-            referenceId = spin.id
+            referenceId = spin.id,
+            freeSpinId = command.freeSpinId
         )
 
         spinRepository.save(rollbackSpin)
+
+        if (!isFreeSpin) {
+            // Normal mode: rollback in wallet
+            walletPort.rollback(session.playerId, spin.id.toString())
+        }
 
         return Result.success(Unit)
     }

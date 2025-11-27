@@ -170,6 +170,7 @@ class ExposedSpinRepository : SpinRepository {
             it[bonusAmount] = spin.bonusAmount
             it[extId] = spin.extId
             it[referenceId] = spin.referenceId
+            it[freeSpinId] = spin.freeSpinId
         }
         spin.copy(id = id.value)
     }
