@@ -125,7 +125,7 @@ fun Application.coreModule() = module {
     factory { AddAggregatorUsecase(get()) }
     factory { ListAggregatorUsecase(get()) }
     factory { ListAllActiveAggregatorUsecase(get()) }
-    factory { ListGameVariantsUsecase(get(), get()) }
+    factory { ListGameVariantsUsecase(get(), get(), get()) }
     factory { SyncGameUsecase(get(), get(), get(), get(), get(), get()) }
 }
 

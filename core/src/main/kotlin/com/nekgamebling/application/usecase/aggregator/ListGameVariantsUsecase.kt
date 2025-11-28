@@ -1,6 +1,8 @@
 package com.nekgamebling.application.usecase.aggregator
 
+import com.nekgamebling.application.port.inbound.GamePort
 import com.nekgamebling.domain.game.model.GameVariant
+import com.nekgamebling.domain.game.model.GameVariantWithDetail
 import com.nekgamebling.domain.game.repository.GameRepository
 import com.nekgamebling.domain.game.repository.GameVariantRepository
 import com.nekgamebling.domain.provider.model.Provider
@@ -8,14 +10,6 @@ import com.nekgamebling.shared.value.Aggregator
 import com.nekgamebling.shared.value.ImageMap
 import com.nekgamebling.shared.value.Page
 import com.nekgamebling.shared.value.Pageable
-
-/**
- * Game variant list item with game info.
- */
-data class GameVariantListItem(
-    val gameVariant: GameVariant,
-    val game: com.nekgamebling.domain.game.repository.GameListItem
-)
 
 /**
  * Filter for game variants.
@@ -43,45 +37,20 @@ data class GameVariantFilter(
  */
 class ListGameVariantsUsecase(
     private val gameVariantRepository: GameVariantRepository,
-    private val gameRepository: GameRepository
+    private val gameRepository: GameRepository,
+    private val gamePort: GamePort
 ) {
     suspend operator fun invoke(
         pageable: Pageable,
         filterBuilder: GameVariantFilter.Builder.() -> Unit = {}
-    ): Page<GameVariantListItem> {
+    ): Page<GameVariantWithDetail> {
         val filter = GameVariantFilter.Builder().apply(filterBuilder).build()
 
-        val page = gameVariantRepository.findAll(pageable)
-
-        // TODO: Implement proper filtering
-        val items = page.items.mapNotNull { variant ->
-            if (filter.aggregator != null && variant.aggregator != filter.aggregator) return@mapNotNull null
-            if (filter.query.isNotBlank() && !variant.name.contains(filter.query, ignoreCase = true)) return@mapNotNull null
-
-            val gameId = variant.gameId ?: return@mapNotNull null
-            val game = gameRepository.findById(gameId) ?: return@mapNotNull null
-
-            // Create a minimal GameListItem - this is a simplification
-            val gameListItem = com.nekgamebling.domain.game.repository.GameListItem(
-                game = game,
-                variant = variant,
-                provider = Provider(
-                    id = game.providerId,
-                    identity = "",
-                    name = variant.providerName,
-                    images = ImageMap.EMPTY
-                ),
-                collections = emptyList()
-            )
-
-            GameVariantListItem(variant, gameListItem)
-        }
-
-        return Page(
-            items = items,
-            totalPages = page.totalPages,
-            totalItems = page.totalItems,
-            currentPage = page.currentPage
+        return gamePort.findVariantsAll(
+            query = filter.query,
+            aggregator = filter.aggregator,
+            gameIdentity = filter.gameIdentity,
+            pageable = pageable
         )
     }
 }

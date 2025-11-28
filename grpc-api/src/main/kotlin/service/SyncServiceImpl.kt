@@ -77,9 +77,9 @@ class SyncServiceImpl(application: Application) : SyncGrpcKt.SyncCoroutineImplBa
         }.let {
             ListVariantResult.newBuilder()
                 .setTotalPage(it.totalPages.toInt())
-                .addAllItems(it.items.map { i -> i.gameVariant }.map { v -> v.toGameVariantProto() })
-                .addAllGames(it.items.map { i -> i.game.game }.toSet().map { g -> g.toGameProto() })
-                .addAllProviders(it.items.map { i -> i.game.provider }.toSet().map { p -> p.toProviderProto() })
+                .addAllItems(it.items.map { i -> i.variant }.map { v -> v.toGameVariantProto() })
+                .addAllGames(it.items.map { i -> i.game }.toSet().mapNotNull { g -> g?.toGameProto() })
+                .addAllProviders(it.items.map { i -> i.provider }.toSet().mapNotNull { p -> p?.toProviderProto() })
                 .build()
         }
     }
