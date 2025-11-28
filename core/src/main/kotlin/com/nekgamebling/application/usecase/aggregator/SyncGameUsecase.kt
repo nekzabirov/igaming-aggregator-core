@@ -1,6 +1,6 @@
 package com.nekgamebling.application.usecase.aggregator
 
-import com.nekgamebling.application.port.inbound.GamePort
+import com.nekgamebling.application.port.outbound.GameSyncPort
 import com.nekgamebling.application.port.outbound.AggregatorAdapterRegistry
 import com.nekgamebling.domain.aggregator.repository.AggregatorRepository
 import com.nekgamebling.domain.common.error.AggregatorNotSupportedError
@@ -33,7 +33,7 @@ class SyncGameUsecase(
     private val gameRepository: GameRepository,
     private val gameVariantRepository: GameVariantRepository,
     private val aggregatorRegistry: AggregatorAdapterRegistry,
-    private val gamePort: GamePort
+    private val gameSyncPort: GameSyncPort
 ) {
     suspend operator fun invoke(aggregatorIdentity: String): Result<SyncGameResult> {
         val aggregatorInfo = aggregatorRepository.findByIdentity(aggregatorIdentity)
@@ -68,7 +68,7 @@ class SyncGameUsecase(
             }
             .let { gameVariantRepository.saveAll(it) }
 
-        gamePort.syncGame(variants, aggregatorInfo)
+        gameSyncPort.syncGame(variants, aggregatorInfo)
 
         val gameCount = variants.size
         val providerNames = variants.map { it.providerName }.distinct()

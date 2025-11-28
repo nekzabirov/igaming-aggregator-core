@@ -1,15 +1,24 @@
 package com.nekgamebling.infrastructure.persistence.exposed.repository
 
 import com.nekgamebling.domain.game.model.GameVariant
+import com.nekgamebling.domain.game.model.GameVariantWithDetail
+import com.nekgamebling.domain.game.repository.GameVariantFilter
 import com.nekgamebling.domain.game.repository.GameVariantRepository
+import com.nekgamebling.infrastructure.persistence.exposed.mapper.toGame
 import com.nekgamebling.infrastructure.persistence.exposed.mapper.toGameVariant
+import com.nekgamebling.infrastructure.persistence.exposed.mapper.toProvider
+import com.nekgamebling.infrastructure.persistence.exposed.table.GameTable
 import com.nekgamebling.infrastructure.persistence.exposed.table.GameVariantTable
+import com.nekgamebling.infrastructure.persistence.exposed.table.ProviderTable
 import com.nekgamebling.shared.value.Aggregator
 import com.nekgamebling.shared.value.Page
 import com.nekgamebling.shared.value.Pageable
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.leftJoin
+import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.update
@@ -110,6 +119,54 @@ class ExposedGameVariantRepository : GameVariantRepository {
             .limit(pageable.sizeReal)
             .offset(pageable.offset)
             .map { it.toGameVariant() }
+
+        Page(
+            items = items,
+            totalPages = pageable.getTotalPages(totalCount),
+            totalItems = totalCount,
+            currentPage = pageable.pageReal
+        )
+    }
+
+    override suspend fun findAllWithDetails(
+        filter: GameVariantFilter,
+        pageable: Pageable
+    ): Page<GameVariantWithDetail> = newSuspendedTransaction {
+        val query = GameVariantTable
+            .leftJoin(GameTable, onColumn = { GameVariantTable.gameId }, otherColumn = { GameTable.id })
+            .leftJoin(ProviderTable, onColumn = { ProviderTable.id }, otherColumn = { GameTable.providerId })
+            .selectAll()
+            .apply {
+                if (filter.query.isNotBlank()) {
+                    andWhere {
+                        val queryS = "%${filter.query}%"
+                        (GameVariantTable.name like queryS) or
+                                (GameVariantTable.providerName like queryS) or
+                                (GameVariantTable.symbol like queryS)
+                    }
+                }
+
+                filter.aggregator?.also { aggregator ->
+                    andWhere { GameVariantTable.aggregator eq aggregator }
+                }
+
+                filter.gameIdentity?.also { gameIdentity ->
+                    andWhere { GameTable.identity eq gameIdentity }
+                }
+            }
+
+        val totalCount = query.count()
+
+        val items = query
+            .limit(pageable.sizeReal)
+            .offset(pageable.offset)
+            .map {
+                GameVariantWithDetail(
+                    variant = it.toGameVariant(),
+                    game = if (it.getOrNull(GameTable.id) != null) it.toGame() else null,
+                    provider = if (it.getOrNull(ProviderTable.id) != null) it.toProvider() else null
+                )
+            }
 
         Page(
             items = items,

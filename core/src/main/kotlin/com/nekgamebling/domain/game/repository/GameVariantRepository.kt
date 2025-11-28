@@ -1,6 +1,7 @@
 package com.nekgamebling.domain.game.repository
 
 import com.nekgamebling.domain.game.model.GameVariant
+import com.nekgamebling.domain.game.model.GameVariantWithDetail
 import com.nekgamebling.shared.value.Aggregator
 import com.nekgamebling.shared.value.Page
 import com.nekgamebling.shared.value.Pageable
@@ -29,4 +30,6 @@ interface GameVariantRepository {
     suspend fun linkToGame(variantId: UUID, gameId: UUID): Boolean
 
     suspend fun findAll(pageable: Pageable): Page<GameVariant>
+
+    suspend fun findAllWithDetails(filter: GameVariantFilter, pageable: Pageable): Page<GameVariantWithDetail>
 }

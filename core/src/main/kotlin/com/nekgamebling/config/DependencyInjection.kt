@@ -1,6 +1,5 @@
 package com.nekgamebling.config
 
-import com.nekgamebling.application.port.inbound.GamePort
 import com.nekgamebling.application.port.outbound.*
 import com.nekgamebling.application.service.GameService
 import com.nekgamebling.application.service.SessionService
@@ -25,7 +24,7 @@ import com.nekgamebling.infrastructure.aggregator.AggregatorAdapterRegistryImpl
 import com.nekgamebling.infrastructure.aggregator.onegamehub.OneGameHubAdapterFactory
 import com.nekgamebling.infrastructure.persistence.cache.InMemoryCacheAdapter
 import com.nekgamebling.infrastructure.messaging.RabbitMqEventPublisher
-import com.nekgamebling.infrastructure.persistence.exposed.adapter.ExposedGamePort
+import com.nekgamebling.infrastructure.persistence.exposed.adapter.ExposedGameSyncPort
 import com.nekgamebling.infrastructure.persistence.exposed.repository.*
 import io.ktor.server.application.*
 import org.koin.dsl.module
@@ -57,7 +56,7 @@ fun Application.coreModule() = module {
     single<PlayerPort> { FakePlayerAdapter() }
     single<CurrencyPort> { BaseCurrencyAdapter() }
     single<EventPublisherPort> { RabbitMqEventPublisher(this@coreModule) }
-    single<GamePort> { ExposedGamePort() }
+    single<GameSyncPort> { ExposedGameSyncPort() }
 
     // Aggregator Infrastructure - Registry Pattern
     single<AggregatorAdapterRegistry> {
@@ -125,7 +124,7 @@ fun Application.coreModule() = module {
     factory { AddAggregatorUsecase(get()) }
     factory { ListAggregatorUsecase(get()) }
     factory { ListAllActiveAggregatorUsecase(get()) }
-    factory { ListGameVariantsUsecase(get(), get(), get()) }
+    factory { ListGameVariantsUsecase(get()) }
     factory { SyncGameUsecase(get(), get(), get(), get(), get(), get()) }
 }
 
