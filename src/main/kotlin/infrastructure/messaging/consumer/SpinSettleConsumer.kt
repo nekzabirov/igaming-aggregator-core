@@ -4,10 +4,13 @@ import application.event.SpinSettledEvent
 import application.port.inbound.SpinSettleEventHandler
 import io.github.damir.denis.tudor.ktor.server.rabbitmq.dsl.*
 import io.ktor.server.application.*
+import kotlinx.serialization.json.Json
 import org.koin.ktor.ext.getKoin
 
 private const val QUEUE_NAME = "spin.events"
 private const val ROUTING_KEY = "spin.settled"
+
+private val json = Json { ignoreUnknownKeys = true }
 
 fun Application.consumeSpinSettle(exchange: String) = rabbitmq {
     val handlers = getKoin().get<List<SpinSettleEventHandler>>()
@@ -33,8 +36,8 @@ fun Application.consumeSpinSettle(exchange: String) = rabbitmq {
         queue = QUEUE_NAME
         autoAck = true
 
-        deliverCallback<SpinSettledEvent> { msg ->
-            val body = msg.body
+        deliverCallback<String> { msg ->
+            val body = json.decodeFromString<SpinSettledEvent>(msg.body)
             log.info("Spin event received: $body")
 
             handlers.forEach { it.handle(body) }

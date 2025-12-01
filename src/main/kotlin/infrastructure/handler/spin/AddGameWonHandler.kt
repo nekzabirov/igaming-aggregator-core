@@ -7,7 +7,7 @@ import com.nekgamebling.shared.Logger
 
 class AddGameWonHandler(private val gameWonUsecase: AddGameWonUsecase) : SpinSettleEventHandler {
     override suspend fun handle(event: SpinSettledEvent) {
-        Logger.info("Handling SpinSettledEvent: $event")
+        Logger.info("Handling AddGameWonHandler: $event")
 
         if (event.freeSpinId != null) return
 
