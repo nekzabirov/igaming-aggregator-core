@@ -9,8 +9,9 @@ import shared.value.Currency
 
 /**
  * Use case for recording a game win.
+ * Persists the win record and publishes a GameWonEvent.
  */
-class AddGameWonUsecase(
+class RecordGameWinUsecase(
     private val gameRepository: GameRepository,
     private val gameWonRepository: GameWonRepository,
     private val eventPublisher: EventPublisherAdapter

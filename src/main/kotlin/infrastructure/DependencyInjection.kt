@@ -77,7 +77,7 @@ private val useCaseModule = module {
     factory { AddGameFavouriteUsecase(get(), get(), get()) }
     factory { RemoveGameFavouriteUsecase(get(), get(), get()) }
     factory { DemoGameUsecase(get(), get()) }
-    factory { AddGameWonUsecase(get(), get(), get()) }
+    factory { RecordGameWinUsecase(get(), get(), get()) }
 
     // ==========================================
     // Application Use Cases - Session
