@@ -54,7 +54,6 @@ class SettleSpinUsecase(
                 currency = session.currency,
                 playerId = session.playerId,
                 freeSpinId = freeSpinId,
-                winAmount = winAmount
             )
         )
 

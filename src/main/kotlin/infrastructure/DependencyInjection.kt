@@ -12,13 +12,14 @@ import application.usecase.provider.*
 import application.usecase.session.OpenSessionUsecase
 import application.usecase.spin.*
 import com.nekgamebling.application.service.AggregatorService
+import com.nekgamebling.infrastructure.handler.HandlerModule
+import com.nekgamebling.infrastructure.messaging.messagingModule
 import infrastructure.adapter.BaseCurrencyAdapter
 import infrastructure.adapter.FakePlayerAdapter
 import infrastructure.adapter.FakeWalletAdapter
 import infrastructure.aggregator.AggregatorAdapterRegistryImpl
 import infrastructure.aggregator.AggregatorModule
 import infrastructure.aggregator.onegamehub.OneGameHubAdapterFactory
-import infrastructure.messaging.RabbitMqEventPublisher
 import infrastructure.persistence.DBModule
 import io.ktor.server.application.*
 import org.koin.dsl.module
@@ -30,21 +31,22 @@ import org.koin.dsl.module
 fun Application.coreModule() = module {
     includes(
         DBModule,
-        adapterModule(),
+        adapterModule,
         serviceModule,
         useCaseModule,
-        AggregatorModule
+        AggregatorModule,
+        HandlerModule,
+        messagingModule(this@coreModule)
     )
 }
 
-private fun Application.adapterModule() = module {
+private val adapterModule = module {
     // ==========================================
     // Infrastructure - Ports/Adapters
     // ==========================================
     single<WalletAdapter> { FakeWalletAdapter() }
     single<PlayerAdapter> { FakePlayerAdapter() }
     single<CurrencyAdapter> { BaseCurrencyAdapter() }
-    single<EventPublisherAdapter> { RabbitMqEventPublisher(this@adapterModule) }
     // Aggregator Infrastructure - Registry Pattern
     single<AggregatorAdapterRegistry> {
         AggregatorAdapterRegistryImpl().apply {

@@ -13,7 +13,6 @@ data class SpinSettledEvent(
     override val currency: Currency,
     override val playerId: String,
     override val freeSpinId: String? = null,
-    val winAmount: Int = 0
 ) : SpinEvent {
     override val routingKey: String = "spin.settled"
 }
