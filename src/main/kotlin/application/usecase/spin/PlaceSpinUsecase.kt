@@ -6,6 +6,7 @@ import application.service.GameService
 import application.service.SessionService
 import application.service.SpinCommand
 import application.service.SpinService
+import com.nekgamebling.application.service.AggregatorService
 import domain.common.error.GameUnavailableError
 import shared.value.SessionToken
 
@@ -16,6 +17,7 @@ class PlaceSpinUsecase(
     private val sessionService: SessionService,
     private val gameService: GameService,
     private val spinService: SpinService,
+    private val aggregatorService: AggregatorService,
     private val eventPublisher: EventPublisherPort
 ) {
     suspend operator fun invoke(
@@ -31,8 +33,13 @@ class PlaceSpinUsecase(
             return Result.failure(it)
         }
 
+        //Find aggregator
+        val aggregator = aggregatorService.findById(session.aggregatorId).getOrElse {
+            return Result.failure(it)
+        }
+
         // Find game
-        val game = gameService.findBySymbol(gameSymbol).getOrElse {
+        val game = gameService.findBySymbol(symbol = gameSymbol, aggregator = aggregator.aggregator).getOrElse {
             return Result.failure(it)
         }
 

@@ -1,5 +1,6 @@
 package infrastructure.aggregator.onegamehub.handler
 
+import com.nekgamebling.infrastructure.aggregator.onegamehub.handler.dto.OneGameHubBetDto
 import infrastructure.aggregator.onegamehub.handler.dto.OneGameHubResponse
 import io.ktor.http.*
 import io.ktor.server.response.*
@@ -31,6 +32,26 @@ internal fun Route.oneGameHubWebhookRoute() {
 
         val response = when (action) {
             "balance" -> handler.balance(mainToken)
+
+            "bet" -> handler.bet(
+                mainToken,
+                payload = OneGameHubBetDto(
+                    gameSymbol = call.parameters.gameSymbol,
+                    roundId = call.parameters.roundId,
+                    transactionId = call.parameters.transactionId,
+                    freeSpinId = call.parameters.freespinId,
+                    amount = call.parameters.amount
+                )
+            )
+
+            "win" -> handler.win(mainToken, payload = OneGameHubBetDto(
+                gameSymbol = call.parameters.gameSymbol,
+                roundId = call.parameters.roundId,
+                transactionId = call.parameters.transactionId,
+                freeSpinId = call.parameters.freespinId,
+                amount = call.parameters.amount
+            ))
+
             else -> OneGameHubResponse.Error.OneGameHubInvalidateRequest
         }
 

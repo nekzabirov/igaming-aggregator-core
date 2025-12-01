@@ -6,6 +6,7 @@ import domain.common.error.NotFoundError
 import domain.game.model.Game
 import domain.game.model.GameWithDetails
 import domain.game.repository.GameRepository
+import shared.value.Aggregator
 import java.util.UUID
 import kotlin.time.Duration.Companion.minutes
 
@@ -61,14 +62,14 @@ class GameService(
     /**
      * Find game by symbol with caching.
      */
-    suspend fun findBySymbol(symbol: String): Result<Game> {
-        val cacheKey = "${CACHE_PREFIX}symbol:$symbol"
+    suspend fun findBySymbol(symbol: String, aggregator: Aggregator): Result<Game> {
+        val cacheKey = "${CACHE_PREFIX}symbol:$symbol:aggregator:$aggregator"
 
         cachePort.get<Game>(cacheKey)?.let {
             return Result.success(it)
         }
 
-        val game = gameRepository.findBySymbol(symbol)
+        val game = gameRepository.findBySymbol(symbol, aggregator)
             ?: return Result.failure(GameUnavailableError(symbol))
 
         cachePort.save(cacheKey, game, CACHE_TTL)

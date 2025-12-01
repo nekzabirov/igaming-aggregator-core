@@ -2,6 +2,7 @@ package domain.game.repository
 
 import domain.game.model.Game
 import domain.game.model.GameWithDetails
+import shared.value.Aggregator
 import shared.value.Page
 import shared.value.Pageable
 import java.util.UUID
@@ -14,7 +15,7 @@ interface GameRepository {
 
     suspend fun findByIdentity(identity: String): Game?
 
-    suspend fun findBySymbol(symbol: String): Game?
+    suspend fun findBySymbol(symbol: String, aggregator: Aggregator): Game?
 
     suspend fun findByNameAndProviderId(name: String, providerId: UUID): Game?
 

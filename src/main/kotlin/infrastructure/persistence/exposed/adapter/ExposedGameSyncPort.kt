@@ -2,6 +2,7 @@ package infrastructure.persistence.exposed.adapter
 
 import application.port.outbound.GameSyncPort
 import domain.aggregator.model.AggregatorInfo
+import domain.game.model.Game
 import domain.game.model.GameVariant
 import infrastructure.persistence.exposed.mapper.toProvider
 import infrastructure.persistence.exposed.table.GameTable
@@ -14,6 +15,7 @@ import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.upsertReturning
+import shared.value.Aggregator
 
 /**
  * Exposed implementation of GameSyncPort.

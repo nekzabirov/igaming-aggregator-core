@@ -1,6 +1,7 @@
 package infrastructure.persistence
 
 import application.port.outbound.CachePort
+import application.port.outbound.GameSyncPort
 import domain.aggregator.repository.AggregatorRepository
 import domain.collection.repository.CollectionRepository
 import domain.game.repository.GameFavouriteRepository
@@ -12,6 +13,7 @@ import domain.session.repository.RoundRepository
 import domain.session.repository.SessionRepository
 import domain.session.repository.SpinRepository
 import infrastructure.persistence.cache.InMemoryCacheAdapter
+import infrastructure.persistence.exposed.adapter.ExposedGameSyncPort
 import infrastructure.persistence.exposed.repository.ExposedAggregatorRepository
 import infrastructure.persistence.exposed.repository.ExposedCollectionRepository
 import infrastructure.persistence.exposed.repository.ExposedGameFavouriteRepository
@@ -44,6 +46,8 @@ private fun Module.repositoryModule() {
     single<ProviderRepository> { ExposedProviderRepository() }
     single<CollectionRepository> { ExposedCollectionRepository() }
     single<AggregatorRepository> { ExposedAggregatorRepository() }
+
+    single<GameSyncPort> { ExposedGameSyncPort() }
 }
 
 private fun Module.cacheModule() {

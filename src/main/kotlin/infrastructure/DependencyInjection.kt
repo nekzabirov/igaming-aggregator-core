@@ -11,6 +11,7 @@ import application.usecase.game.*
 import application.usecase.provider.*
 import application.usecase.session.OpenSessionUsecase
 import application.usecase.spin.*
+import com.nekgamebling.application.service.AggregatorService
 import domain.aggregator.repository.AggregatorRepository
 import domain.collection.repository.CollectionRepository
 import domain.game.repository.*
@@ -54,7 +55,6 @@ private fun Application.adapterModule() = module {
     single<PlayerPort> { FakePlayerAdapter() }
     single<CurrencyPort> { BaseCurrencyAdapter() }
     single<EventPublisherPort> { RabbitMqEventPublisher(this@adapterModule) }
-    single<GameSyncPort> { ExposedGameSyncPort() }
     // Aggregator Infrastructure - Registry Pattern
     single<AggregatorAdapterRegistry> {
         AggregatorAdapterRegistryImpl().apply {
@@ -71,6 +71,7 @@ private val serviceModule = module {
     single { GameService(get(), get()) }
     single { SessionService(get(), get()) }
     single { SpinService(get(), get(), get(), get()) }
+    single { AggregatorService(get(), get()) }
 }
 
 private val useCaseModule = module {
@@ -94,7 +95,7 @@ private val useCaseModule = module {
     // ==========================================
     // Application Use Cases - Spin
     // ==========================================
-    factory { PlaceSpinUsecase(get(), get(), get(), get()) }
+    factory { PlaceSpinUsecase(get(), get(), get(), get(), get()) }
     factory { SettleSpinUsecase(get(), get(), get()) }
     factory { GetPresetUsecase(get(), get()) }
     factory { CreateFreespinUsecase(get(), get()) }

@@ -12,6 +12,7 @@ import shared.value.Pageable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.json.contains
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import shared.value.Aggregator
 import java.util.UUID
 
 /**
@@ -21,9 +22,13 @@ class ExposedGameRepository : BaseExposedRepositoryWithIdentity<Game, GameTable>
 
     override fun ResultRow.toEntity(): Game = toGame()
 
-    override suspend fun findBySymbol(symbol: String): Game? = newSuspendedTransaction {
+    override suspend fun findBySymbol(symbol: String, aggregator: Aggregator): Game? = newSuspendedTransaction {
         GameTable
-            .innerJoin(GameVariantTable, { GameTable.id }, { GameVariantTable.gameId })
+            .innerJoin(
+                GameVariantTable,
+                { GameTable.id },
+                { GameVariantTable.gameId },
+                { GameVariantTable.aggregator eq aggregator })
             .selectAll()
             .where { GameVariantTable.symbol eq symbol }
             .singleOrNull()
