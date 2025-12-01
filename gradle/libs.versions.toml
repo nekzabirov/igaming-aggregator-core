@@ -1,8 +1,8 @@
 [versions]
-kotlin = "2.1.0"
+kotlin = "2.0.21"
 ktor = "3.0.3"
 exposed = "0.57.0"
-koin = "4.0.0"
+koin = "4.0.3"
 grpc = "1.68.2"
 grpc-kotlin = "1.4.1"
 protobuf = "4.29.2"
