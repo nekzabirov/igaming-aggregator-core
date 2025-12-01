@@ -2,7 +2,7 @@ package com.nekgamebling.infrastructure.handler.spin
 
 import application.event.SpinSettledEvent
 import application.port.inbound.SpinSettledEventHandler
-import application.usecase.game.RecordGameWinUsecase
+import application.usecase.game.AddGameWinUsecase
 import com.nekgamebling.shared.Logger
 
 /**
@@ -10,7 +10,7 @@ import com.nekgamebling.shared.Logger
  * Only processes regular spins (not free spins).
  */
 class RecordGameWinHandler(
-    private val recordGameWinUsecase: RecordGameWinUsecase
+    private val addGameWinUsecase: AddGameWinUsecase
 ) : SpinSettledEventHandler {
 
     override suspend fun handle(event: SpinSettledEvent) {
@@ -20,7 +20,7 @@ class RecordGameWinHandler(
 
         Logger.info("Recording game win for player ${event.playerId} on ${event.gameIdentity}")
 
-        recordGameWinUsecase(
+        addGameWinUsecase(
             gameIdentity = event.gameIdentity,
             playerId = event.playerId,
             amount = event.amount,
