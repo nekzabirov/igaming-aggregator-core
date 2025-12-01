@@ -1,11 +1,11 @@
-package com.nekgamebling.application.usecase.spin
+package application.usecase.spin
 
-import com.nekgamebling.application.event.SpinSettledEvent
-import com.nekgamebling.application.port.outbound.EventPublisherPort
-import com.nekgamebling.application.service.SessionService
-import com.nekgamebling.application.service.SpinCommand
-import com.nekgamebling.application.service.SpinService
-import com.nekgamebling.shared.value.SessionToken
+import application.event.SpinSettledEvent
+import application.port.outbound.EventPublisherPort
+import application.service.SessionService
+import application.service.SpinCommand
+import application.service.SpinService
+import shared.value.SessionToken
 
 /**
  * Use case for settling a spin (recording win/loss).
@@ -23,7 +23,7 @@ class SettleSpinUsecase(
         winAmount: Int
     ): Result<Unit> {
         // Find session
-        val session = sessionService.findByToken(token.value).getOrElse {
+        val session = sessionService.findByToken(token).getOrElse {
             return Result.failure(it)
         }
 

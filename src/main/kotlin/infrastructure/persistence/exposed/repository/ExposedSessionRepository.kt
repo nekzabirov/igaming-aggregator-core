@@ -1,9 +1,9 @@
-package com.nekgamebling.infrastructure.persistence.exposed.repository
+package infrastructure.persistence.exposed.repository
 
-import com.nekgamebling.domain.session.model.Session
-import com.nekgamebling.domain.session.repository.SessionRepository
-import com.nekgamebling.infrastructure.persistence.exposed.mapper.toSession
-import com.nekgamebling.infrastructure.persistence.exposed.table.SessionTable
+import domain.session.model.Session
+import domain.session.repository.SessionRepository
+import infrastructure.persistence.exposed.mapper.toSession
+import infrastructure.persistence.exposed.table.SessionTable
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction

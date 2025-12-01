@@ -1,6 +1,6 @@
-package com.nekgamebling.infrastructure.api.grpc.mapper
+package infrastructure.api.grpc.mapper
 
-import com.nekgamebling.domain.game.model.Game
+import domain.game.model.Game
 import com.nekzabirov.igambling.proto.dto.GameDto
 
 fun Game.toGameProto() = GameDto.newBuilder()

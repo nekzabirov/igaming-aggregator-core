@@ -1,6 +1,6 @@
-package com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto
+package infrastructure.aggregator.onegamehub.client.dto
 
-import com.nekgamebling.infrastructure.aggregator.onegamehub.tool.LocalDateTimeAsStringSerializer
+import infrastructure.aggregator.onegamehub.tool.LocalDateTimeAsStringSerializer
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,8 +1,8 @@
-package com.nekgamebling.application.usecase.collection
+package application.usecase.collection
 
-import com.nekgamebling.domain.collection.repository.CollectionRepository
-import com.nekgamebling.domain.common.error.NotFoundError
-import com.nekgamebling.domain.game.repository.GameRepository
+import domain.collection.repository.CollectionRepository
+import domain.common.error.NotFoundError
+import domain.game.repository.GameRepository
 
 /**
  * Use case for adding a game to a collection.

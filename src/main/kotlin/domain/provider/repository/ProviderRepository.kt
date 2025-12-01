@@ -1,8 +1,8 @@
-package com.nekgamebling.domain.provider.repository
+package domain.provider.repository
 
-import com.nekgamebling.domain.provider.model.Provider
-import com.nekgamebling.shared.value.Page
-import com.nekgamebling.shared.value.Pageable
+import domain.provider.model.Provider
+import shared.value.Page
+import shared.value.Pageable
 import java.util.UUID
 
 /**

@@ -1,9 +1,9 @@
-package com.nekgamebling.domain.aggregator.model
+package domain.aggregator.model
 
-import com.nekgamebling.shared.serializer.UUIDSerializer
-import com.nekgamebling.shared.value.Aggregator
-import com.nekgamebling.shared.value.Locale
-import com.nekgamebling.shared.value.Platform
+import shared.serializer.UUIDSerializer
+import shared.value.Aggregator
+import shared.value.Locale
+import shared.value.Platform
 import kotlinx.serialization.Serializable
 import java.util.UUID
 

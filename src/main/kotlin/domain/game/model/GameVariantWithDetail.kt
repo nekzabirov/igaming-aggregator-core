@@ -1,6 +1,6 @@
-package com.nekgamebling.domain.game.model
+package domain.game.model
 
-import com.nekgamebling.domain.provider.model.Provider
+import domain.provider.model.Provider
 
 data class GameVariantWithDetail(
     val variant: GameVariant,

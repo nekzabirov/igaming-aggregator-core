@@ -1,6 +1,16 @@
-package com.nekgamebling.config
+package infrastructure.persistence.exposed
 
-import com.nekgamebling.infrastructure.persistence.exposed.table.*
+import infrastructure.persistence.exposed.table.AggregatorInfoTable
+import infrastructure.persistence.exposed.table.CollectionGameTable
+import infrastructure.persistence.exposed.table.CollectionTable
+import infrastructure.persistence.exposed.table.GameFavouriteTable
+import infrastructure.persistence.exposed.table.GameTable
+import infrastructure.persistence.exposed.table.GameVariantTable
+import infrastructure.persistence.exposed.table.GameWonTable
+import infrastructure.persistence.exposed.table.ProviderTable
+import infrastructure.persistence.exposed.table.RoundTable
+import infrastructure.persistence.exposed.table.SessionTable
+import infrastructure.persistence.exposed.table.SpinTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -8,7 +18,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 /**
  * Database configuration.
  */
-object DatabaseConfig {
+object ExposedConfig {
     private val defaultUrl = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
     private val defaultDriver = "org.h2.Driver"
 
@@ -21,7 +31,7 @@ object DatabaseConfig {
         user: String = System.getenv("DATABASE_USER") ?: "",
         password: String = System.getenv("DATABASE_PASSWORD") ?: ""
     ) {
-        Database.connect(
+        Database.Companion.connect(
             url = url,
             driver = driver,
             user = user,

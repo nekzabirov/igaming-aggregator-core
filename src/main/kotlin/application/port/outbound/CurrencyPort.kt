@@ -1,6 +1,6 @@
-package com.nekgamebling.application.port.outbound
+package application.port.outbound
 
-import com.nekgamebling.shared.value.Currency
+import shared.value.Currency
 
 /**
  * Port interface for currency operations.

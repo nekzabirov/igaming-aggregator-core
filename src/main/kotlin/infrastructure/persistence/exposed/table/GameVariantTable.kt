@@ -1,6 +1,6 @@
-package com.nekgamebling.infrastructure.persistence.exposed.table
+package infrastructure.persistence.exposed.table
 
-import com.nekgamebling.shared.value.Aggregator
+import shared.value.Aggregator
 
 object GameVariantTable : BaseTable("game_variants") {
     val gameId = reference("game_id", GameTable.id).nullable()

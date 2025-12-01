@@ -1,7 +1,7 @@
-package com.nekgamebling.infrastructure.adapter
+package infrastructure.adapter
 
-import com.nekgamebling.application.port.outbound.CurrencyPort
-import com.nekgamebling.shared.value.Currency
+import application.port.outbound.CurrencyPort
+import shared.value.Currency
 
 /**
  * Base currency adapter with common currency configurations.

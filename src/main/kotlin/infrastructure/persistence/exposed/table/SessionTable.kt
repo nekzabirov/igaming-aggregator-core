@@ -1,6 +1,6 @@
-package com.nekgamebling.infrastructure.persistence.exposed.table
+package infrastructure.persistence.exposed.table
 
-import com.nekgamebling.shared.value.Platform
+import shared.value.Platform
 
 object SessionTable : BaseTable("sessions") {
     val gameId = reference("game_id", GameTable.id)

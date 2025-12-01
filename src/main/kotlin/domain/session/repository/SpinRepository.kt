@@ -1,7 +1,7 @@
-package com.nekgamebling.domain.session.repository
+package domain.session.repository
 
-import com.nekgamebling.domain.session.model.Spin
-import com.nekgamebling.shared.value.SpinType
+import domain.session.model.Spin
+import shared.value.SpinType
 import java.util.UUID
 
 /**

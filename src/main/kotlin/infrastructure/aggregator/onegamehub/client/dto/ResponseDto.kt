@@ -1,4 +1,4 @@
-package com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto
+package infrastructure.aggregator.onegamehub.client.dto
 
 import kotlinx.serialization.Serializable
 

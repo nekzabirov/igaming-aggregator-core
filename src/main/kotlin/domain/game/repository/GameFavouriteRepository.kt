@@ -1,4 +1,4 @@
-package com.nekgamebling.domain.game.repository
+package domain.game.repository
 
 import java.util.UUID
 

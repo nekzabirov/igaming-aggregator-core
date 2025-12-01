@@ -1,4 +1,4 @@
-package com.nekgamebling.application.port.outbound
+package application.port.outbound
 
 import kotlin.time.Duration
 

@@ -1,4 +1,4 @@
-package com.nekgamebling.application.event
+package application.event
 
 import kotlinx.serialization.Serializable
 

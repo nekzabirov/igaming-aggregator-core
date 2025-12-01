@@ -1,16 +1,16 @@
-package com.nekgamebling.infrastructure.api.grpc.service
+package infrastructure.api.grpc.service
 
-import com.nekgamebling.application.usecase.session.OpenSessionCommand
-import com.nekgamebling.application.usecase.session.OpenSessionUsecase
-import com.nekgamebling.shared.value.Currency
-import com.nekgamebling.shared.value.Locale
+import application.usecase.session.OpenSessionCommand
+import application.usecase.session.OpenSessionUsecase
+import shared.value.Currency
+import shared.value.Locale
 import com.nekzabirov.igambling.proto.service.OpenSessionCommand as ProtoOpenSessionCommand
 import com.nekzabirov.igambling.proto.service.OpenSessionResult
 import com.nekzabirov.igambling.proto.service.SessionGrpcKt
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*
-import com.nekgamebling.infrastructure.api.grpc.mapper.toPlatform
+import infrastructure.api.grpc.mapper.toPlatform
 import org.koin.ktor.ext.get
 
 class SessionServiceImpl(application: Application) : SessionGrpcKt.SessionCoroutineImplBase() {

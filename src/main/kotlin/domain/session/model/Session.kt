@@ -1,8 +1,8 @@
-package com.nekgamebling.domain.session.model
+package domain.session.model
 
-import com.nekgamebling.shared.value.Currency
-import com.nekgamebling.shared.value.Locale
-import com.nekgamebling.shared.value.Platform
+import shared.value.Currency
+import shared.value.Locale
+import shared.value.Platform
 import java.util.UUID
 
 /**
@@ -44,7 +44,7 @@ data class Round(
 data class Spin(
     val id: UUID = UUID.randomUUID(),
     val roundId: UUID,
-    val type: com.nekgamebling.shared.value.SpinType,
+    val type: shared.value.SpinType,
     val amount: Int,
     val realAmount: Int,
     val bonusAmount: Int,

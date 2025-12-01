@@ -1,7 +1,7 @@
-package com.nekgamebling.domain.collection.model
+package domain.collection.model
 
-import com.nekgamebling.shared.value.ImageMap
-import com.nekgamebling.shared.value.LocaleName
+import shared.value.ImageMap
+import shared.value.LocaleName
 import java.util.UUID
 
 /**

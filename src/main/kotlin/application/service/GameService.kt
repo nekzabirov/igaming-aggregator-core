@@ -1,11 +1,11 @@
-package com.nekgamebling.application.service
+package application.service
 
-import com.nekgamebling.application.port.outbound.CachePort
-import com.nekgamebling.domain.common.error.GameUnavailableError
-import com.nekgamebling.domain.common.error.NotFoundError
-import com.nekgamebling.domain.game.model.Game
-import com.nekgamebling.domain.game.model.GameWithDetails
-import com.nekgamebling.domain.game.repository.GameRepository
+import application.port.outbound.CachePort
+import domain.common.error.GameUnavailableError
+import domain.common.error.NotFoundError
+import domain.game.model.Game
+import domain.game.model.GameWithDetails
+import domain.game.repository.GameRepository
 import java.util.UUID
 import kotlin.time.Duration.Companion.minutes
 

@@ -1,10 +1,10 @@
-package com.nekgamebling.application.usecase.game
+package application.usecase.game
 
-import com.nekgamebling.application.event.GameFavouriteAddedEvent
-import com.nekgamebling.application.port.outbound.EventPublisherPort
-import com.nekgamebling.domain.common.error.NotFoundError
-import com.nekgamebling.domain.game.repository.GameFavouriteRepository
-import com.nekgamebling.domain.game.repository.GameRepository
+import application.event.GameFavouriteAddedEvent
+import application.port.outbound.EventPublisherPort
+import domain.common.error.NotFoundError
+import domain.game.repository.GameFavouriteRepository
+import domain.game.repository.GameRepository
 
 /**
  * Use case for adding a game to player's favorites.

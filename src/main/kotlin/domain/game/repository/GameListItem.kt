@@ -1,9 +1,9 @@
-package com.nekgamebling.domain.game.repository
+package domain.game.repository
 
-import com.nekgamebling.domain.collection.model.Collection
-import com.nekgamebling.domain.game.model.Game
-import com.nekgamebling.domain.game.model.GameVariant
-import com.nekgamebling.domain.provider.model.Provider
+import domain.collection.model.Collection
+import domain.game.model.Game
+import domain.game.model.GameVariant
+import domain.provider.model.Provider
 
 /**
  * Game list item containing game with variant, provider and collections.

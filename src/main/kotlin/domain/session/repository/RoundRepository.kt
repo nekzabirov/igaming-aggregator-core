@@ -1,6 +1,6 @@
-package com.nekgamebling.domain.session.repository
+package domain.session.repository
 
-import com.nekgamebling.domain.session.model.Round
+import domain.session.model.Round
 import java.util.UUID
 
 /**

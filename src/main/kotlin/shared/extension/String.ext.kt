@@ -1,4 +1,4 @@
-package com.nekgamebling.shared.extension
+package shared.extension
 
 fun String.toUrlSlug(): String {
     return this

@@ -1,9 +1,9 @@
-package com.nekgamebling.infrastructure.persistence.exposed.repository
+package infrastructure.persistence.exposed.repository
 
-import com.nekgamebling.domain.session.model.Round
-import com.nekgamebling.domain.session.repository.RoundRepository
-import com.nekgamebling.infrastructure.persistence.exposed.mapper.toRound
-import com.nekgamebling.infrastructure.persistence.exposed.table.RoundTable
+import domain.session.model.Round
+import domain.session.repository.RoundRepository
+import infrastructure.persistence.exposed.mapper.toRound
+import infrastructure.persistence.exposed.table.RoundTable
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insertAndGetId

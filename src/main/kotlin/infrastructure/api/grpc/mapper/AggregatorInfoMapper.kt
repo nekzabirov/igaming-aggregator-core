@@ -1,6 +1,6 @@
-package com.nekgamebling.infrastructure.api.grpc.mapper
+package infrastructure.api.grpc.mapper
 
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
+import domain.aggregator.model.AggregatorInfo
 import com.nekzabirov.igambling.proto.dto.AggregatorDto
 
 fun AggregatorInfo.toAggregatorProto() = AggregatorDto.newBuilder()

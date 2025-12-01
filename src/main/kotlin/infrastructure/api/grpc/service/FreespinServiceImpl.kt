@@ -1,13 +1,13 @@
-package com.nekgamebling.infrastructure.api.grpc.service
+package infrastructure.api.grpc.service
 
 import com.google.protobuf.ListValue
 import com.google.protobuf.NullValue
 import com.google.protobuf.Struct
 import com.google.protobuf.Value
-import com.nekgamebling.application.usecase.spin.CancelFreespinUsecase
-import com.nekgamebling.application.usecase.spin.CreateFreespinUsecase
-import com.nekgamebling.application.usecase.spin.GetPresetUsecase
-import com.nekgamebling.shared.value.Currency
+import application.usecase.spin.CancelFreespinUsecase
+import application.usecase.spin.CreateFreespinUsecase
+import application.usecase.spin.GetPresetUsecase
+import shared.value.Currency
 import com.nekzabirov.igambling.proto.dto.EmptyResult
 import com.nekzabirov.igambling.proto.service.CancelFreespinCommand
 import com.nekzabirov.igambling.proto.service.CreateFreespinCommand
@@ -21,7 +21,6 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.koin.ktor.ext.get
-import kotlin.text.toInt
 
 class FreespinServiceImpl(application: Application) : FreespinGrpcKt.FreespinCoroutineImplBase() {
     private val getPresetUsecase = application.get<GetPresetUsecase>()

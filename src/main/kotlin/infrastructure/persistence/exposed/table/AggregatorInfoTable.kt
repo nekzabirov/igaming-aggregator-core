@@ -1,7 +1,7 @@
-package com.nekgamebling.infrastructure.persistence.exposed.table
+package infrastructure.persistence.exposed.table
 
-import com.nekgamebling.infrastructure.persistence.exposed.repository.IdentityTable
-import com.nekgamebling.shared.value.Aggregator
+import infrastructure.persistence.exposed.repository.IdentityTable
+import shared.value.Aggregator
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.json.jsonb
 

@@ -1,11 +1,11 @@
-package com.nekgamebling.application.port.outbound
+package application.port.outbound
 
-import com.nekgamebling.domain.aggregator.model.AggregatorGame
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.shared.value.Aggregator
-import com.nekgamebling.shared.value.Currency
-import com.nekgamebling.shared.value.Locale
-import com.nekgamebling.shared.value.Platform
+import domain.aggregator.model.AggregatorGame
+import domain.aggregator.model.AggregatorInfo
+import shared.value.Aggregator
+import shared.value.Currency
+import shared.value.Locale
+import shared.value.Platform
 import kotlinx.datetime.LocalDateTime
 
 /**

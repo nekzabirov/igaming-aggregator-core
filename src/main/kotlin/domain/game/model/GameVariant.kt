@@ -1,8 +1,8 @@
-package com.nekgamebling.domain.game.model
+package domain.game.model
 
-import com.nekgamebling.shared.value.Aggregator
-import com.nekgamebling.shared.value.Locale
-import com.nekgamebling.shared.value.Platform
+import shared.value.Aggregator
+import shared.value.Locale
+import shared.value.Platform
 import java.util.UUID
 
 /**

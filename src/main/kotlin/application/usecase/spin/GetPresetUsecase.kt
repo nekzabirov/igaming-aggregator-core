@@ -1,8 +1,8 @@
-package com.nekgamebling.application.usecase.spin
+package application.usecase.spin
 
-import com.nekgamebling.application.port.outbound.AggregatorAdapterRegistry
-import com.nekgamebling.application.service.GameService
-import com.nekgamebling.domain.common.error.AggregatorNotSupportedError
+import application.port.outbound.AggregatorAdapterRegistry
+import application.service.GameService
+import domain.common.error.AggregatorNotSupportedError
 
 /**
  * Result of getting preset.

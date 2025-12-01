@@ -1,12 +1,12 @@
-package com.nekgamebling.application.usecase.game
+package application.usecase.game
 
-import com.nekgamebling.application.port.outbound.AggregatorAdapterRegistry
-import com.nekgamebling.application.service.GameService
-import com.nekgamebling.domain.common.error.AggregatorNotSupportedError
-import com.nekgamebling.domain.common.error.ValidationError
-import com.nekgamebling.shared.value.Currency
-import com.nekgamebling.shared.value.Locale
-import com.nekgamebling.shared.value.Platform
+import application.port.outbound.AggregatorAdapterRegistry
+import application.service.GameService
+import domain.common.error.AggregatorNotSupportedError
+import domain.common.error.ValidationError
+import shared.value.Currency
+import shared.value.Locale
+import shared.value.Platform
 
 /**
  * Result of demo game operation.

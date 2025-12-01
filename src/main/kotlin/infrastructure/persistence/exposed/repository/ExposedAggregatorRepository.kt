@@ -1,12 +1,12 @@
-package com.nekgamebling.infrastructure.persistence.exposed.repository
+package infrastructure.persistence.exposed.repository
 
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.domain.aggregator.repository.AggregatorRepository
-import com.nekgamebling.infrastructure.persistence.exposed.mapper.toAggregatorInfo
-import com.nekgamebling.infrastructure.persistence.exposed.table.AggregatorInfoTable
-import com.nekgamebling.shared.value.Aggregator
-import com.nekgamebling.shared.value.Page
-import com.nekgamebling.shared.value.Pageable
+import domain.aggregator.model.AggregatorInfo
+import domain.aggregator.repository.AggregatorRepository
+import infrastructure.persistence.exposed.mapper.toAggregatorInfo
+import infrastructure.persistence.exposed.table.AggregatorInfoTable
+import shared.value.Aggregator
+import shared.value.Page
+import shared.value.Pageable
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll

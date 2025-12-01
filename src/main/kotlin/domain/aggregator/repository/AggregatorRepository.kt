@@ -1,9 +1,9 @@
-package com.nekgamebling.domain.aggregator.repository
+package domain.aggregator.repository
 
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.shared.value.Aggregator
-import com.nekgamebling.shared.value.Page
-import com.nekgamebling.shared.value.Pageable
+import domain.aggregator.model.AggregatorInfo
+import shared.value.Aggregator
+import shared.value.Page
+import shared.value.Pageable
 import java.util.UUID
 
 /**

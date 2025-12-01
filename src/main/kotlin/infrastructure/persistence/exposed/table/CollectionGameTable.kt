@@ -1,4 +1,4 @@
-package com.nekgamebling.infrastructure.persistence.exposed.table
+package infrastructure.persistence.exposed.table
 
 import org.jetbrains.exposed.dao.id.UUIDTable
 

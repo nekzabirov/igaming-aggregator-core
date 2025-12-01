@@ -1,6 +1,6 @@
-package com.nekgamebling.infrastructure.api.grpc.mapper
+package infrastructure.api.grpc.mapper
 
-import com.nekgamebling.domain.provider.model.Provider
+import domain.provider.model.Provider
 import com.nekzabirov.igambling.proto.dto.ProviderDto
 
 fun Provider.toProviderProto(): ProviderDto = ProviderDto.newBuilder()

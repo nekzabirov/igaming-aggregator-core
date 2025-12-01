@@ -1,13 +1,13 @@
-package com.nekgamebling.infrastructure.aggregator.onegamehub.adapter
+package infrastructure.aggregator.onegamehub.adapter
 
-import com.nekgamebling.application.port.outbound.AggregatorFreespinPort
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.domain.common.error.AggregatorError
-import com.nekgamebling.infrastructure.aggregator.onegamehub.OneGameHubConfig
-import com.nekgamebling.infrastructure.aggregator.onegamehub.client.OneGameHubHttpClient
-import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.CancelFreespinDto
-import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.CreateFreespinDto
-import com.nekgamebling.shared.value.Currency
+import application.port.outbound.AggregatorFreespinPort
+import domain.aggregator.model.AggregatorInfo
+import domain.common.error.AggregatorError
+import infrastructure.aggregator.onegamehub.model.OneGameHubConfig
+import infrastructure.aggregator.onegamehub.client.OneGameHubHttpClient
+import infrastructure.aggregator.onegamehub.client.dto.CancelFreespinDto
+import infrastructure.aggregator.onegamehub.client.dto.CreateFreespinDto
+import shared.value.Currency
 import kotlinx.datetime.LocalDateTime
 
 /**

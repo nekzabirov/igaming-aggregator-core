@@ -1,7 +1,7 @@
-package com.nekgamebling.infrastructure.persistence.exposed.repository
+package infrastructure.persistence.exposed.repository
 
-import com.nekgamebling.shared.value.Page
-import com.nekgamebling.shared.value.Pageable
+import shared.value.Page
+import shared.value.Pageable
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.Column

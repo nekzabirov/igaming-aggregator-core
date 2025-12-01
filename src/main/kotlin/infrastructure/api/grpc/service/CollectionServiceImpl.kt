@@ -1,8 +1,8 @@
-package com.nekgamebling.infrastructure.api.grpc.service
+package infrastructure.api.grpc.service
 
-import com.nekgamebling.application.usecase.collection.*
-import com.nekgamebling.shared.value.LocaleName
-import com.nekgamebling.shared.value.Pageable
+import application.usecase.collection.*
+import shared.value.LocaleName
+import shared.value.Pageable
 import com.nekzabirov.igambling.proto.dto.EmptyResult
 import com.nekzabirov.igambling.proto.service.AddCollectionCommand
 import com.nekzabirov.igambling.proto.service.AddGameCollectionCommand
@@ -14,7 +14,7 @@ import com.nekzabirov.igambling.proto.service.UpdateCollectionCommand
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.Application
-import com.nekgamebling.infrastructure.api.grpc.mapper.toCollectionProto
+import infrastructure.api.grpc.mapper.toCollectionProto
 import org.koin.ktor.ext.get
 
 class CollectionServiceImpl(application: Application) : CollectionGrpcKt.CollectionCoroutineImplBase() {

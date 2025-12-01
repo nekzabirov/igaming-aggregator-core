@@ -1,16 +1,16 @@
-package com.nekgamebling.application.usecase.session
+package application.usecase.session
 
-import com.nekgamebling.application.event.SessionOpenedEvent
-import com.nekgamebling.application.port.outbound.AggregatorAdapterRegistry
-import com.nekgamebling.application.port.outbound.EventPublisherPort
-import com.nekgamebling.application.service.GameService
-import com.nekgamebling.application.service.SessionService
-import com.nekgamebling.domain.common.error.AggregatorNotSupportedError
-import com.nekgamebling.domain.common.error.ValidationError
-import com.nekgamebling.domain.session.model.Session
-import com.nekgamebling.shared.value.Currency
-import com.nekgamebling.shared.value.Locale
-import com.nekgamebling.shared.value.Platform
+import application.event.SessionOpenedEvent
+import application.port.outbound.AggregatorAdapterRegistry
+import application.port.outbound.EventPublisherPort
+import application.service.GameService
+import application.service.SessionService
+import domain.common.error.AggregatorNotSupportedError
+import domain.common.error.ValidationError
+import domain.session.model.Session
+import shared.value.Currency
+import shared.value.Locale
+import shared.value.Platform
 import java.util.UUID
 
 /**

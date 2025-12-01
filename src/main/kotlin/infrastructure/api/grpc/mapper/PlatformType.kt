@@ -1,6 +1,6 @@
-package com.nekgamebling.infrastructure.api.grpc.mapper
+package infrastructure.api.grpc.mapper
 
-import com.nekgamebling.shared.value.Platform
+import shared.value.Platform
 import com.nekzabirov.igambling.proto.dto.PlatformType
 
 fun Platform.toPlatformProto() = when(this) {

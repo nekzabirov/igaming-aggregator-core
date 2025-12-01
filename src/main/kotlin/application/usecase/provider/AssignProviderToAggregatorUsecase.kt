@@ -1,8 +1,8 @@
-package com.nekgamebling.application.usecase.provider
+package application.usecase.provider
 
-import com.nekgamebling.domain.aggregator.repository.AggregatorRepository
-import com.nekgamebling.domain.common.error.NotFoundError
-import com.nekgamebling.domain.provider.repository.ProviderRepository
+import domain.aggregator.repository.AggregatorRepository
+import domain.common.error.NotFoundError
+import domain.provider.repository.ProviderRepository
 import java.util.UUID
 
 /**

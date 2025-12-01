@@ -1,10 +1,10 @@
-package com.nekgamebling.application.usecase.game
+package application.usecase.game
 
-import com.nekgamebling.domain.game.repository.GameFilter
-import com.nekgamebling.domain.game.repository.GameListItem
-import com.nekgamebling.domain.game.repository.GameRepository
-import com.nekgamebling.shared.value.Page
-import com.nekgamebling.shared.value.Pageable
+import domain.game.repository.GameFilter
+import domain.game.repository.GameListItem
+import domain.game.repository.GameRepository
+import shared.value.Page
+import shared.value.Pageable
 
 /**
  * Use case for listing games with filtering and pagination.

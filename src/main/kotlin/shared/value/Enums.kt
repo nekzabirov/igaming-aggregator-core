@@ -1,4 +1,4 @@
-package com.nekgamebling.shared.value
+package shared.value
 
 /**
  * Platform type for game variants.

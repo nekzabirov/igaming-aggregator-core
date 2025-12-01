@@ -1,15 +1,15 @@
-package com.nekgamebling.infrastructure.api.grpc.service
+package infrastructure.api.grpc.service
 
-import com.nekgamebling.application.usecase.game.AddGameFavouriteUsecase
-import com.nekgamebling.application.usecase.game.AddGameTagUsecase
-import com.nekgamebling.application.usecase.game.DemoGameUsecase
-import com.nekgamebling.application.usecase.game.ListGamesUsecase
-import com.nekgamebling.application.usecase.game.RemoveGameFavouriteUsecase
-import com.nekgamebling.application.usecase.game.RemoveGameTagUsecase
-import com.nekgamebling.application.usecase.game.UpdateGameUsecase
-import com.nekgamebling.shared.value.Currency
-import com.nekgamebling.shared.value.Locale
-import com.nekgamebling.shared.value.Pageable
+import application.usecase.game.AddGameFavouriteUsecase
+import application.usecase.game.AddGameTagUsecase
+import application.usecase.game.DemoGameUsecase
+import application.usecase.game.ListGamesUsecase
+import application.usecase.game.RemoveGameFavouriteUsecase
+import application.usecase.game.RemoveGameTagUsecase
+import application.usecase.game.UpdateGameUsecase
+import shared.value.Currency
+import shared.value.Locale
+import shared.value.Pageable
 import com.nekzabirov.igambling.proto.dto.EmptyResult
 import com.nekzabirov.igambling.proto.service.DemoGameCommand
 import com.nekzabirov.igambling.proto.service.DemoGameResult
@@ -22,11 +22,11 @@ import com.nekzabirov.igambling.proto.service.UpdateGameConfig
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*
-import com.nekgamebling.infrastructure.api.grpc.mapper.toCollectionProto
-import com.nekgamebling.infrastructure.api.grpc.mapper.toGameProto
-import com.nekgamebling.infrastructure.api.grpc.mapper.toGameVariantProto
-import com.nekgamebling.infrastructure.api.grpc.mapper.toPlatform
-import com.nekgamebling.infrastructure.api.grpc.mapper.toProviderProto
+import infrastructure.api.grpc.mapper.toCollectionProto
+import infrastructure.api.grpc.mapper.toGameProto
+import infrastructure.api.grpc.mapper.toGameVariantProto
+import infrastructure.api.grpc.mapper.toPlatform
+import infrastructure.api.grpc.mapper.toProviderProto
 import org.koin.ktor.ext.get
 
 class GameServiceImpl(application: Application) : GameGrpcKt.GameCoroutineImplBase() {

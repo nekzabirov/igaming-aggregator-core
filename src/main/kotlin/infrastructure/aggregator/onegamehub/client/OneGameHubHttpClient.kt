@@ -1,15 +1,15 @@
-package com.nekgamebling.infrastructure.aggregator.onegamehub.client
+package infrastructure.aggregator.onegamehub.client
 
-import com.nekgamebling.domain.common.error.AggregatorError
-import com.nekgamebling.infrastructure.aggregator.onegamehub.OneGameHubConfig
-import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.CancelFreespinDto
-import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.CreateFreespinDto
-import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.GameDto
-import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.GameUrlDto
-import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.ResponseDto
-import com.nekgamebling.shared.value.Currency
-import com.nekgamebling.shared.value.Locale
-import com.nekgamebling.shared.value.Platform
+import domain.common.error.AggregatorError
+import infrastructure.aggregator.onegamehub.model.OneGameHubConfig
+import infrastructure.aggregator.onegamehub.client.dto.CancelFreespinDto
+import infrastructure.aggregator.onegamehub.client.dto.CreateFreespinDto
+import infrastructure.aggregator.onegamehub.client.dto.GameDto
+import infrastructure.aggregator.onegamehub.client.dto.GameUrlDto
+import infrastructure.aggregator.onegamehub.client.dto.ResponseDto
+import shared.value.Currency
+import shared.value.Locale
+import shared.value.Platform
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*

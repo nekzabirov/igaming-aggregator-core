@@ -1,8 +1,8 @@
-package com.nekgamebling.infrastructure.adapter
+package infrastructure.adapter
 
-import com.nekgamebling.application.port.outbound.WalletPort
-import com.nekgamebling.domain.session.model.Balance
-import com.nekgamebling.shared.value.Currency
+import application.port.outbound.WalletPort
+import domain.session.model.Balance
+import shared.value.Currency
 import java.util.concurrent.ConcurrentHashMap
 
 /**

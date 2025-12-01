@@ -1,6 +1,6 @@
-package com.nekgamebling.domain.game.repository
+package domain.game.repository
 
-import com.nekgamebling.shared.value.Aggregator
+import shared.value.Aggregator
 
 /**
  * Filter criteria for game variant queries.

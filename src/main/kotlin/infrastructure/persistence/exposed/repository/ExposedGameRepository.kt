@@ -1,14 +1,14 @@
-package com.nekgamebling.infrastructure.persistence.exposed.repository
+package infrastructure.persistence.exposed.repository
 
-import com.nekgamebling.domain.game.model.Game
-import com.nekgamebling.domain.game.model.GameWithDetails
-import com.nekgamebling.domain.game.repository.GameFilter
-import com.nekgamebling.domain.game.repository.GameListItem
-import com.nekgamebling.domain.game.repository.GameRepository
-import com.nekgamebling.infrastructure.persistence.exposed.mapper.*
-import com.nekgamebling.infrastructure.persistence.exposed.table.*
-import com.nekgamebling.shared.value.Page
-import com.nekgamebling.shared.value.Pageable
+import domain.game.model.Game
+import domain.game.model.GameWithDetails
+import domain.game.repository.GameFilter
+import domain.game.repository.GameListItem
+import domain.game.repository.GameRepository
+import infrastructure.persistence.exposed.mapper.*
+import infrastructure.persistence.exposed.table.*
+import shared.value.Page
+import shared.value.Pageable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.json.contains
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction

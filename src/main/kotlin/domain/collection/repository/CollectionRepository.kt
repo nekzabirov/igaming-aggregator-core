@@ -1,9 +1,9 @@
-package com.nekgamebling.domain.collection.repository
+package domain.collection.repository
 
-import com.nekgamebling.domain.collection.model.Collection
-import com.nekgamebling.domain.collection.model.CollectionGame
-import com.nekgamebling.shared.value.Page
-import com.nekgamebling.shared.value.Pageable
+import domain.collection.model.Collection
+import domain.collection.model.CollectionGame
+import shared.value.Page
+import shared.value.Pageable
 import java.util.UUID
 
 /**

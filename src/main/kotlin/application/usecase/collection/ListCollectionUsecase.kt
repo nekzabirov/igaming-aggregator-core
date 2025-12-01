@@ -1,9 +1,9 @@
-package com.nekgamebling.application.usecase.collection
+package application.usecase.collection
 
-import com.nekgamebling.domain.collection.model.Collection
-import com.nekgamebling.domain.collection.repository.CollectionRepository
-import com.nekgamebling.shared.value.Page
-import com.nekgamebling.shared.value.Pageable
+import domain.collection.model.Collection
+import domain.collection.repository.CollectionRepository
+import shared.value.Page
+import shared.value.Pageable
 
 /**
  * Collection list item with game counts.

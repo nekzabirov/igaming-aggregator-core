@@ -1,4 +1,4 @@
-package com.nekgamebling.infrastructure.persistence.exposed.table
+package infrastructure.persistence.exposed.table
 
 object GameWonTable : BaseTable("game_wons") {
     val gameId = reference("game_id", GameTable.id)

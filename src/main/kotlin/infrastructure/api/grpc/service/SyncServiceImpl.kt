@@ -1,12 +1,12 @@
-package com.nekgamebling.infrastructure.api.grpc.service
+package infrastructure.api.grpc.service
 
-import com.nekgamebling.application.usecase.aggregator.AddAggregatorUsecase
-import com.nekgamebling.application.usecase.aggregator.ListAggregatorUsecase
-import com.nekgamebling.application.usecase.aggregator.ListGameVariantsUsecase
-import com.nekgamebling.application.usecase.provider.AssignProviderToAggregatorUsecase
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.shared.value.Aggregator
-import com.nekgamebling.shared.value.Pageable
+import application.usecase.aggregator.AddAggregatorUsecase
+import application.usecase.aggregator.ListAggregatorUsecase
+import application.usecase.aggregator.ListGameVariantsUsecase
+import application.usecase.provider.AssignProviderToAggregatorUsecase
+import domain.aggregator.model.AggregatorInfo
+import shared.value.Aggregator
+import shared.value.Pageable
 import com.nekzabirov.igambling.proto.dto.EmptyResult
 import com.nekzabirov.igambling.proto.service.AddAggregatorCommand
 import com.nekzabirov.igambling.proto.service.AssignProviderCommand
@@ -18,10 +18,10 @@ import com.nekzabirov.igambling.proto.service.SyncGrpcKt
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*
-import com.nekgamebling.infrastructure.api.grpc.mapper.toAggregatorProto
-import com.nekgamebling.infrastructure.api.grpc.mapper.toGameProto
-import com.nekgamebling.infrastructure.api.grpc.mapper.toGameVariantProto
-import com.nekgamebling.infrastructure.api.grpc.mapper.toProviderProto
+import infrastructure.api.grpc.mapper.toAggregatorProto
+import infrastructure.api.grpc.mapper.toGameProto
+import infrastructure.api.grpc.mapper.toGameVariantProto
+import infrastructure.api.grpc.mapper.toProviderProto
 import org.koin.ktor.ext.get
 import java.util.UUID
 

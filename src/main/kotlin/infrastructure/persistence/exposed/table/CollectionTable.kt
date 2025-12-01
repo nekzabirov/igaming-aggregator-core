@@ -1,8 +1,8 @@
-package com.nekgamebling.infrastructure.persistence.exposed.table
+package infrastructure.persistence.exposed.table
 
-import com.nekgamebling.infrastructure.persistence.exposed.repository.IdentityTable
-import com.nekgamebling.shared.value.ImageMap
-import com.nekgamebling.shared.value.LocaleName
+import infrastructure.persistence.exposed.repository.IdentityTable
+import shared.value.ImageMap
+import shared.value.LocaleName
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.json.jsonb
 

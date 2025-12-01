@@ -1,7 +1,7 @@
-package com.nekgamebling.infrastructure.messaging
+package infrastructure.messaging
 
-import com.nekgamebling.application.event.DomainEvent
-import com.nekgamebling.application.port.outbound.EventPublisherPort
+import application.event.DomainEvent
+import application.port.outbound.EventPublisherPort
 import io.ktor.server.application.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

@@ -1,14 +1,14 @@
-package com.nekgamebling.infrastructure.aggregator.onegamehub
+package infrastructure.aggregator.onegamehub
 
-import com.nekgamebling.application.port.outbound.AggregatorAdapterFactory
-import com.nekgamebling.application.port.outbound.AggregatorFreespinPort
-import com.nekgamebling.application.port.outbound.AggregatorGameSyncPort
-import com.nekgamebling.application.port.outbound.AggregatorLaunchUrlPort
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.infrastructure.aggregator.onegamehub.adapter.OneGameHubFreespinAdapter
-import com.nekgamebling.infrastructure.aggregator.onegamehub.adapter.OneGameHubGameSyncAdapter
-import com.nekgamebling.infrastructure.aggregator.onegamehub.adapter.OneGameHubLaunchUrlAdapter
-import com.nekgamebling.shared.value.Aggregator
+import application.port.outbound.AggregatorAdapterFactory
+import application.port.outbound.AggregatorFreespinPort
+import application.port.outbound.AggregatorGameSyncPort
+import application.port.outbound.AggregatorLaunchUrlPort
+import domain.aggregator.model.AggregatorInfo
+import infrastructure.aggregator.onegamehub.adapter.OneGameHubFreespinAdapter
+import infrastructure.aggregator.onegamehub.adapter.OneGameHubGameSyncAdapter
+import infrastructure.aggregator.onegamehub.adapter.OneGameHubLaunchUrlAdapter
+import shared.value.Aggregator
 
 /**
  * Factory for creating OneGameHub aggregator adapters.

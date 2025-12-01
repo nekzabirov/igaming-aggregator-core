@@ -1,11 +1,11 @@
-package com.nekgamebling.infrastructure.persistence.exposed.repository
+package infrastructure.persistence.exposed.repository
 
-import com.nekgamebling.domain.provider.model.Provider
-import com.nekgamebling.domain.provider.repository.ProviderRepository
-import com.nekgamebling.infrastructure.persistence.exposed.mapper.toProvider
-import com.nekgamebling.infrastructure.persistence.exposed.table.ProviderTable
-import com.nekgamebling.shared.value.Page
-import com.nekgamebling.shared.value.Pageable
+import domain.provider.model.Provider
+import domain.provider.repository.ProviderRepository
+import infrastructure.persistence.exposed.mapper.toProvider
+import infrastructure.persistence.exposed.table.ProviderTable
+import shared.value.Page
+import shared.value.Pageable
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.selectAll

@@ -1,7 +1,7 @@
-package com.nekgamebling.domain.provider.model
+package domain.provider.model
 
-import com.nekgamebling.shared.serializer.UUIDSerializer
-import com.nekgamebling.shared.value.ImageMap
+import shared.serializer.UUIDSerializer
+import shared.value.ImageMap
 import kotlinx.serialization.Serializable
 import java.util.UUID
 

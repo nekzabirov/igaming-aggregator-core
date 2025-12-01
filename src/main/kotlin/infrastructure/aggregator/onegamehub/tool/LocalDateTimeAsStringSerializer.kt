@@ -1,4 +1,4 @@
-package com.nekgamebling.infrastructure.aggregator.onegamehub.tool
+package infrastructure.aggregator.onegamehub.tool
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.KSerializer

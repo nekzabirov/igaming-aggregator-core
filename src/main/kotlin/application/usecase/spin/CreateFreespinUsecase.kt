@@ -1,10 +1,10 @@
-package com.nekgamebling.application.usecase.spin
+package application.usecase.spin
 
-import com.nekgamebling.application.port.outbound.AggregatorAdapterRegistry
-import com.nekgamebling.application.service.GameService
-import com.nekgamebling.domain.common.error.AggregatorNotSupportedError
-import com.nekgamebling.domain.common.error.InvalidPresetError
-import com.nekgamebling.shared.value.Currency
+import application.port.outbound.AggregatorAdapterRegistry
+import application.service.GameService
+import domain.common.error.AggregatorNotSupportedError
+import domain.common.error.InvalidPresetError
+import shared.value.Currency
 import kotlinx.datetime.LocalDateTime
 
 /**

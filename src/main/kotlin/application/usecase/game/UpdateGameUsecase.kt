@@ -1,9 +1,9 @@
-package com.nekgamebling.application.usecase.game
+package application.usecase.game
 
-import com.nekgamebling.domain.common.error.NotFoundError
-import com.nekgamebling.domain.game.model.Game
-import com.nekgamebling.domain.game.repository.GameRepository
-import com.nekgamebling.shared.value.ImageMap
+import domain.common.error.NotFoundError
+import domain.game.model.Game
+import domain.game.repository.GameRepository
+import shared.value.ImageMap
 import java.util.UUID
 
 /**

@@ -1,8 +1,8 @@
 package com.nekgamebling
 
-import com.nekgamebling.config.DatabaseConfig
-import com.nekgamebling.config.coreModule
-import com.nekgamebling.infrastructure.api.installApi
+import infrastructure.persistence.exposed.ExposedConfig
+import infrastructure.coreModule
+import infrastructure.api.installApi
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
@@ -17,14 +17,14 @@ fun main() {
 
     embeddedServer(
         CIO,
-        port = 80,
+        port = 8080,
         host = "0.0.0.0",
         module = Application::module
     ).start(wait = true)
 }
 
 fun Application.module() {
-    DatabaseConfig.init()
+    ExposedConfig.init()
 
     install(Koin) {
         slf4jLogger()

@@ -1,8 +1,8 @@
-package com.nekgamebling.infrastructure.api.grpc.service
+package infrastructure.api.grpc.service
 
-import com.nekgamebling.application.usecase.provider.ProviderListUsecase
-import com.nekgamebling.application.usecase.provider.UpdateProviderUsecase
-import com.nekgamebling.shared.value.Pageable
+import application.usecase.provider.ProviderListUsecase
+import application.usecase.provider.UpdateProviderUsecase
+import shared.value.Pageable
 import com.nekzabirov.igambling.proto.dto.EmptyResult
 import com.nekzabirov.igambling.proto.service.ListProviderCommand
 import com.nekzabirov.igambling.proto.service.ListProviderResult
@@ -11,8 +11,8 @@ import com.nekzabirov.igambling.proto.service.UpdateProviderConfig
 import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*
-import com.nekgamebling.infrastructure.api.grpc.mapper.toAggregatorProto
-import com.nekgamebling.infrastructure.api.grpc.mapper.toProviderProto
+import infrastructure.api.grpc.mapper.toAggregatorProto
+import infrastructure.api.grpc.mapper.toProviderProto
 import org.koin.ktor.ext.get
 
 class ProviderServiceImpl(application: Application) : ProviderGrpcKt.ProviderCoroutineImplBase() {

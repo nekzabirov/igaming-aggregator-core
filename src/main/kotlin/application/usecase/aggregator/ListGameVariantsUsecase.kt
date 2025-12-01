@@ -1,10 +1,10 @@
-package com.nekgamebling.application.usecase.aggregator
+package application.usecase.aggregator
 
-import com.nekgamebling.domain.game.model.GameVariantWithDetail
-import com.nekgamebling.domain.game.repository.GameVariantFilter
-import com.nekgamebling.domain.game.repository.GameVariantRepository
-import com.nekgamebling.shared.value.Page
-import com.nekgamebling.shared.value.Pageable
+import domain.game.model.GameVariantWithDetail
+import domain.game.repository.GameVariantFilter
+import domain.game.repository.GameVariantRepository
+import shared.value.Page
+import shared.value.Pageable
 
 /**
  * Use case for listing game variants with details.

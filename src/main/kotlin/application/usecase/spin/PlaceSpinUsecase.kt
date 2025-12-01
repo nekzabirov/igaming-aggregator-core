@@ -1,13 +1,13 @@
-package com.nekgamebling.application.usecase.spin
+package application.usecase.spin
 
-import com.nekgamebling.application.event.SpinPlacedEvent
-import com.nekgamebling.application.port.outbound.EventPublisherPort
-import com.nekgamebling.application.service.GameService
-import com.nekgamebling.application.service.SessionService
-import com.nekgamebling.application.service.SpinCommand
-import com.nekgamebling.application.service.SpinService
-import com.nekgamebling.domain.common.error.GameUnavailableError
-import com.nekgamebling.shared.value.SessionToken
+import application.event.SpinPlacedEvent
+import application.port.outbound.EventPublisherPort
+import application.service.GameService
+import application.service.SessionService
+import application.service.SpinCommand
+import application.service.SpinService
+import domain.common.error.GameUnavailableError
+import shared.value.SessionToken
 
 /**
  * Use case for placing a spin (making a bet).
@@ -27,7 +27,7 @@ class PlaceSpinUsecase(
         amount: Int
     ): Result<Unit> {
         // Find session
-        val session = sessionService.findByToken(token.value).getOrElse {
+        val session = sessionService.findByToken(token).getOrElse {
             return Result.failure(it)
         }
 

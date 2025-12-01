@@ -1,4 +1,4 @@
-package com.nekgamebling.shared.serializer
+package shared.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

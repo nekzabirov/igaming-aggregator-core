@@ -1,7 +1,7 @@
-package com.nekgamebling.infrastructure.persistence.exposed.repository
+package infrastructure.persistence.exposed.repository
 
-import com.nekgamebling.domain.game.repository.GameWonRepository
-import com.nekgamebling.infrastructure.persistence.exposed.table.GameWonTable
+import domain.game.repository.GameWonRepository
+import infrastructure.persistence.exposed.table.GameWonTable
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.util.UUID

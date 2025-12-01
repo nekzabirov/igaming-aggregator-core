@@ -1,6 +1,6 @@
-package com.nekgamebling.application.event
+package application.event
 
-import com.nekgamebling.shared.value.Currency
+import shared.value.Currency
 import kotlinx.serialization.Serializable
 
 /**

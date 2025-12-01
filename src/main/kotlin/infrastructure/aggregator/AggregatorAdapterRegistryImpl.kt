@@ -1,9 +1,9 @@
-package com.nekgamebling.infrastructure.aggregator
+package infrastructure.aggregator
 
-import com.nekgamebling.application.port.outbound.AggregatorAdapterFactory
-import com.nekgamebling.application.port.outbound.AggregatorAdapterRegistry
-import com.nekgamebling.infrastructure.aggregator.onegamehub.OneGameHubAdapterFactory
-import com.nekgamebling.shared.value.Aggregator
+import application.port.outbound.AggregatorAdapterFactory
+import application.port.outbound.AggregatorAdapterRegistry
+import infrastructure.aggregator.onegamehub.OneGameHubAdapterFactory
+import shared.value.Aggregator
 
 /**
  * Default implementation of AggregatorAdapterRegistry.

@@ -1,4 +1,4 @@
-package com.nekgamebling.infrastructure.persistence.exposed.table
+package infrastructure.persistence.exposed.table
 
 object RoundTable : BaseTable("rounds") {
     val sessionId = reference("session_id", SessionTable.id)

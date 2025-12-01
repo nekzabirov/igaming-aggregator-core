@@ -1,11 +1,11 @@
-package com.nekgamebling.application.usecase.provider
+package application.usecase.provider
 
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.domain.aggregator.repository.AggregatorRepository
-import com.nekgamebling.domain.provider.model.Provider
-import com.nekgamebling.domain.provider.repository.ProviderRepository
-import com.nekgamebling.shared.value.Page
-import com.nekgamebling.shared.value.Pageable
+import domain.aggregator.model.AggregatorInfo
+import domain.aggregator.repository.AggregatorRepository
+import domain.provider.model.Provider
+import domain.provider.repository.ProviderRepository
+import shared.value.Page
+import shared.value.Pageable
 
 /**
  * Provider list item with aggregator info and game counts.

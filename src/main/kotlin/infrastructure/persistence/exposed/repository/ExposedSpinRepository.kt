@@ -1,10 +1,10 @@
-package com.nekgamebling.infrastructure.persistence.exposed.repository
+package infrastructure.persistence.exposed.repository
 
-import com.nekgamebling.domain.session.model.Spin
-import com.nekgamebling.domain.session.repository.SpinRepository
-import com.nekgamebling.infrastructure.persistence.exposed.mapper.toSpin
-import com.nekgamebling.infrastructure.persistence.exposed.table.SpinTable
-import com.nekgamebling.shared.value.SpinType
+import domain.session.model.Spin
+import domain.session.repository.SpinRepository
+import infrastructure.persistence.exposed.mapper.toSpin
+import infrastructure.persistence.exposed.table.SpinTable
+import shared.value.SpinType
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insertAndGetId

@@ -1,9 +1,9 @@
-package com.nekgamebling.application.usecase.aggregator
+package application.usecase.aggregator
 
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.domain.aggregator.repository.AggregatorRepository
-import com.nekgamebling.domain.common.error.DuplicateEntityError
-import com.nekgamebling.shared.value.Aggregator
+import domain.aggregator.model.AggregatorInfo
+import domain.aggregator.repository.AggregatorRepository
+import domain.common.error.DuplicateEntityError
+import shared.value.Aggregator
 import java.util.UUID
 
 /**

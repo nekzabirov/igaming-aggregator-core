@@ -1,10 +1,10 @@
-package com.nekgamebling.domain.game.repository
+package domain.game.repository
 
-import com.nekgamebling.domain.game.model.GameVariant
-import com.nekgamebling.domain.game.model.GameVariantWithDetail
-import com.nekgamebling.shared.value.Aggregator
-import com.nekgamebling.shared.value.Page
-import com.nekgamebling.shared.value.Pageable
+import domain.game.model.GameVariant
+import domain.game.model.GameVariantWithDetail
+import shared.value.Aggregator
+import shared.value.Page
+import shared.value.Pageable
 import java.util.UUID
 
 /**

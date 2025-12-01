@@ -1,4 +1,4 @@
-package com.nekgamebling.shared.value
+package shared.value
 
 import kotlinx.serialization.Serializable
 

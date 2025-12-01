@@ -1,13 +1,13 @@
-package com.nekgamebling.infrastructure.persistence.exposed.adapter
+package infrastructure.persistence.exposed.adapter
 
-import com.nekgamebling.application.port.outbound.GameSyncPort
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.domain.game.model.GameVariant
-import com.nekgamebling.infrastructure.persistence.exposed.mapper.toProvider
-import com.nekgamebling.infrastructure.persistence.exposed.table.GameTable
-import com.nekgamebling.infrastructure.persistence.exposed.table.GameVariantTable
-import com.nekgamebling.infrastructure.persistence.exposed.table.ProviderTable
-import com.nekgamebling.shared.extension.toUrlSlug
+import application.port.outbound.GameSyncPort
+import domain.aggregator.model.AggregatorInfo
+import domain.game.model.GameVariant
+import infrastructure.persistence.exposed.mapper.toProvider
+import infrastructure.persistence.exposed.table.GameTable
+import infrastructure.persistence.exposed.table.GameVariantTable
+import infrastructure.persistence.exposed.table.ProviderTable
+import shared.extension.toUrlSlug
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.or

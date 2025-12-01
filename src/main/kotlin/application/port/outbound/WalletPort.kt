@@ -1,7 +1,7 @@
-package com.nekgamebling.application.port.outbound
+package application.port.outbound
 
-import com.nekgamebling.domain.session.model.Balance
-import com.nekgamebling.shared.value.Currency
+import domain.session.model.Balance
+import shared.value.Currency
 
 /**
  * Port interface for wallet operations.

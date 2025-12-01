@@ -1,11 +1,11 @@
-package com.nekgamebling.application.usecase.game
+package application.usecase.game
 
-import com.nekgamebling.application.event.GameWonEvent
-import com.nekgamebling.application.port.outbound.EventPublisherPort
-import com.nekgamebling.domain.common.error.NotFoundError
-import com.nekgamebling.domain.game.repository.GameRepository
-import com.nekgamebling.domain.game.repository.GameWonRepository
-import com.nekgamebling.shared.value.Currency
+import application.event.GameWonEvent
+import application.port.outbound.EventPublisherPort
+import domain.common.error.NotFoundError
+import domain.game.repository.GameRepository
+import domain.game.repository.GameWonRepository
+import shared.value.Currency
 
 /**
  * Use case for recording a game win.

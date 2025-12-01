@@ -1,4 +1,4 @@
-package com.nekgamebling.domain.common.error
+package domain.common.error
 
 /**
  * Base sealed class for all domain errors.

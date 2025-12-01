@@ -1,18 +1,18 @@
-package com.nekgamebling.infrastructure.persistence.exposed.mapper
+package infrastructure.persistence.exposed.mapper
 
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.domain.collection.model.Collection
-import com.nekgamebling.domain.game.model.Game
-import com.nekgamebling.domain.game.model.GameVariant
-import com.nekgamebling.domain.game.model.GameWithDetails
-import com.nekgamebling.domain.provider.model.Provider
-import com.nekgamebling.domain.session.model.Round
-import com.nekgamebling.domain.session.model.Session
-import com.nekgamebling.domain.session.model.Spin
-import com.nekgamebling.infrastructure.persistence.exposed.table.*
-import com.nekgamebling.shared.value.Currency
-import com.nekgamebling.shared.value.Locale
-import com.nekgamebling.shared.value.Platform
+import domain.aggregator.model.AggregatorInfo
+import domain.collection.model.Collection
+import domain.game.model.Game
+import domain.game.model.GameVariant
+import domain.game.model.GameWithDetails
+import domain.provider.model.Provider
+import domain.session.model.Round
+import domain.session.model.Session
+import domain.session.model.Spin
+import infrastructure.persistence.exposed.table.*
+import shared.value.Currency
+import shared.value.Locale
+import shared.value.Platform
 import org.jetbrains.exposed.sql.ResultRow
 
 /**

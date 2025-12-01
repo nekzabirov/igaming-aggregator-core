@@ -1,6 +1,6 @@
-package com.nekgamebling.domain.game.repository
+package domain.game.repository
 
-import com.nekgamebling.shared.value.Platform
+import shared.value.Platform
 
 /**
  * Filter criteria for game queries.

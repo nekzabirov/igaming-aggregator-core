@@ -1,13 +1,13 @@
-package com.nekgamebling.infrastructure.aggregator.onegamehub.adapter
+package infrastructure.aggregator.onegamehub.adapter
 
-import com.nekgamebling.application.port.outbound.AggregatorGameSyncPort
-import com.nekgamebling.domain.aggregator.model.AggregatorGame
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.domain.common.error.AggregatorError
-import com.nekgamebling.infrastructure.aggregator.onegamehub.OneGameHubConfig
-import com.nekgamebling.infrastructure.aggregator.onegamehub.client.OneGameHubHttpClient
-import com.nekgamebling.shared.value.Locale
-import com.nekgamebling.shared.value.Platform
+import application.port.outbound.AggregatorGameSyncPort
+import domain.aggregator.model.AggregatorGame
+import domain.aggregator.model.AggregatorInfo
+import domain.common.error.AggregatorError
+import infrastructure.aggregator.onegamehub.model.OneGameHubConfig
+import infrastructure.aggregator.onegamehub.client.OneGameHubHttpClient
+import shared.value.Locale
+import shared.value.Platform
 
 /**
  * OneGameHub implementation for syncing games.

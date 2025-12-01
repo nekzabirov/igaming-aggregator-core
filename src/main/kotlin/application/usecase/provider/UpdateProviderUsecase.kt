@@ -1,8 +1,8 @@
-package com.nekgamebling.application.usecase.provider
+package application.usecase.provider
 
-import com.nekgamebling.domain.common.error.NotFoundError
-import com.nekgamebling.domain.provider.model.Provider
-import com.nekgamebling.domain.provider.repository.ProviderRepository
+import domain.common.error.NotFoundError
+import domain.provider.model.Provider
+import domain.provider.repository.ProviderRepository
 
 /**
  * Use case for updating a provider.

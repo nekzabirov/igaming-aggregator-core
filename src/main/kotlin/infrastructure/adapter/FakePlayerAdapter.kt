@@ -1,6 +1,6 @@
-package com.nekgamebling.infrastructure.adapter
+package infrastructure.adapter
 
-import com.nekgamebling.application.port.outbound.PlayerPort
+import application.port.outbound.PlayerPort
 
 /**
  * Fake player adapter for development/testing.

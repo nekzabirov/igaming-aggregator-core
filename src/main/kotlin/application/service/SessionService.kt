@@ -1,19 +1,23 @@
-package com.nekgamebling.application.service
+package application.service
 
-import com.nekgamebling.domain.common.error.NotFoundError
-import com.nekgamebling.domain.common.error.SessionInvalidError
-import com.nekgamebling.domain.session.model.Session
-import com.nekgamebling.domain.session.repository.SessionRepository
+import application.port.outbound.CachePort
+import domain.common.error.NotFoundError
+import domain.common.error.SessionInvalidError
+import domain.session.model.Session
+import domain.session.repository.SessionRepository
+import shared.value.SessionToken
 import java.security.SecureRandom
 import java.util.Base64
 import java.util.UUID
+import kotlin.time.Duration.Companion.minutes
 
 /**
  * Application service for session-related operations.
  * Uses constructor injection for all dependencies.
  */
 class SessionService(
-    private val sessionRepository: SessionRepository
+    private val sessionRepository: SessionRepository,
+    private val cacheAdapter: CachePort
 ) {
     private val secureRandom = SecureRandom()
 
@@ -29,9 +33,17 @@ class SessionService(
     /**
      * Find session by token.
      */
-    suspend fun findByToken(token: String): Result<Session> {
-        val session = sessionRepository.findByToken(token)
-            ?: return Result.failure(SessionInvalidError(token))
+    suspend fun findByToken(token: SessionToken): Result<Session> {
+        val cacheKey = "$CACHE_PREFIX:token=$token"
+
+        cacheAdapter.get<Session>(cacheKey)?.let {
+            return Result.success(it)
+        }
+
+        val session = sessionRepository.findByToken(token.value)
+            ?: return Result.failure(SessionInvalidError(token.value))
+
+        cacheAdapter.save(cacheKey, session, CACHE_TTL)
 
         return Result.success(session)
     }
@@ -52,5 +64,10 @@ class SessionService(
     suspend fun createSession(session: Session): Result<Session> {
         val savedSession = sessionRepository.save(session)
         return Result.success(savedSession)
+    }
+
+    companion object {
+        private val CACHE_TTL = 5.minutes
+        private const val CACHE_PREFIX = "session:"
     }
 }

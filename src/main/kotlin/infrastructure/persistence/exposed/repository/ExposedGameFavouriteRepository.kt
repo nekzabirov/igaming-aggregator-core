@@ -1,7 +1,7 @@
-package com.nekgamebling.infrastructure.persistence.exposed.repository
+package infrastructure.persistence.exposed.repository
 
-import com.nekgamebling.domain.game.repository.GameFavouriteRepository
-import com.nekgamebling.infrastructure.persistence.exposed.table.GameFavouriteTable
+import domain.game.repository.GameFavouriteRepository
+import infrastructure.persistence.exposed.table.GameFavouriteTable
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere

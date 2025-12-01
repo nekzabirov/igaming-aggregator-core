@@ -1,19 +1,19 @@
-package com.nekgamebling.application.usecase.aggregator
+package application.usecase.aggregator
 
-import com.nekgamebling.application.port.outbound.GameSyncPort
-import com.nekgamebling.application.port.outbound.AggregatorAdapterRegistry
-import com.nekgamebling.domain.aggregator.repository.AggregatorRepository
-import com.nekgamebling.domain.common.error.AggregatorNotSupportedError
-import com.nekgamebling.domain.common.error.NotFoundError
-import com.nekgamebling.domain.game.model.Game
-import com.nekgamebling.domain.game.model.GameVariant
-import com.nekgamebling.domain.game.repository.GameRepository
-import com.nekgamebling.domain.game.repository.GameVariantRepository
-import com.nekgamebling.domain.provider.model.Provider
-import com.nekgamebling.domain.provider.repository.ProviderRepository
-import com.nekgamebling.shared.extension.toUrlSlug
-import com.nekgamebling.shared.value.ImageMap
-import com.nekgamebling.shared.value.Platform
+import application.port.outbound.GameSyncPort
+import application.port.outbound.AggregatorAdapterRegistry
+import domain.aggregator.repository.AggregatorRepository
+import domain.common.error.AggregatorNotSupportedError
+import domain.common.error.NotFoundError
+import domain.game.model.Game
+import domain.game.model.GameVariant
+import domain.game.repository.GameRepository
+import domain.game.repository.GameVariantRepository
+import domain.provider.model.Provider
+import domain.provider.repository.ProviderRepository
+import shared.extension.toUrlSlug
+import shared.value.ImageMap
+import shared.value.Platform
 import java.util.UUID
 
 /**

@@ -1,7 +1,7 @@
-package com.nekgamebling.application.usecase.aggregator
+package application.usecase.aggregator
 
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.domain.aggregator.repository.AggregatorRepository
+import domain.aggregator.model.AggregatorInfo
+import domain.aggregator.repository.AggregatorRepository
 
 /**
  * Use case for listing all active aggregators.

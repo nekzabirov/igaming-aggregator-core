@@ -1,6 +1,6 @@
-package com.nekgamebling.application.port.outbound
+package application.port.outbound
 
-import com.nekgamebling.application.event.DomainEvent
+import application.event.DomainEvent
 
 /**
  * Port interface for publishing domain events.

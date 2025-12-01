@@ -1,6 +1,6 @@
-package com.nekgamebling.domain.game.model
+package domain.game.model
 
-import com.nekgamebling.shared.value.ImageMap
+import shared.value.ImageMap
 import kotlinx.serialization.Serializable
 import java.util.UUID
 
@@ -9,11 +9,11 @@ import java.util.UUID
  */
 @Serializable
 data class Game(
-    @Serializable(with = com.nekgamebling.shared.serializer.UUIDSerializer::class)
+    @Serializable(with = shared.serializer.UUIDSerializer::class)
     val id: UUID,
     val identity: String,
     val name: String,
-    @Serializable(with = com.nekgamebling.shared.serializer.UUIDSerializer::class)
+    @Serializable(with = shared.serializer.UUIDSerializer::class)
     val providerId: UUID,
     val images: ImageMap = ImageMap.EMPTY,
     val bonusBetEnable: Boolean = true,

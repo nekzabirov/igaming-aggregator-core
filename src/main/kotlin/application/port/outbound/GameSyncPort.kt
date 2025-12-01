@@ -1,7 +1,7 @@
-package com.nekgamebling.application.port.outbound
+package application.port.outbound
 
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.domain.game.model.GameVariant
+import domain.aggregator.model.AggregatorInfo
+import domain.game.model.GameVariant
 
 /**
  * Outbound port for game synchronization.

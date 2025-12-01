@@ -1,6 +1,6 @@
-package com.nekgamebling.infrastructure.persistence.exposed.table
+package infrastructure.persistence.exposed.table
 
-import com.nekgamebling.shared.value.SpinType
+import shared.value.SpinType
 
 object SpinTable : BaseTable("spins") {
     val roundId = reference("round_id", RoundTable.id).nullable()

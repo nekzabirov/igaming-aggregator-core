@@ -1,10 +1,10 @@
-package com.nekgamebling.application.usecase.collection
+package application.usecase.collection
 
-import com.nekgamebling.domain.collection.model.Collection
-import com.nekgamebling.domain.collection.repository.CollectionRepository
-import com.nekgamebling.domain.common.error.NotFoundError
-import com.nekgamebling.shared.value.ImageMap
-import com.nekgamebling.shared.value.LocaleName
+import domain.collection.model.Collection
+import domain.collection.repository.CollectionRepository
+import domain.common.error.NotFoundError
+import shared.value.ImageMap
+import shared.value.LocaleName
 
 /**
  * Use case for updating a collection.

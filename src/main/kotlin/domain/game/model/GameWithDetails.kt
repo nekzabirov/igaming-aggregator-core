@@ -1,10 +1,10 @@
-package com.nekgamebling.domain.game.model
+package domain.game.model
 
-import com.nekgamebling.domain.aggregator.model.AggregatorInfo
-import com.nekgamebling.domain.provider.model.Provider
-import com.nekgamebling.shared.value.ImageMap
-import com.nekgamebling.shared.value.Locale
-import com.nekgamebling.shared.value.Platform
+import domain.aggregator.model.AggregatorInfo
+import domain.provider.model.Provider
+import shared.value.ImageMap
+import shared.value.Locale
+import shared.value.Platform
 import kotlinx.serialization.Serializable
 import java.util.UUID
 
@@ -14,7 +14,7 @@ import java.util.UUID
  */
 @Serializable
 data class GameWithDetails(
-    @Serializable(with = com.nekgamebling.shared.serializer.UUIDSerializer::class)
+    @Serializable(with = shared.serializer.UUIDSerializer::class)
     val id: UUID,
     val identity: String,
     val name: String,
