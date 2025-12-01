@@ -1,6 +1,6 @@
 package com.nekgamebling
 
-import infrastructure.api.installApi
+import api.installApi
 import infrastructure.coreModule
 import infrastructure.persistence.exposed.ExposedConfig
 import io.ktor.serialization.kotlinx.json.*

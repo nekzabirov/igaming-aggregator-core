@@ -1,4 +1,4 @@
-package infrastructure.api
+package api
 
 import infrastructure.api.grpc.service.*
 import infrastructure.api.rest.aggregatorRoute
@@ -6,7 +6,6 @@ import io.grpc.Server
 import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder
 import io.ktor.server.application.*
 import io.ktor.server.request.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.*
 import kotlinx.coroutines.Dispatchers
