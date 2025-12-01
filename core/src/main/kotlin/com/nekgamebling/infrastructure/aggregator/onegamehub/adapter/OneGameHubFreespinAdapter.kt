@@ -2,6 +2,11 @@ package com.nekgamebling.infrastructure.aggregator.onegamehub.adapter
 
 import com.nekgamebling.application.port.outbound.AggregatorFreespinPort
 import com.nekgamebling.domain.aggregator.model.AggregatorInfo
+import com.nekgamebling.domain.common.error.AggregatorError
+import com.nekgamebling.infrastructure.aggregator.onegamehub.OneGameHubConfig
+import com.nekgamebling.infrastructure.aggregator.onegamehub.client.OneGameHubHttpClient
+import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.CancelFreespinDto
+import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.CreateFreespinDto
 import com.nekgamebling.shared.value.Currency
 import kotlinx.datetime.LocalDateTime
 
@@ -12,34 +17,29 @@ class OneGameHubFreespinAdapter(
     private val aggregatorInfo: AggregatorInfo
 ) : AggregatorFreespinPort {
 
-    override suspend fun getPreset(gameSymbol: String, aggregatorIdentity: String): Result<Map<String, Any?>> {
-        // TODO: Implement actual API call to OneGameHub
-        // For now, return mock preset data
+    private val config = OneGameHubConfig(aggregatorInfo.config)
+    private val client = OneGameHubHttpClient(config)
+
+    override suspend fun getPreset(gameSymbol: String): Result<Map<String, Any>> {
         return Result.success(
             mapOf(
-                "game_symbol" to gameSymbol,
-                "aggregator" to aggregatorIdentity,
-                "presets" to listOf(
-                    mapOf(
-                        "id" to "default",
-                        "name" to "Default Preset",
-                        "spins" to 10,
-                        "bet_level" to 1
-                    ),
-                    mapOf(
-                        "id" to "premium",
-                        "name" to "Premium Preset",
-                        "spins" to 25,
-                        "bet_level" to 2
-                    )
+                "quantity" to mapOf(
+                    "minimal" to 1,
+                ),
+                "betAmount" to mapOf(
+                    "minimal" to 10
+                ),
+                "lines" to mapOf(
+                    "default" to 10,
+                    "minimum" to 1,
+                    "maximum" to 10
                 )
             )
         )
     }
 
     override suspend fun createFreespin(
-        aggregatorIdentity: String,
-        presetValue: Map<String, String>,
+        presetValue: Map<String, Int>,
         referenceId: String,
         playerId: String,
         gameSymbol: String,
@@ -47,33 +47,75 @@ class OneGameHubFreespinAdapter(
         startAt: LocalDateTime,
         endAt: LocalDateTime
     ): Result<Unit> {
-        // TODO: Implement actual API call to OneGameHub
-        // POST /api/freespins/create
-        // {
-        //   "operator_id": "...",
-        //   "player_id": "...",
-        //   "game_symbol": "...",
-        //   "reference_id": "...",
-        //   "preset": {...},
-        //   "currency": "...",
-        //   "valid_from": "...",
-        //   "valid_until": "..."
-        // }
+        val mainPreset = getPreset(gameSymbol).getOrElse {
+            return Result.failure(it)
+        }
+
+        var quantity: Int = 0
+        var betAmount: Int = 0
+        var lines: Int = 0
+
+        for (entry in mainPreset) {
+            val key = entry.key
+            val value = entry.value as Map<*, *>
+
+            val valNum = if (presetValue.containsKey(key))
+                presetValue[key]!!
+            else if (value.containsKey("default"))
+                value["default"]!! as Int
+            else
+                return Result.failure(AggregatorError("Missing quantity"))
+
+            if (value.containsKey("minimal") && valNum < value["minimal"] as Int) {
+                return Result.failure(AggregatorError("$key too small"))
+            } else if (value.containsKey("maximum") && valNum > value["maximum"] as Int) {
+                return Result.failure(AggregatorError("$key too large"))
+            }
+
+            when (key) {
+                "quantity" -> quantity = valNum
+                "betAmount" -> betAmount = valNum
+                "lines" -> lines = valNum
+            }
+
+        }
+
+        val response = client.createFreespin(
+            CreateFreespinDto(
+                id = referenceId,
+
+                startAt = startAt,
+                endAt = endAt,
+
+                number = quantity,
+
+                playerId = playerId,
+
+                currency = currency.value,
+
+                gameId = gameSymbol,
+
+                bet = betAmount,
+
+                lineNumber = lines
+            )
+        ).getOrElse {
+            return Result.failure(it)
+        }
+
+        if (!response.success) return Result.failure(
+            AggregatorError("Cannot load game from aggregator OneGameHub. status : ${response.status}")
+        )
+
         return Result.success(Unit)
     }
 
     override suspend fun cancelFreespin(
-        aggregatorIdentity: String,
         referenceId: String,
-        gameSymbol: String
     ): Result<Unit> {
-        // TODO: Implement actual API call to OneGameHub
-        // POST /api/freespins/cancel
-        // {
-        //   "operator_id": "...",
-        //   "reference_id": "...",
-        //   "game_symbol": "..."
-        // }
-        return Result.success(Unit)
+        return client.cancelFreespin(CancelFreespinDto(referenceId))
+            .map {
+                Unit
+            }
     }
 }

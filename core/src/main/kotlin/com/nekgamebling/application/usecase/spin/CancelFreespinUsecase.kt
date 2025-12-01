@@ -21,10 +21,6 @@ class CancelFreespinUsecase(
 
         val freespinAdapter = factory.createFreespinAdapter(game.aggregator)
 
-        return freespinAdapter.cancelFreespin(
-            aggregatorIdentity = game.aggregator.identity,
-            referenceId = referenceId,
-            gameSymbol = game.symbol
-        )
+        return freespinAdapter.cancelFreespin(referenceId = referenceId,)
     }
 }

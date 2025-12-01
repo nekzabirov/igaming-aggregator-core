@@ -15,7 +15,7 @@ class CreateFreespinUsecase(
     private val aggregatorRegistry: AggregatorAdapterRegistry
 ) {
     suspend operator fun invoke(
-        presetValue: Map<String, String>,
+        presetValue: Map<String, Int>,
         referenceId: String,
         playerId: String,
         gameIdentity: String,
@@ -39,7 +39,6 @@ class CreateFreespinUsecase(
         val freespinAdapter = factory.createFreespinAdapter(game.aggregator)
 
         return freespinAdapter.createFreespin(
-            aggregatorIdentity = game.aggregator.identity,
             presetValue = presetValue,
             referenceId = referenceId,
             playerId = playerId,

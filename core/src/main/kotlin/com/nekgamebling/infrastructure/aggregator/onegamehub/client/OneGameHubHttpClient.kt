@@ -2,6 +2,8 @@ package com.nekgamebling.infrastructure.aggregator.onegamehub.client
 
 import com.nekgamebling.domain.common.error.AggregatorError
 import com.nekgamebling.infrastructure.aggregator.onegamehub.OneGameHubConfig
+import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.CancelFreespinDto
+import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.CreateFreespinDto
 import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.GameDto
 import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.GameUrlDto
 import com.nekgamebling.infrastructure.aggregator.onegamehub.client.dto.ResponseDto
@@ -89,6 +91,34 @@ internal class OneGameHubHttpClient(private val config: OneGameHubConfig) {
 
         if (!response.status.isSuccess()) {
             return Result.failure(AggregatorError("Failed to fetch games from OneGameHub: ${response.status}"))
+        }
+
+        return Result.success(response.body())
+    }
+
+    suspend fun createFreespin(payload: CreateFreespinDto): Result<ResponseDto<String>> {
+        val response = client.post(address) {
+            setAction("freerounds_create")
+            contentType(ContentType.Application.Json)
+            setBody(payload)
+        }
+
+        if (!response.status.isSuccess()) {
+            return Result.failure(AggregatorError("Failed to fetch games from OneGameHub: ${response.status}"))
+        }
+
+        return Result.success(response.body())
+    }
+
+    suspend fun cancelFreespin(payload: CancelFreespinDto): Result<ResponseDto<String>> {
+        val response = client.post(address) {
+            setAction("freerounds_cancel")
+            contentType(ContentType.Application.Json)
+            setBody(payload)
+        }
+
+        if (!response.status.isSuccess()) {
+            return Result.failure(AggregatorError("Failed to cancel freespin from OneGameHub: ${response.status}"))
         }
 
         return Result.success(response.body())

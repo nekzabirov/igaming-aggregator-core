@@ -28,7 +28,7 @@ class GetPresetUsecase(
 
         val freespinAdapter = factory.createFreespinAdapter(game.aggregator)
 
-        val preset = freespinAdapter.getPreset(game.symbol, game.aggregator.identity).getOrElse {
+        val preset = freespinAdapter.getPreset(game.symbol).getOrElse {
             return Result.failure(it)
         }
 

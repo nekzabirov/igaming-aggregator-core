@@ -34,14 +34,13 @@ interface AggregatorFreespinPort {
     /**
      * Get freespin preset configuration for a game.
      */
-    suspend fun getPreset(gameSymbol: String, aggregatorIdentity: String): Result<Map<String, Any?>>
+    suspend fun getPreset(gameSymbol: String): Result<Map<String, Any>>
 
     /**
      * Create a freespin for a player.
      */
     suspend fun createFreespin(
-        aggregatorIdentity: String,
-        presetValue: Map<String, String>,
+        presetValue: Map<String, Int>,
         referenceId: String,
         playerId: String,
         gameSymbol: String,
@@ -54,9 +53,7 @@ interface AggregatorFreespinPort {
      * Cancel an existing freespin.
      */
     suspend fun cancelFreespin(
-        aggregatorIdentity: String,
         referenceId: String,
-        gameSymbol: String
     ): Result<Unit>
 }
 

@@ -36,7 +36,7 @@ class FreespinServiceImpl(application: Application) : FreespinGrpcKt.FreespinCor
 
     override suspend fun createFreespin(request: CreateFreespinCommand): EmptyResult =
         createFreespinUsecase(
-            presetValue = request.presetValueMap.mapValues { it.value.toString() },
+            presetValue = request.presetValueMap.mapValues { it.value.toInt() },
             referenceId = request.referenceId,
             playerId = request.playerId,
             gameIdentity = request.gameIdentity,
