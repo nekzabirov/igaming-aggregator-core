@@ -11,6 +11,7 @@ import domain.session.repository.SpinRepository
 import shared.value.SpinType
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import java.math.BigInteger
 import java.util.UUID
 
 /**
@@ -19,18 +20,18 @@ import java.util.UUID
 data class SpinCommand(
     val extRoundId: String,
     val transactionId: String,
-    val amount: Int,
+    val amount: BigInteger,
     val freeSpinId: String? = null
 ) {
     class Builder {
         private var extRoundId: String = ""
         private var transactionId: String = ""
-        private var amount: Int = 0
+        private var amount: BigInteger = 0
         private var freeSpinId: String? = null
 
         fun extRoundId(value: String) = apply { extRoundId = value }
         fun transactionId(value: String) = apply { transactionId = value }
-        fun amount(value: Int) = apply { amount = value }
+        fun amount(value: BigInteger) = apply { amount = value }
         fun freeSpinId(value: String?) = apply { freeSpinId = value }
 
         fun build() = SpinCommand(extRoundId, transactionId, amount, freeSpinId)
@@ -93,7 +94,7 @@ class SpinService(
 
             // Adjust balance if bonus bet is disabled
             val adjustedBalance = if (!game.bonusBetEnable) {
-                balanceResult.copy(bonus = 0)
+                balanceResult.copy(bonus = 0.toBigInteger())
             } else {
                 balanceResult
             }

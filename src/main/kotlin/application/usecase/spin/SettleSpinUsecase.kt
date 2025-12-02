@@ -7,6 +7,7 @@ import application.service.SessionService
 import application.service.SpinCommand
 import application.service.SpinService
 import shared.value.SessionToken
+import java.math.BigInteger
 
 /**
  * Use case for settling a spin (recording win/loss).
@@ -22,7 +23,7 @@ class SettleSpinUsecase(
         extRoundId: String,
         transactionId: String,
         freeSpinId: String?,
-        winAmount: Int
+        winAmount: BigInteger
     ): Result<Unit> {
         // Find session
         val session = sessionService.findByToken(token).getOrElse {
@@ -33,7 +34,7 @@ class SettleSpinUsecase(
         val command = SpinCommand(
             extRoundId = extRoundId,
             transactionId = transactionId,
-            amount = winAmount,
+            amount = winAmount.toInt(),
             freeSpinId = freeSpinId
         )
 
@@ -50,7 +51,7 @@ class SettleSpinUsecase(
         eventPublisher.publish(
             SpinSettledEvent(
                 gameIdentity = game.identity,
-                amount = winAmount,
+                amount = winAmount.toInt(),
                 currency = session.currency,
                 playerId = session.playerId,
                 freeSpinId = freeSpinId,

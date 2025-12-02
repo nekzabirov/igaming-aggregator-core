@@ -4,6 +4,7 @@ import application.port.outbound.WalletAdapter
 import application.service.SessionService
 import application.usecase.spin.PlaceSpinUsecase
 import application.usecase.spin.SettleSpinUsecase
+import com.nekgamebling.infrastructure.aggregator.onegamehub.adapter.OneGameHubCurrencyAdapter
 import com.nekgamebling.infrastructure.aggregator.onegamehub.handler.dto.OneGameHubBetDto
 import domain.common.error.AggregatorError
 import domain.common.error.AggregatorNotSupportedError
@@ -28,21 +29,15 @@ class OneGameHubHandler(
     private val sessionService: SessionService,
     private val walletAdapter: WalletAdapter,
     private val placeSpinUsecase: PlaceSpinUsecase,
-    private val settleSpinUsecase: SettleSpinUsecase
+    private val settleSpinUsecase: SettleSpinUsecase,
+    private val providerCurrencyAdapter: OneGameHubCurrencyAdapter
 ) {
     suspend fun balance(token: SessionToken): OneGameHubResponse {
         val session = sessionService.findByToken(token = token).getOrElse {
             return it.toErrorResponse
         }
 
-        val balance = walletAdapter.findBalance(session.playerId).getOrElse {
-            return it.toErrorResponse
-        }
-
-        return OneGameHubResponse.Success(
-            balance = balance.totalAmount,
-            currency = balance.currency.value
-        )
+        return returnSuccess(session)
     }
 
     suspend fun bet(token: SessionToken, payload: OneGameHubBetDto): OneGameHubResponse {
@@ -56,7 +51,7 @@ class OneGameHubHandler(
             extRoundId = payload.roundId,
             transactionId = payload.transactionId,
             freeSpinId = payload.freeSpinId,
-            amount = payload.amount
+            amount = providerCurrencyAdapter.convertProviderToSystem(payload.amount, session.currency)
         ).getOrElse {
             return it.toErrorResponse
         }
@@ -74,7 +69,7 @@ class OneGameHubHandler(
             extRoundId = payload.roundId,
             transactionId = payload.transactionId,
             freeSpinId = payload.freeSpinId,
-            winAmount = payload.amount
+            winAmount = providerCurrencyAdapter.convertProviderToSystem(payload.amount, session.currency)
         ).getOrElse {
             return it.toErrorResponse
         }
@@ -88,7 +83,7 @@ class OneGameHubHandler(
         }
 
         return OneGameHubResponse.Success(
-            balance = balance.totalAmount,
+            balance = providerCurrencyAdapter.convertSystemToProvider(balance.totalAmount, balance.currency).toInt(),
             currency = balance.currency.value
         )
     }

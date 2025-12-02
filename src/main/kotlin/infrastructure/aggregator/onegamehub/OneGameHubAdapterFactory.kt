@@ -4,6 +4,7 @@ import application.port.outbound.AggregatorAdapterFactory
 import application.port.outbound.AggregatorFreespinPort
 import application.port.outbound.AggregatorGameSyncPort
 import application.port.outbound.AggregatorLaunchUrlPort
+import com.nekgamebling.infrastructure.aggregator.onegamehub.adapter.OneGameHubCurrencyAdapter
 import domain.aggregator.model.AggregatorInfo
 import infrastructure.aggregator.onegamehub.adapter.OneGameHubFreespinAdapter
 import infrastructure.aggregator.onegamehub.adapter.OneGameHubGameSyncAdapter
@@ -13,7 +14,7 @@ import shared.value.Aggregator
 /**
  * Factory for creating OneGameHub aggregator adapters.
  */
-class OneGameHubAdapterFactory : AggregatorAdapterFactory {
+class OneGameHubAdapterFactory(private val providerCurrencyAdapter: OneGameHubCurrencyAdapter) : AggregatorAdapterFactory {
 
     override fun supports(aggregator: Aggregator): Boolean {
         return aggregator == Aggregator.ONEGAMEHUB
@@ -24,7 +25,7 @@ class OneGameHubAdapterFactory : AggregatorAdapterFactory {
     }
 
     override fun createFreespinAdapter(aggregatorInfo: AggregatorInfo): AggregatorFreespinPort {
-        return OneGameHubFreespinAdapter(aggregatorInfo)
+        return OneGameHubFreespinAdapter(aggregatorInfo, providerCurrencyAdapter)
     }
 
     override fun createGameSyncAdapter(aggregatorInfo: AggregatorInfo): AggregatorGameSyncPort {

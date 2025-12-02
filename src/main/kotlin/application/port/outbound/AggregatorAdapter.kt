@@ -101,9 +101,4 @@ interface AggregatorAdapterRegistry {
      * Get the factory for the given aggregator type.
      */
     fun getFactory(aggregator: Aggregator): AggregatorAdapterFactory?
-
-    /**
-     * Register a factory for an aggregator type.
-     */
-    fun register(factory: AggregatorAdapterFactory)
 }

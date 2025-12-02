@@ -47,13 +47,6 @@ private val adapterModule = module {
     single<WalletAdapter> { FakeWalletAdapter() }
     single<PlayerAdapter> { FakePlayerAdapter() }
     single<CurrencyAdapter> { UnitCurrencyAdapter() }
-    // Aggregator Infrastructure - Registry Pattern
-    single<AggregatorAdapterRegistry> {
-        AggregatorAdapterRegistryImpl().apply {
-            // Register all aggregator factories here
-            register(OneGameHubAdapterFactory())
-        }
-    }
 }
 
 private val serviceModule = module {

@@ -1,6 +1,7 @@
 package infrastructure.aggregator.onegamehub.adapter
 
 import application.port.outbound.AggregatorFreespinPort
+import com.nekgamebling.infrastructure.aggregator.onegamehub.adapter.OneGameHubCurrencyAdapter
 import domain.aggregator.model.AggregatorInfo
 import domain.common.error.AggregatorError
 import infrastructure.aggregator.onegamehub.model.OneGameHubConfig
@@ -14,7 +15,8 @@ import kotlinx.datetime.LocalDateTime
  * OneGameHub implementation for freespin operations.
  */
 class OneGameHubFreespinAdapter(
-    private val aggregatorInfo: AggregatorInfo
+    private val aggregatorInfo: AggregatorInfo,
+    private val providerCurrencyAdapter: OneGameHubCurrencyAdapter
 ) : AggregatorFreespinPort {
 
     private val config = OneGameHubConfig(aggregatorInfo.config)
@@ -95,7 +97,7 @@ class OneGameHubFreespinAdapter(
 
                 gameId = gameSymbol,
 
-                bet = betAmount,
+                bet = providerCurrencyAdapter.convertSystemToProvider(betAmount.toBigInteger(), currency).toInt(),
 
                 lineNumber = lines
             )

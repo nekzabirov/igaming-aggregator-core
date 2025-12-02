@@ -9,6 +9,7 @@ import application.service.SpinService
 import com.nekgamebling.application.service.AggregatorService
 import domain.common.error.GameUnavailableError
 import shared.value.SessionToken
+import java.math.BigInteger
 
 /**
  * Use case for placing a spin (making a bet).
@@ -26,7 +27,7 @@ class PlaceSpinUsecase(
         extRoundId: String,
         transactionId: String,
         freeSpinId: String?,
-        amount: Int
+        amount: BigInteger
     ): Result<Unit> {
         // Find session
         val session = sessionService.findByToken(token).getOrElse {
@@ -52,7 +53,7 @@ class PlaceSpinUsecase(
         val command = SpinCommand(
             extRoundId = extRoundId,
             transactionId = transactionId,
-            amount = amount,
+            amount = amount.toInt(),
             freeSpinId = freeSpinId
         )
 
@@ -65,7 +66,7 @@ class PlaceSpinUsecase(
         eventPublisher.publish(
             SpinPlacedEvent(
                 gameIdentity = game.identity,
-                amount = amount,
+                amount = amount.toInt(),
                 currency = session.currency,
                 playerId = session.playerId,
                 freeSpinId = freeSpinId

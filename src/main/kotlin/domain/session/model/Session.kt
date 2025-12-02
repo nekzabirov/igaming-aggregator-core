@@ -3,6 +3,7 @@ package domain.session.model
 import shared.value.Currency
 import shared.value.Locale
 import shared.value.Platform
+import java.math.BigInteger
 import java.util.UUID
 
 /**
@@ -68,9 +69,9 @@ data class BetAmount(
  * Player balance.
  */
 data class Balance(
-    val real: Int,
-    val bonus: Int,
+    val real: BigInteger,
+    val bonus: BigInteger,
     val currency: Currency
 ) {
-    val totalAmount: Int get() = real + bonus
+    val totalAmount: BigInteger get() = real + bonus
 }
