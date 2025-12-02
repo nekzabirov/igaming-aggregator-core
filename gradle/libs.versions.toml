@@ -67,6 +67,8 @@ grpc-protoc-gen-kotlin = { module = "io.grpc:protoc-gen-grpc-kotlin", version.re
 
 # Testing
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+mockk = { module = "io.mockk:mockk", version = "1.13.13" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.9.0" }
 
 [bundles]
 ktor-server = [
@@ -100,7 +102,9 @@ grpc = [
 ]
 testing = [
     "ktor-server-test-host",
-    "kotlin-test"
+    "kotlin-test",
+    "mockk",
+    "kotlinx-coroutines-test"
 ]
 
 [plugins]
