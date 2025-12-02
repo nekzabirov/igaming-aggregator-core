@@ -1,6 +1,6 @@
 package infrastructure.aggregator.pragmatic.handler.dto
 
-import java.math.BigInteger
+import java.math.BigDecimal
 
 data class PragmaticBetDto(
     val gameSymbol: String,
@@ -11,5 +11,5 @@ data class PragmaticBetDto(
 
     val freeSpinId: String?,
 
-    val amount: BigInteger
+    val amount: BigDecimal
 )

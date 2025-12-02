@@ -157,17 +157,7 @@ internal class PragmaticHttpClient(private val config: PragmaticConfig) {
         params["hash"] = generateHash(params)
 
         val jsonBody = FreespinGameListDto(
-            gameList = listOf(
-                FreespinGameDto(
-                    gameId = payload.gameSymbol,
-                    betValues = listOf(
-                        FreespinBetValueDto(
-                            currency = payload.currency,
-                            totalBet = payload.totalBet
-                        )
-                    )
-                )
-            )
+            gameList = payload.gameList
         )
 
         return try {
