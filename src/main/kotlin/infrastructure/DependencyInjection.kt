@@ -12,7 +12,7 @@ import application.usecase.provider.*
 import application.usecase.session.OpenSessionUsecase
 import application.usecase.spin.*
 import com.nekgamebling.application.service.AggregatorService
-import com.nekgamebling.infrastructure.handler.HandlerModule
+import com.nekgamebling.application.handler.HandlerModule
 import com.nekgamebling.infrastructure.messaging.messagingModule
 import infrastructure.adapter.BaseCurrencyAdapter
 import infrastructure.adapter.FakePlayerAdapter

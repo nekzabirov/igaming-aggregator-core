@@ -1,6 +1,6 @@
-package com.nekgamebling.infrastructure.handler
+package com.nekgamebling.application.handler
 
-import com.nekgamebling.infrastructure.handler.spin.SpinSettledHandlerModule
+import com.nekgamebling.application.handler.spin.SpinSettledHandlerModule
 import org.koin.dsl.module
 
 /**

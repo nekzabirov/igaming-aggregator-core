@@ -1,4 +1,4 @@
-package com.nekgamebling.infrastructure.handler.spin
+package com.nekgamebling.application.handler.spin
 
 import application.port.inbound.SpinSettledEventHandler
 import org.koin.dsl.module
