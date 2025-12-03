@@ -24,7 +24,7 @@ internal fun Route.oneGameHubWebhookRoute() {
         val sessionToken = call.queryParameters["extra"]
 
         if (action == null || sessionToken == null) {
-            call.respond(OneGameHubResponse.Error.OneGameHubInvalidateRequest)
+            call.respond(OneGameHubResponse.Error.UNEXPECTED_ERROR)
             return@post
         }
 
@@ -52,7 +52,7 @@ internal fun Route.oneGameHubWebhookRoute() {
                 amount = call.parameters.amount
             ))
 
-            else -> OneGameHubResponse.Error.OneGameHubInvalidateRequest
+            else -> OneGameHubResponse.Error.UNEXPECTED_ERROR
         }
 
         call.respond(response)
