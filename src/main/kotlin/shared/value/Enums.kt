@@ -23,5 +23,6 @@ enum class SpinType {
  */
 enum class Aggregator {
     ONEGAMEHUB,
-    PRAGMATIC
+    PRAGMATIC,
+    PATEPLAY
 }
