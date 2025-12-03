@@ -91,24 +91,16 @@ class OneGameHubHandler(
     private val Throwable.toErrorResponse: OneGameHubResponse.Error
         get() = when (this) {
             is DomainError -> toErrorResponse
-            else -> OneGameHubResponse.Error.OneGameHubInvalidateRequest
+            else -> OneGameHubResponse.Error.UNEXPECTED_ERROR
         }
 
     private val DomainError.toErrorResponse: OneGameHubResponse.Error
         get() = when (this) {
-            is AggregatorError -> TODO()
-            is AggregatorNotSupportedError -> TODO()
-            is BetLimitExceededError -> TODO()
-            is DuplicateEntityError -> TODO()
-            is ExternalServiceError -> TODO()
-            is GameUnavailableError -> TODO()
-            is IllegalStateError -> TODO()
-            is InsufficientBalanceError -> TODO()
-            is InvalidPresetError -> TODO()
-            is NotFoundError -> TODO()
-            is RoundFinishedError -> TODO()
-            is RoundNotFoundError -> TODO()
-            is SessionInvalidError -> OneGameHubResponse.Error.OneGameHubTokenExpired
-            is ValidationError -> TODO()
+            is BetLimitExceededError -> OneGameHubResponse.Error.EXCEED_WAGER_LIMIT
+            is GameUnavailableError -> OneGameHubResponse.Error.UNAUTHORIZED
+            is InsufficientBalanceError -> OneGameHubResponse.Error.INSUFFICIENT_FUNDS
+            is InvalidPresetError -> OneGameHubResponse.Error.BONUS_BET_MAX_RESTRICTION
+            is SessionInvalidError -> OneGameHubResponse.Error.SESSION_TIMEOUT
+           else -> OneGameHubResponse.Error.UNEXPECTED_ERROR
         }
 }
