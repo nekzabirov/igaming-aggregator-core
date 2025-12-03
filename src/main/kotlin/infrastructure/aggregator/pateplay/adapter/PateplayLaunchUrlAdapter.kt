@@ -2,13 +2,16 @@ package infrastructure.aggregator.pateplay.adapter
 
 import application.port.outbound.AggregatorLaunchUrlPort
 import domain.aggregator.model.AggregatorInfo
+import domain.common.error.AggregatorError
 import infrastructure.aggregator.pateplay.model.PateplayConfig
+import io.ktor.http.*
 import shared.value.Currency
 import shared.value.Locale
 import shared.value.Platform
 
 /**
  * Pateplay implementation for getting game launch URLs.
+ * Note: This adapter generates URLs directly without API calls.
  */
 class PateplayLaunchUrlAdapter(
     private val aggregatorInfo: AggregatorInfo
@@ -26,7 +29,27 @@ class PateplayLaunchUrlAdapter(
         lobbyUrl: String,
         demo: Boolean
     ): Result<String> {
-        // TODO: Implement Pateplay launch URL generation
-        return Result.failure(NotImplementedError("Pateplay getLaunchUrl not implemented yet"))
+        val baseHost = if (demo) config.gameDemoLaunchUrl else config.gameLaunchUrl
+
+        if (baseHost.isBlank()) {
+            return Result.failure(AggregatorError("PatePlay game launch URL not configured"))
+        }
+
+        val url = URLBuilder("https://$baseHost").apply {
+            parameters.append("siteCode", config.siteCode)
+            parameters.append("authCode", sessionToken)
+            parameters.append("playerId", playerId)
+            parameters.append("language", locale.value)
+            parameters.append("device", platform.toPateplayDevice())
+            parameters.append("game", gameSymbol)
+        }.buildString()
+
+        return Result.success(url)
+    }
+
+    private fun Platform.toPateplayDevice(): String = when (this) {
+        Platform.DESKTOP -> "desktop"
+        Platform.MOBILE -> "mobile"
+        Platform.DOWNLOAD -> "web"
     }
 }
