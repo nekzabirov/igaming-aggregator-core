@@ -79,8 +79,8 @@ private val useCaseModule = module {
     // ==========================================
     // Application Use Cases - Spin
     // ==========================================
-    factory { PlaceSpinUsecase(get(), get(), get(), get(), get()) }
-    factory { SettleSpinUsecase(get(), get(), get(), get()) }
+    factory { PlaceSpinUsecase(get(), get(), get(), get()) }
+    factory { SettleSpinUsecase(get(), get(), get()) }
     factory { GetPresetUsecase(get(), get()) }
     factory { CreateFreespinUsecase(get(), get()) }
     factory { CancelFreespinUsecase(get(), get()) }

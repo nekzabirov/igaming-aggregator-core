@@ -11,17 +11,16 @@ import com.nekgamebling.infrastructure.aggregator.pragmatic.handler.dto.Pragmati
 import com.nekgamebling.infrastructure.aggregator.pragmatic.handler.dto.PragmaticResponse
 import infrastructure.aggregator.pragmatic.adapter.PragmaticCurrencyAdapter
 import shared.value.SessionToken
-import kotlin.math.abs
 
 class PragmaticHandler(
     private val sessionService: SessionService,
     private val walletAdapter: WalletAdapter,
-    private val providerCurrencyAdapter: PragmaticCurrencyAdapter,
+    private val currencyAdapter: PragmaticCurrencyAdapter,
     private val placeSpinUsecase: PlaceSpinUsecase,
     private val settleSpinUsecase: SettleSpinUsecase,
+    private val rollbackUsecase: RollbackUsecase,
     private val spinService: SpinService,
-    private val gameService: GameService,
-    private val rollbackUsecase: RollbackUsecase
+    private val gameService: GameService
 ) {
 
     suspend fun authenticate(sessionToken: SessionToken): PragmaticResponse {
@@ -33,14 +32,13 @@ class PragmaticHandler(
             return it.toErrorResponse()
         }
 
-        val cash = providerCurrencyAdapter.convertSystemToProvider(balance.real, balance.currency)
-        val bonus = providerCurrencyAdapter.convertSystemToProvider(balance.bonus, balance.currency)
+        val cash = currencyAdapter.convertSystemToProvider(balance.real, balance.currency)
+        val bonus = currencyAdapter.convertSystemToProvider(balance.bonus, balance.currency)
 
         return PragmaticResponse.Success(
             cash = cash.toString(),
             bonus = bonus.toString(),
             currency = balance.currency.value,
-
             userId = session.playerId
         )
     }
@@ -56,10 +54,10 @@ class PragmaticHandler(
             return it.toErrorResponse()
         }
 
-        val betAmount = providerCurrencyAdapter.convertProviderToSystem(payload.amount.toBigDecimal(), balance.currency)
+        val betAmount = currencyAdapter.convertProviderToSystem(payload.amount.toBigDecimal(), balance.currency)
 
         placeSpinUsecase(
-            token = sessionToken,
+            session = session,
             gameSymbol = payload.gameId,
             extRoundId = payload.roundId,
             transactionId = payload.reference,
@@ -76,13 +74,10 @@ class PragmaticHandler(
         val usedBonus = balance.bonus - currentBalance.bonus
 
         return PragmaticResponse.Success(
-            cash = providerCurrencyAdapter.convertSystemToProvider(currentBalance.real, currentBalance.currency)
-                .toString(),
-            bonus = providerCurrencyAdapter.convertSystemToProvider(currentBalance.bonus, currentBalance.currency)
-                .toString(),
+            cash = currencyAdapter.convertSystemToProvider(currentBalance.real, currentBalance.currency).toString(),
+            bonus = currencyAdapter.convertSystemToProvider(currentBalance.bonus, currentBalance.currency).toString(),
             currency = currentBalance.currency.value,
-
-            usedPromo = providerCurrencyAdapter.convertSystemToProvider(usedBonus, currentBalance.currency).toString(),
+            usedPromo = currencyAdapter.convertSystemToProvider(usedBonus, currentBalance.currency).toString(),
             transactionId = payload.reference
         )
     }
@@ -95,11 +90,11 @@ class PragmaticHandler(
         val totalAmount = payload.amount.toBigDecimal() + payload.promoWinAmount.toBigDecimal()
 
         settleSpinUsecase(
-            token = sessionToken,
+            session = session,
             extRoundId = payload.roundId,
             transactionId = payload.reference,
             freeSpinId = payload.bonusCode,
-            winAmount = providerCurrencyAdapter.convertProviderToSystem(totalAmount, session.currency)
+            winAmount = currencyAdapter.convertProviderToSystem(totalAmount, session.currency)
         ).getOrElse {
             return it.toErrorResponse()
         }
@@ -109,12 +104,9 @@ class PragmaticHandler(
         }
 
         return PragmaticResponse.Success(
-            cash = providerCurrencyAdapter.convertSystemToProvider(currentBalance.real, currentBalance.currency)
-                .toString(),
-            bonus = providerCurrencyAdapter.convertSystemToProvider(currentBalance.bonus, currentBalance.currency)
-                .toString(),
+            cash = currencyAdapter.convertSystemToProvider(currentBalance.real, currentBalance.currency).toString(),
+            bonus = currencyAdapter.convertSystemToProvider(currentBalance.bonus, currentBalance.currency).toString(),
             currency = currentBalance.currency.value,
-
             transactionId = payload.reference
         )
     }
@@ -136,13 +128,15 @@ class PragmaticHandler(
             return it.toErrorResponse()
         }
 
-        rollbackUsecase(session, roundId, transactionId).getOrElse {
+        rollbackUsecase(
+            session = session,
+            extRoundId = roundId,
+            transactionId = transactionId
+        ).getOrElse {
             return it.toErrorResponse()
         }
 
-        return balance(
-            sessionToken = sessionToken
-        )
+        return balance(sessionToken)
     }
 
     suspend fun adjustment(
@@ -156,7 +150,7 @@ class PragmaticHandler(
         }
 
         val realAmount = amount.toBigDecimal().let {
-            providerCurrencyAdapter.convertProviderToSystem(it, session.currency)
+            currencyAdapter.convertProviderToSystem(it, session.currency)
         }
 
         val game = gameService.findById(session.gameId).getOrElse {
@@ -167,7 +161,7 @@ class PragmaticHandler(
             val betAmount = realAmount.abs()
 
             placeSpinUsecase(
-                token = sessionToken,
+                session = session,
                 gameSymbol = game.symbol,
                 extRoundId = roundId,
                 transactionId = reference,
@@ -178,7 +172,7 @@ class PragmaticHandler(
             }
         } else {
             settleSpinUsecase(
-                token = sessionToken,
+                session = session,
                 extRoundId = roundId,
                 transactionId = reference,
                 freeSpinId = null,
@@ -193,8 +187,8 @@ class PragmaticHandler(
         }
 
         return PragmaticResponse.Success(
-            cash = providerCurrencyAdapter.convertSystemToProvider(balance.real, balance.currency).toString(),
-            bonus = providerCurrencyAdapter.convertSystemToProvider(balance.bonus, balance.currency).toString(),
+            cash = currencyAdapter.convertSystemToProvider(balance.real, balance.currency).toString(),
+            bonus = currencyAdapter.convertSystemToProvider(balance.bonus, balance.currency).toString(),
             currency = balance.currency.value,
         )
     }
@@ -202,5 +196,4 @@ class PragmaticHandler(
     private fun Throwable.toErrorResponse(): PragmaticResponse {
         TODO("Not yet implemented")
     }
-
 }

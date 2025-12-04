@@ -3,34 +3,28 @@ package application.usecase.spin
 import application.event.SpinSettledEvent
 import application.port.outbound.EventPublisherAdapter
 import application.service.GameService
-import application.service.SessionService
 import application.service.SpinCommand
 import application.service.SpinService
-import shared.value.SessionToken
+import domain.session.model.Session
 import java.math.BigInteger
 
 /**
  * Use case for settling a spin (recording win/loss).
+ * Accepts pre-resolved Session to avoid duplicate lookups.
  */
 class SettleSpinUsecase(
-    private val sessionService: SessionService,
     private val spinService: SpinService,
     private val gameService: GameService,
     private val eventPublisher: EventPublisherAdapter
 ) {
     suspend operator fun invoke(
-        token: SessionToken,
+        session: Session,
         extRoundId: String,
         transactionId: String,
         freeSpinId: String?,
-        winAmount: BigInteger
+        winAmount: BigInteger,
+        finishRound: Boolean = false
     ): Result<Unit> {
-        // Find session
-        val session = sessionService.findByToken(token).getOrElse {
-            return Result.failure(it)
-        }
-
-        // Create settle command
         val command = SpinCommand(
             extRoundId = extRoundId,
             transactionId = transactionId,
@@ -38,16 +32,20 @@ class SettleSpinUsecase(
             freeSpinId = freeSpinId
         )
 
-        // Settle spin
         spinService.settle(session, extRoundId, command).getOrElse {
             return Result.failure(it)
+        }
+
+        if (finishRound) {
+            spinService.closeRound(session, extRoundId).getOrElse {
+                return Result.failure(it)
+            }
         }
 
         val game = gameService.findById(session.gameId).getOrElse {
             return Result.failure(it)
         }
 
-        // Publish event
         eventPublisher.publish(
             SpinSettledEvent(
                 gameIdentity = game.identity,
