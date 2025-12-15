@@ -49,7 +49,7 @@ class TurboPlayerAdapter : PlayerAdapter {
 
     override suspend fun findCurrentBetLimit(playerId: String): Result<BigInteger?> = runCatching {
         val response: PlayerResponse<List<PlayerLimitDto>> =
-            client.get("$urlAddress/api/player/limits/$playerId").body()
+            client.get("$urlAddress/limits/$playerId").body()
 
         if (response.data == null) throw Exception("Failed to fetch limits from TurboPlayer")
 

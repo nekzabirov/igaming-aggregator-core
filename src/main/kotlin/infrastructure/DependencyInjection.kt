@@ -17,7 +17,7 @@ import com.nekgamebling.application.usecase.spin.RollbackUsecase
 import com.nekgamebling.infrastructure.messaging.messagingModule
 import infrastructure.adapter.UnitCurrencyAdapter
 import com.nekgamebling.infrastructure.player.TurboPlayerAdapter
-import infrastructure.adapter.FakeWalletAdapter
+import com.nekgamebling.infrastructure.wallet.TurboWalletAdapter
 import infrastructure.aggregator.AggregatorModule
 import infrastructure.persistence.DBModule
 import io.ktor.server.application.*
@@ -43,7 +43,7 @@ private val adapterModule = module {
     // ==========================================
     // Infrastructure - Ports/Adapters
     // ==========================================
-    single<WalletAdapter> { FakeWalletAdapter() }
+    single<WalletAdapter> { TurboWalletAdapter() }
     single<PlayerAdapter> { TurboPlayerAdapter() }
     single<CurrencyAdapter> { UnitCurrencyAdapter() }
 }
