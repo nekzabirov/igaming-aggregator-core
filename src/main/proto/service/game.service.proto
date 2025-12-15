@@ -11,8 +11,11 @@ import "dto/game.dto.proto";
 import "dto/collection.dto.proto";
 import "dto/game_variant.dto.proto";
 import "dto/platformType.dto.proto";
+import "dto/aggregator.dto.proto";
 
 service Game {
+  rpc Find (FindGameCommand) returns (FindGameResult);
+
   rpc List (ListGameCommand) returns (ListGameResult);
 
   rpc Update (UpdateGameConfig) returns (EmptyResult);
@@ -26,6 +29,48 @@ service Game {
   rpc RemoveFavourite (GameFavouriteCommand) returns (EmptyResult);
 
   rpc DemoGame (DemoGameCommand) returns (DemoGameResult);
+}
+
+message FindGameCommand {
+  string identity = 1;
+}
+
+message FindGameResult {
+  string id = 1;
+
+  string identity = 2;
+
+  string name = 3;
+
+  map<string, string> images = 4;
+
+  bool bonus_bet_enable = 5;
+
+  bool bonus_wagering_enable = 6;
+
+  repeated string tags = 7;
+
+  string symbol = 8;
+
+  bool free_spin_enable = 9;
+
+  bool free_chip_enable = 10;
+
+  bool jackpot_enable = 11;
+
+  bool demo_enable = 12;
+
+  bool bonus_buy_enable = 13;
+
+  repeated string locales = 14;
+
+  repeated PlatformType platforms = 15;
+
+  int32 play_lines = 16;
+
+  ProviderDto provider = 17;
+
+  AggregatorDto aggregator = 18;
 }
 
 message ListGameCommand {

@@ -3,6 +3,7 @@ package infrastructure.api.grpc.service
 import application.usecase.game.AddGameFavouriteUsecase
 import application.usecase.game.AddGameTagUsecase
 import application.usecase.game.DemoGameUsecase
+import application.usecase.game.FindGameUsecase
 import application.usecase.game.ListGamesUsecase
 import application.usecase.game.RemoveGameFavouriteUsecase
 import application.usecase.game.RemoveGameTagUsecase
@@ -13,6 +14,8 @@ import shared.value.Pageable
 import com.nekzabirov.igambling.proto.dto.EmptyResult
 import com.nekzabirov.igambling.proto.service.DemoGameCommand
 import com.nekzabirov.igambling.proto.service.DemoGameResult
+import com.nekzabirov.igambling.proto.service.FindGameCommand
+import com.nekzabirov.igambling.proto.service.FindGameResult
 import com.nekzabirov.igambling.proto.service.GameFavouriteCommand
 import com.nekzabirov.igambling.proto.service.GameGrpcKt
 import com.nekzabirov.igambling.proto.service.GameTagCommand
@@ -23,6 +26,7 @@ import io.grpc.Status
 import io.grpc.StatusException
 import io.ktor.server.application.*
 import infrastructure.api.grpc.mapper.toCollectionProto
+import infrastructure.api.grpc.mapper.toFindGameResultProto
 import infrastructure.api.grpc.mapper.toGameProto
 import infrastructure.api.grpc.mapper.toGameVariantProto
 import infrastructure.api.grpc.mapper.toPlatform
@@ -30,6 +34,7 @@ import infrastructure.api.grpc.mapper.toProviderProto
 import org.koin.ktor.ext.get
 
 class GameServiceImpl(application: Application) : GameGrpcKt.GameCoroutineImplBase() {
+    private val findGameUsecase = application.get<FindGameUsecase>()
     private val listGamesUsecase = application.get<ListGamesUsecase>()
     private val updateGameUsecase = application.get<UpdateGameUsecase>()
     private val addGameTagUsecase = application.get<AddGameTagUsecase>()
@@ -37,6 +42,11 @@ class GameServiceImpl(application: Application) : GameGrpcKt.GameCoroutineImplBa
     private val addGameFavouriteUsecase = application.get<AddGameFavouriteUsecase>()
     private val removeGameFavouriteUsecase = application.get<RemoveGameFavouriteUsecase>()
     private val demoGameUsecase = application.get<DemoGameUsecase>()
+
+    override suspend fun find(request: FindGameCommand): FindGameResult =
+        findGameUsecase(identity = request.identity)
+            .map { it.toFindGameResultProto() }
+            .getOrElse { throw StatusException(Status.NOT_FOUND.withDescription(it.message)) }
 
     override suspend fun list(request: ListGameCommand): ListGameResult {
         val page = listGamesUsecase(pageable = Pageable(page = request.pageNumber, size = request.pageSize)) {

@@ -62,6 +62,7 @@ private val useCaseModule = module {
     // ==========================================
     // Application Use Cases - Game
     // ==========================================
+    factory { FindGameUsecase(get()) }
     factory { ListGamesUsecase(get()) }
     factory { UpdateGameUsecase(get()) }
     factory { AddGameTagUsecase(get()) }
