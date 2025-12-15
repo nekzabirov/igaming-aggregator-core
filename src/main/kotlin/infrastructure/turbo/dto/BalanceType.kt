@@ -1,7 +1,7 @@
-package com.nekgamebling.infrastructure.wallet.dto
+package com.nekgamebling.infrastructure.turbo.dto
 
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor

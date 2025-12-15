@@ -1,4 +1,4 @@
-package com.nekgamebling.infrastructure.player.dto
+package com.nekgamebling.infrastructure.turbo.dto
 
 import kotlinx.serialization.Serializable
 
@@ -17,15 +17,12 @@ data class PlayerLimitDto(
     val createdAt: String,
     val updatedAt: String
 ) {
-
     fun isActive() = status == 1
 
     fun isPlaceBet() = definition == 1
 
     fun getRestAmount(): Int {
         if (currentAmount == null) return amount.toInt()
-
         return (amount - currentAmount).toInt()
     }
-
 }

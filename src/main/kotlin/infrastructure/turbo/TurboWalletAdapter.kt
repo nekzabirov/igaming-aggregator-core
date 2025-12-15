@@ -1,24 +1,13 @@
-package com.nekgamebling.infrastructure.wallet
+package com.nekgamebling.infrastructure.turbo
 
 import application.port.outbound.WalletAdapter
-import com.nekgamebling.infrastructure.wallet.dto.AccountDto
-import com.nekgamebling.infrastructure.wallet.dto.AccountRequest
-import com.nekgamebling.infrastructure.wallet.dto.BalanceType
-import com.nekgamebling.infrastructure.wallet.dto.BetTransactionRequest
-import com.nekgamebling.infrastructure.wallet.dto.SettleTransactionRequest
-import com.nekgamebling.infrastructure.wallet.dto.WalletResponse
+import com.nekgamebling.infrastructure.turbo.dto.AccountDto
+import com.nekgamebling.infrastructure.turbo.dto.BalanceType
+import com.nekgamebling.infrastructure.turbo.dto.BetTransactionRequest
+import com.nekgamebling.infrastructure.turbo.dto.SettleTransactionRequest
+import com.nekgamebling.infrastructure.turbo.dto.TurboResponse
 import domain.session.model.Balance
-import infrastructure.persistence.exposed.table.SpinTable.bonusAmount
-import infrastructure.persistence.exposed.table.SpinTable.realAmount
-import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.DEFAULT
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
@@ -26,47 +15,19 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import io.ktor.serialization.kotlinx.json.json
-import io.ktor.utils.io.InternalAPI
-import kotlinx.serialization.json.Json
 import shared.value.Currency
 import java.math.BigInteger
 
-/**
- * Fake wallet adapter for development/testing.
- * Replace with real implementation in production.
- */
 class TurboWalletAdapter : WalletAdapter {
-    private val json = Json {
-        ignoreUnknownKeys = true
-        prettyPrint = true
-        isLenient = true
-        coerceInputValues = true
-    }
 
-    private val client = HttpClient(CIO) {
-        install(ContentNegotiation) {
-            json(json)
-        }
-
-        install(HttpTimeout) {
-            requestTimeoutMillis = 30000
-            connectTimeoutMillis = 10000
-            socketTimeoutMillis = 30000
-        }
-
-        install(Logging) {
-            logger = Logger.Companion.DEFAULT
-            level = LogLevel.ALL
-        }
-    }
+    private val client = TurboHttpClient.client
 
     private val urlAddress by lazy {
         System.getenv()["TURBO_WALLET_URL"] ?: "http://localhost:8080"
     }
 
     override suspend fun findBalance(playerId: String): Result<Balance> = runCatching {
-        val walletResponse: WalletResponse<List<AccountDto>> = client.get("$urlAddress/accounts/find") {
+        val walletResponse: TurboResponse<List<AccountDto>> = client.get("$urlAddress/accounts/find") {
             parameter("playerId", playerId)
         }.body()
 
@@ -113,11 +74,6 @@ class TurboWalletAdapter : WalletAdapter {
     ): Result<Unit> = runCatching {
         if (realAmount + bonusAmount <= BigInteger.ZERO) return Result.success(Unit)
 
-        /**
-         *     "externalId": "0119cd59-812a-4775-af6e-91aebed34d75",
-         *     "referencedExternalId": "0119cd59-812a-4775-af6e-91aebed34d75",
-         */
-
         val request = SettleTransactionRequest(
             playerId = playerId,
             amount = (realAmount + bonusAmount).toLong(),
@@ -142,5 +98,4 @@ class TurboWalletAdapter : WalletAdapter {
     override suspend fun rollback(playerId: String, transactionId: String): Result<Unit> {
         return Result.success(Unit)
     }
-
 }

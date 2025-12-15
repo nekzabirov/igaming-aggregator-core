@@ -16,8 +16,8 @@ import com.nekgamebling.application.handler.HandlerModule
 import com.nekgamebling.application.usecase.spin.RollbackUsecase
 import com.nekgamebling.infrastructure.messaging.messagingModule
 import infrastructure.adapter.UnitCurrencyAdapter
-import com.nekgamebling.infrastructure.player.TurboPlayerAdapter
-import com.nekgamebling.infrastructure.wallet.TurboWalletAdapter
+import com.nekgamebling.infrastructure.turbo.TurboPlayerAdapter
+import com.nekgamebling.infrastructure.turbo.TurboWalletAdapter
 import infrastructure.aggregator.AggregatorModule
 import infrastructure.persistence.DBModule
 import io.ktor.server.application.*
