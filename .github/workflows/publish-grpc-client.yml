@@ -1,0 +1,81 @@
+name: Publish gRPC Client
+
+on:
+  push:
+    tags:
+      - 'grpc-client-v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 1.0.0)'
+        required: true
+        default: '1.0.0'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            # Extract version from tag (grpc-client-v1.0.0 -> 1.0.0)
+            VERSION=${GITHUB_REF#refs/tags/grpc-client-v}
+            echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate Proto sources
+        run: ./gradlew generateProto
+
+      - name: Build gRPC Client JAR
+        run: ./gradlew grpcClientJar grpcClientSourcesJar -PgrpcClientVersion=${{ steps.version.outputs.VERSION }}
+
+      - name: Publish to GitHub Packages
+        run: ./gradlew publishGrpcClientPublicationToGitHubPackagesRepository -PgrpcClientVersion=${{ steps.version.outputs.VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Summary
+        run: |
+          echo "## Published gRPC Client" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Artifact:** \`com.nekgamebling:igambling-grpc-client:${{ steps.version.outputs.VERSION }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Usage" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Add to your \`build.gradle.kts\`:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`kotlin" >> $GITHUB_STEP_SUMMARY
+          echo "repositories {" >> $GITHUB_STEP_SUMMARY
+          echo "    maven {" >> $GITHUB_STEP_SUMMARY
+          echo "        url = uri(\"https://maven.pkg.github.com/${{ github.repository }}\")" >> $GITHUB_STEP_SUMMARY
+          echo "        credentials {" >> $GITHUB_STEP_SUMMARY
+          echo "            username = System.getenv(\"GITHUB_ACTOR\")" >> $GITHUB_STEP_SUMMARY
+          echo "            password = System.getenv(\"GITHUB_TOKEN\")" >> $GITHUB_STEP_SUMMARY
+          echo "        }" >> $GITHUB_STEP_SUMMARY
+          echo "    }" >> $GITHUB_STEP_SUMMARY
+          echo "}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "dependencies {" >> $GITHUB_STEP_SUMMARY
+          echo "    implementation(\"com.nekgamebling:igambling-grpc-client:${{ steps.version.outputs.VERSION }}\")" >> $GITHUB_STEP_SUMMARY
+          echo "}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
