@@ -3,7 +3,7 @@ name: Publish gRPC Client
 on:
   push:
     tags:
-      - 'grpc-client-v*'
+      - 'v*'
   workflow_dispatch:
     inputs:
       version:
@@ -37,8 +37,8 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
           else
-            # Extract version from tag (grpc-client-v1.0.0 -> 1.0.0)
-            VERSION=${GITHUB_REF#refs/tags/grpc-client-v}
+            # Extract version from tag (v1.0.0 -> 1.0.0)
+            VERSION=${GITHUB_REF#refs/tags/v}
             echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           fi
 
